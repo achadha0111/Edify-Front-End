@@ -6,41 +6,38 @@ import Iconify from '../../components/Iconify';
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
+  // DONE Replace this Dashboard path with path to all notes
+  // {
+  //   title: 'Dashboard',
+  //   path: '/dashboard/app',
+  //   icon: getIcon('eva:pie-chart-2-fill'),
+  // },
+    // TODO Change iconset
   {
-    title: 'dashboard',
-    path: '/dashboard/app',
-    icon: getIcon('eva:pie-chart-2-fill'),
-  },
-  {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: getIcon('eva:people-fill'),
-  },
-  {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
-  },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
+    title: 'All Notes',
+    path: '/home/app',
     icon: getIcon('eva:file-text-fill'),
   },
   {
-    title: 'login',
-    path: '/login',
-    icon: getIcon('eva:lock-fill'),
+    title: 'Review',
+    path: '/home/user',
+    icon: getIcon('eva:credit-card-fill'),
   },
   {
-    title: 'register',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill'),
+    title: 'New Note',
+    path: '/home/newnote',
+    icon: getIcon('eva:plus-fill'),
   },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon('eva:alert-triangle-fill'),
-  },
+  // {
+  //   title: 'register',
+  //   path: '/home/register',
+  //   icon: getIcon('eva:person-add-fill'),
+  // },
+  // {
+  //   title: 'Not found',
+  //   path: '/404',
+  //   icon: getIcon('eva:alert-triangle-fill'),
+  // },
 ];
 
 export default navConfig;

@@ -4,7 +4,7 @@ import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
+import { BlogPostCard, BlogPostsSort, NotesSearch } from '../sections/@dashboard/notes';
 // mock
 import POSTS from '../_mock/blog';
 
@@ -18,21 +18,21 @@ const SORT_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function Blog() {
+export default function Home() {
   return (
-    <Page title="Dashboard: Blog">
+    <Page title="Notes | Home">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Blog
+            My Notes
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Post
+          <Button variant="contained" component={RouterLink} to="/home/newnote" startIcon={<Iconify icon="eva:plus-fill" />}>
+            New Note
           </Button>
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <BlogPostsSearch posts={POSTS} />
+          <NotesSearch posts={POSTS} />
           <BlogPostsSort options={SORT_OPTIONS} />
         </Stack>
 

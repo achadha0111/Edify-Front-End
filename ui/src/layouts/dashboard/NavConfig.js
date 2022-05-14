@@ -20,7 +20,7 @@ const navConfig = [
   },
   {
     title: 'Review',
-    path: '/home/user',
+    path: '/home/review',
     icon: getIcon('eva:credit-card-fill'),
   },
   {

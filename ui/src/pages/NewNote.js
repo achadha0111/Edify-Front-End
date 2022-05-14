@@ -61,7 +61,7 @@ export default function NewNote() {
     const mdUp = useResponsive('up', 'md');
 
     return (
-        <Page title="New Note">
+        <Page title="Notes | New Note">
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom>
@@ -69,16 +69,16 @@ export default function NewNote() {
                         <TextField id="filled-basic" label="Untitled" variant="standard" />
                     </Typography>
                     <Box>
-                        <Button variant="text" component={RouterLink} to="/home/newnote">
+                        <Button variant="text">
                             <SaveIcon/>
                         </Button>
-                        <Button variant="text" component={RouterLink} to="/home/newnote">
+                        <Button variant="text">
                             <ShortTextIcon/>
                         </Button>
-                        <Button variant="text" component={RouterLink} to="/home/newnote">
+                        <Button variant="text">
                             <SubtitlesIcon/>
                         </Button>
-                        <Button variant="text" component={RouterLink} to="/home/newnote">
+                        <Button variant="text">
                             <CodeIcon/>
                         </Button>
                     </Box>

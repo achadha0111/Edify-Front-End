@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @nteract
+  /usr/local/bin/node /usr/local/bin/yarn install
 
 PATH: 
   /opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/munki
@@ -14,17 +14,12 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@nteract: Request "https://registry.yarnpkg.com/@nteract" returned a 405
-      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66147:18)
-      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140883:22)
-      at Request.emit (node:events:527:28)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141855:10)
-      at Request.emit (node:events:527:28)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141777:12)
-      at Object.onceWrapper (node:events:641:28)
-      at IncomingMessage.emit (node:events:539:35)
-      at endReadableNT (node:internal/streams/readable:1345:12)
-      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+  SyntaxError: /Users/user/Desktop/super-cool-notebook-app/ui/package.json: Unexpected token } in JSON at position 1713
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
@@ -69,10 +64,9 @@ npm manifest:
       "@emotion/styled": "^11.8.1",
       "@faker-js/faker": "^6.1.2",
       "@iconify/react": "^3.2.1",
+      "@mui/icons-material": "^5.6.2",
       "@mui/lab": "^5.0.0-alpha.77",
       "@mui/material": "^5.6.1",
-      "@nteract/core": "^15.1.9",
-      "@nteract/notebook-app-component": "^7.7.11",
       "@testing-library/jest-dom": "^5.16.2",
       "apexcharts": "^3.35.0",
       "change-case": "^4.1.2",
@@ -83,6 +77,7 @@ npm manifest:
       "node-gyp": "^9.0.0",
       "numeral": "^2.0.6",
       "prop-types": "^15.8.1",
+      "querystring-es3": "^0.2.1",
       "react": "^17.0.2",
       "react-apexcharts": "^1.4.0",
       "react-dom": "^17.0.2",
@@ -95,7 +90,6 @@ npm manifest:
       "styled-components": "^5.3.5",
       "web-vitals": "^2.1.4",
       "yup": "^0.32.11",
-      "zeromq": "^5.2.8"
     },
     "devDependencies": {
       "@babel/core": "^7.17.9",
@@ -1761,6 +1755,13 @@ Lockfile:
       prop-types "^15.7.2"
       react-is "^17.0.2"
   
+  "@mui/icons-material@^5.6.2":
+    version "5.6.2"
+    resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.6.2.tgz#239c40fc5841dc7c6af7d00e4e988550de170fcd"
+    integrity sha512-9QdI7axKuBAyaGz4mtdi7Uy1j73/thqFmEuxpJHxNC7O8ADEK1Da3t2veK2tgmsXsUlAHcAG63gg+GvWWeQNqQ==
+    dependencies:
+      "@babel/runtime" "^7.17.2"
+  
   "@mui/lab@^5.0.0-alpha.77":
     version "5.0.0-alpha.77"
     resolved "https://registry.npmjs.org/@mui/lab/-/lab-5.0.0-alpha.77.tgz"
@@ -2120,7 +2121,7 @@ Lockfile:
       reselect "^4.0.0"
       rx-jupyter "^5.5.21"
   
-  "@nteract/stateful-components@^1.7.9":
+  "@nteract/stateful-components@^1.7.14", "@nteract/stateful-components@^1.7.9":
     version "1.7.14"
     resolved "https://registry.yarnpkg.com/@nteract/stateful-components/-/stateful-components-1.7.14.tgz#4c624b29db411b71e723dc86f956835d33d8d973"
     integrity sha512-pympgSkRZ4pgeY32T/MAoygNl7wXK6p91qoq86jEH3SRCoAzPxlY/5qqXQYYVz+A/nnsT+Ot83tGn6/p0nvPTw==
@@ -8967,6 +8968,11 @@ Lockfile:
     version "6.9.7"
     resolved "https://registry.npmjs.org/qs/-/qs-6.9.7.tgz"
     integrity sha512-IhMFgUmuNpyRfxA90umL7ByLlgRXu6tIfKPpF5TmcfRLlLCckfP/g3IQmju6jjpu+Hh8rA+2p6A27ZSPOOHdKw==
+  
+  querystring-es3@^0.2.1:
+    version "0.2.1"
+    resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"
+    integrity sha1-nsYfeQSYdXB9aUFFlv2Qek1xHnM=
   
   queue-microtask@^1.2.2:
     version "1.2.3"

@@ -24,7 +24,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/review';
 // mock
 import USERLIST from '../_mock/user';
 
@@ -70,7 +70,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function Review() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -133,7 +133,7 @@ export default function User() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User">
+    <Page title="Notes | Review">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

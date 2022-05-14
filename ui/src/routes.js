@@ -4,12 +4,10 @@ import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Home from './pages/Home';
-import User from './pages/User';
+import Review from './pages/Review';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
-import Products from './pages/Products';
-import DashboardApp from './pages/DashboardApp';
 import NewNote from "./pages/NewNote";
 
 // ----------------------------------------------------------------------
@@ -22,8 +20,7 @@ export default function Router() {
       children: [
         { path: 'app', element: <Home /> },
         { path: 'newnote', element: <NewNote/> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
+        { path: 'review', element: <Review /> },
         { path: 'home', element: <Home /> },
       ],
     },

@@ -52,12 +52,12 @@ const CoverImgStyle = styled('img')({
 
 // ----------------------------------------------------------------------
 
-BlogPostCard.propTypes = {
+NotesCard.propTypes = {
   post: PropTypes.object.isRequired,
   index: PropTypes.number,
 };
 
-export default function BlogPostCard({ post, index }) {
+export default function NotesCard({ post, index }) {
   const { cover, title, view, comment, share, author, createdAt } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;

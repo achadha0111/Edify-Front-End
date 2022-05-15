@@ -5,9 +5,10 @@ import {
     Route,
     BrowserRouter as Router,
     Switch,
-    useLocation,
+    useLocation, BrowserRouter,
 } from 'react-router-dom';
 import App from '../App';
+import {HelmetProvider} from "react-helmet-async";
 
 const render = (ui, {route = '/'} = {}) => {
     window.history.pushState({}, 'Home page', route);
@@ -15,14 +16,21 @@ const render = (ui, {route = '/'} = {}) => {
     return rtlRender(ui, {wrapper: Router});
 }
 
-// test('full app rendering/navigating', () => {
-//     render(<App />);
-//     expect(screen.getByText(/My Notes/i)).toBeInTheDocument();
-//
-//     userEvent.click(screen.getByText(/New Note/i));
-//
-//     expect(screen.getByText(/Untitled/i)).toBeInTheDocument();
-// })
+test('full app rendering/navigating', () => {
+    render(
+        <HelmetProvider>
+            <App />
+        </HelmetProvider>
+        );
+
+    expect(screen.getByText(/My Notes/i)).toBeInTheDocument();
+
+    userEvent.click(screen.getByText(/New Note/i));
+
+    expect(screen.getByText(/New Note/i)).toBeInTheDocument();
+
+    // TODO Add navigation to review page
+})
 
 // test('landing on a bad page', () => {
 //     render(<App />, {route: '/something-that-does-not-match'});

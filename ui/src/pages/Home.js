@@ -4,7 +4,7 @@ import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import { BlogPostCard, BlogPostsSort, NotesSearch } from '../sections/@dashboard/notes';
+import { NotesCard, NotesSort, NotesSearch } from '../sections/@dashboard/notes';
 // mock
 import POSTS from '../_mock/blog';
 
@@ -33,12 +33,12 @@ export default function Home() {
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <NotesSearch posts={POSTS} />
-          <BlogPostsSort options={SORT_OPTIONS} />
+          <NotesSort options={SORT_OPTIONS} />
         </Stack>
 
         <Grid container spacing={3}>
           {POSTS.map((post, index) => (
-            <BlogPostCard key={post.id} post={post} index={index} />
+            <NotesCard key={post.id} post={post} index={index} />
           ))}
         </Grid>
       </Container>

@@ -1,7 +1,5 @@
 # UI
 
-[![CircleCI](https://circleci.com/gh/r1fad/super-cool-notebook-app/tree/main.svg?style=svg)](https://circleci.com/gh/r1fad/super-cool-notebook-app/tree/main)
-
 The UI is built using the 
 
 [Minimal Free - Client and Admin Dashboard Template](https://mui.com/store/items/minimal-dashboard-free/)

@@ -1,6 +1,6 @@
 # UI
 
-[![CircleCI](https://circleci.com/gh/r1fad/super-cool-notebook-app.svg?style=svg)](https://circleci.com/gh/r1fad/super-cool-notebook-app)
+[![CircleCI](https://circleci.com/gh/r1fad/super-cool-notebook-app/tree/main.svg?style=svg)](https://circleci.com/gh/r1fad/super-cool-notebook-app/tree/main)
 
 The UI is built using the 
 

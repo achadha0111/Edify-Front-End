@@ -1,3 +1,3 @@
-export { default as BlogPostCard } from './NotesCard';
+export { default as NotesCard } from './NotesCard';
 export { default as NotesSearch } from './NotesSearch';
-export { default as BlogPostsSort } from './NotesSort';
+export { default as NotesSort } from './NotesSort';

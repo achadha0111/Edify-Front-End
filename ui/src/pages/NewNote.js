@@ -1,18 +1,18 @@
 import {styled} from "@mui/material/styles";
-import { Link as RouterLink } from 'react-router-dom';
-import CodeIcon from '@mui/icons-material/Code';
-import SubtitlesIcon from '@mui/icons-material/Subtitles';
-import ShortTextIcon from '@mui/icons-material/ShortText';
-import SaveIcon from '@mui/icons-material/Save';
+import React from 'react';
+
+// import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import {Card, Link, Container, Typography, Stack, Button, Grid, Box, TextField} from '@mui/material';
 // hooks
-import useResponsive from '../hooks/useResponsive';
+// import useResponsive from '../hooks/useResponsive';
 
 import Page from '../components/Page';
-import Iconify from "../components/Iconify";
-import {BlogPostCard, BlogPostsSort, NotesSearch} from "../sections/@dashboard/notes";
-import POSTS from "../_mock/blog";
+// import Iconify from "../components/Iconify";
+// import {BlogPostCard, BlogPostsSort, NotesSearch} from "../sections/@dashboard/notes";
+// import POSTS from "../_mock/blog";
+import AddFlashCardForm from "../components/AddFlashCardForm";
+import Toolbar from "../components/NotesToolbar";
 
 const RootStyle = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
@@ -55,35 +55,46 @@ const ContentStyle = styled('div')(({ theme }) => ({
     padding: theme.spacing(12, 0),
 }));
 
-export default function NewNote() {
-    const smUp = useResponsive('up', 'sm');
+class NewNote extends React.Component {
+    constructor(props) {
+        super(props);
+        // this.updatePageHandler = this.updatePageHandler.bind(this);
+        // this.addBlockHandler = this.addBlockHandler.bind(this);
+        this.openFlashCardForm =this.openFlashCardForm.bind(this);
+        this.closeFlashCardForm =this.closeFlashCardForm.bind(this);
+        // this.deleteBlockHandler = this.deleteBlockHandler.bind(this);
+        // this.focusManagerHandler = this.focusManagerHandler.bind(this);
+        // this.flashCardFormClose = this.flashCardFormClose.bind(this);
+        // this.addFlashCard = this.addFlashCard.bind(this);
+        this.state = {
+            flashCardFormOpen: false
+        };
+    }
 
-    const mdUp = useResponsive('up', 'md');
+    // const smUp = useResponsive('up', 'sm');
+    //
+    // const mdUp = useResponsive('up', 'md');
 
-    return (
-        <Page title="Notes | New Note">
-            <Container>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-                    <Typography variant="h4" gutterBottom>
-                        {/* TODO This must be editable*/}
-                        <TextField id="filled-basic" label="Untitled" variant="standard" />
-                    </Typography>
-                    <Box>
-                        <Button variant="text">
-                            <SaveIcon/>
-                        </Button>
-                        <Button variant="text">
-                            <ShortTextIcon/>
-                        </Button>
-                        <Button variant="text">
-                            <SubtitlesIcon/>
-                        </Button>
-                        <Button variant="text">
-                            <CodeIcon/>
-                        </Button>
-                    </Box>
-                </Stack>
-            </Container>
-        </Page>
-    );
+    openFlashCardForm () {
+        this.setState({flashCardFormOpen: true});
+    }
+
+    closeFlashCardForm () {
+        this.setState({flashCardFormOpen: false});
+    }
+
+    render () {
+        return (
+            <Page title="Notes | New Note">
+                <Container>
+                    <div className="Toolbar">
+                        <Toolbar openFlashCardForm={this.openFlashCardForm}/>
+                    </div>
+                    <AddFlashCardForm open={this.state.flashCardFormOpen} close={this.closeFlashCardForm}/>
+                </Container>
+            </Page>
+        )
+    }
 }
+
+export default NewNote;

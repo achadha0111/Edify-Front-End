@@ -14,6 +14,7 @@ class NotesBlock extends React.Component {
         this.blockType = props.noteType;
         this.blockRef = React.createRef();
         this.blockInFocus = this.blockInFocus.bind(this);
+        // this.addCard = this.addCard.bind(this);
     }
 
     blockInFocus = () => {
@@ -23,20 +24,32 @@ class NotesBlock extends React.Component {
         });
     }
 
+    // addCard = () => {
+    //     this.props.addCard({
+    //         id:this.props.id
+    //     })
+    // }
+
+    updateData = (value) => {
+        this.props.updateData({id: this.props.id}, value);
+    }
+
     render() {
         switch (this.blockType) {
-
             case "FlashCard":
-                return <FlashCardBlock data={this.props.data} innerRef={this.blockRef} onFocus={this.blockInFocus}/>;
+                return <FlashCardBlock data={this.props.data}
+                                       innerRef={this.blockRef}
+                                       addCard={this.blockInFocus}
+                                       tabIndex={this.props.tabIndex}/>;
             // case "Code":
             //     return <Code data={props.data}/>;
             default:
-                return <RichText data={this.props.data} innerRef={this.blockRef} onFocus={this.blockInFocus}/>;
-
+                return <RichText data={this.props.data}
+                                 innerRef={this.blockRef}
+                                 onFocus={this.blockInFocus}
+                                 updateData={this.updateData}/>;
         }
     }
-
-
 
 
 }

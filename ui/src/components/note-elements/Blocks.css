@@ -1,0 +1,25 @@
+.RichTextEditor {
+    margin: 2vh;
+}
+
+.Note {
+    display: flex;
+    flex-direction: column;
+}
+
+.Cardbox {
+    display: flex;
+    align-self: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-top: 0;
+    background: #f5f4e8;
+    border-radius: 20px;
+}
+
+.FlashCard {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+

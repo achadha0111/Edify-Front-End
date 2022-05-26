@@ -11,19 +11,16 @@ class Toolbar extends React.Component {
         super(props);
         // this.toolBarAddBlock = this.toolBarAddBlock.bind(this);
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
+        this.addTextBlock = this.addTextBlock.bind(this);
     }
 
     openFlashCardForm () {
-        this.props.openFlashCardForm()
+        this.props.openFlashCardForm();
     }
 
-    // toolBarAddBlock (e) {
-    //     e.preventDefault();
-    //     this.props.addBlock({
-    //         id: this.props.id,
-    //         ref: this.props.innerRef
-    //     });
-    // }
+    addTextBlock () {
+        this.props.addTextBlock({}, "RichText");
+    }
 
     render() {
         return (
@@ -43,7 +40,7 @@ class Toolbar extends React.Component {
                         </Tooltip>
 
                         <Tooltip title="Add text block">
-                            <Button variant="text" className="InsertRichTextBlock">
+                            <Button variant="text" className="InsertRichTextBlock" onClick={this.addTextBlock}>
                                 <ShortTextIcon/>
                             </Button>
                         </Tooltip>

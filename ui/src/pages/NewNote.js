@@ -13,6 +13,9 @@ import Page from '../components/Page';
 // import POSTS from "../_mock/blog";
 import AddFlashCardForm from "../components/AddFlashCardForm";
 import Toolbar from "../components/NotesToolbar";
+import uid from "../utils/uid";
+import EditableNotes from "../components/note-elements/EditableNotes";
+import FlashCard from "../components/note-elements/FlashCard";
 
 const RootStyle = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
@@ -65,9 +68,10 @@ class NewNote extends React.Component {
         // this.deleteBlockHandler = this.deleteBlockHandler.bind(this);
         // this.focusManagerHandler = this.focusManagerHandler.bind(this);
         // this.flashCardFormClose = this.flashCardFormClose.bind(this);
-        // this.addFlashCard = this.addFlashCard.bind(this);
+        this.addNoteElement = this.addNoteElement.bind(this);
         this.state = {
-            flashCardFormOpen: false
+            flashCardFormOpen: false,
+            newElement: {},
         };
     }
 
@@ -83,14 +87,26 @@ class NewNote extends React.Component {
         this.setState({flashCardFormOpen: false});
     }
 
+    addNoteElement (data, source) {
+        this.setState(
+        {newElement:
+                {
+                    id: uid(),
+                    noteType: source,
+                    data: data
+                }
+        })
+    }
+
     render () {
         return (
             <Page title="Notes | New Note">
                 <Container>
                     <div className="Toolbar">
-                        <Toolbar openFlashCardForm={this.openFlashCardForm}/>
+                        <Toolbar openFlashCardForm={this.openFlashCardForm} addTextBlock={this.addNoteElement}/>
                     </div>
-                    <AddFlashCardForm open={this.state.flashCardFormOpen} close={this.closeFlashCardForm}/>
+                    <AddFlashCardForm open={this.state.flashCardFormOpen} close={this.closeFlashCardForm} addFlashCard={this.addNoteElement}/>
+                    <EditableNotes newElement={this.state.newElement} />
                 </Container>
             </Page>
         )

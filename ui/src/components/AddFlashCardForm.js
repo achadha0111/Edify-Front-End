@@ -26,11 +26,18 @@ export default function AddFlashCardForm(props) {
         setAnswer(event.target.value)
     }
 
+    const addFlashCard = () => {
+        props.addFlashCard({
+            question: question,
+            answer: answer
+        }, "FlashCard")
+        props.close();
+    }
+
     return (
-        <div>
             <Dialog
                 fullWidth={true}
-                maxWidth="md"
+                maxWidth="sm"
                 open={props.open} >
                 <DialogTitle>Add Flashcard</DialogTitle>
                 <DialogContent>
@@ -39,47 +46,45 @@ export default function AddFlashCardForm(props) {
                     </DialogContentText>
                     <TextField
                         autoFocus
+                        fullWidth
                         margin="dense"
                         id="question"
                         label="Question"
                         type="text"
-                        fullWidth
+                        multiline
                         value={question}
                         variant="standard"
                         onChange={updateQuestionPreview}
                     />
-                    <DialogContentText className="questionPreview">
-                        Preview:
+                    <DialogContentText component={"div"} className="questionPreview">
+                        <div>Question:</div>
                         { /* I have mixed feelings about using this but this provides some reassurance:
                     https://katex.org/docs/security.html */}
-                        <>
-                            <div dangerouslySetInnerHTML={{ __html: convertToMath(question) }} />
-                            {/*{convertToMath(question)}*/}
-                        </>
+                        <div dangerouslySetInnerHTML={{ __html: convertToMath(question) }} />
                     </DialogContentText>
+
                     <TextField
-                        autoFocus
+                        fullWidth
                         margin="dense"
                         id="answer"
                         label="Answer"
                         type="text"
-                        fullWidth
+                        multiline
                         value={answer}
                         variant="standard"
                         onChange={updateAnswerPreview}
                     />
-                    <DialogContentText className="answerPreview">
-                        Answer:
+
+                    <DialogContentText component={"div"} className="answerPreview">
+                        <div>Answer:</div>
                         <div dangerouslySetInnerHTML={{ __html: convertToMath(answer) }} />
-                        {/*{convertToMath(question)}*/}
                     </DialogContentText>
                 </DialogContent>
 
                 <DialogActions>
                     <Button onClick={onClose}>Cancel</Button>
-                    {/*<Button onClick={addFlashCard}>Add</Button>*/}
+                    <Button onClick={addFlashCard}>Add</Button>
                 </DialogActions>
             </Dialog>
-        </div>
     );
 }

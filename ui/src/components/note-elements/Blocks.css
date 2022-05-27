@@ -28,7 +28,11 @@
 }
 
 
-.RichMediaBlock > div :focus{
+.RichMediaBlock > .Cardbox:focus{
+    border-left: thick cornflowerblue solid;
+}
+
+.RichMediaBlock > .RichTextEditor :focus{
     border-left: thick cornflowerblue solid;
 }
 

@@ -1,11 +1,12 @@
-.RichTextEditor {
-    margin: 2vh;
-}
-
 .Note {
     display: flex;
     flex-direction: column;
 }
+
+/*.NotePage {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
 
 .Cardbox {
     display: flex;
@@ -14,13 +15,20 @@
     flex-direction: column;
     margin-top: 2vh;
     background: #f5f4e8;
-    margin-left: 2vh;
+    margin-left: 1vh;
+    z-index: 0;
+    max-width: 132vh;
+}
 
+.RichTextEditor {
+    margin: 1vh;
+    box-shadow: 2px 2px #dddddd;
 }
 
 .FlashCard {
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 1vh;
 }
 
 .FocusIndicator {
@@ -34,5 +42,19 @@
 
 .RichMediaBlock > .RichTextEditor :focus{
     border-left: thick cornflowerblue solid;
+}
+
+.quill {
+    max-width: 140vh;
+    background-color: #fff;
+}
+
+.ql-tooltip {
+    margin-left: 7vw;
+    z-index: 10;
+}
+
+.ql-picker {
+    z-index: 10;
 }
 

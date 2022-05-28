@@ -16,11 +16,12 @@ class EditableNotes extends React.Component {
         this.addBlock = this.addBlock.bind(this);
         this.updateCurrentBlockInFocus = this.updateCurrentBlockInFocus.bind(this);
         this.updateBlock = this.updateBlock.bind(this);
+        this.deleteNote = this.deleteNote.bind(this);
         // State
         this.state = {
             blocks: [initialBlock],
             blockInFocusRef: '',
-            blockInFocusId: '',
+            blockInFocusId: initialBlock.id,
         }
     }
 
@@ -35,7 +36,6 @@ class EditableNotes extends React.Component {
     }
 
     updateCurrentBlockInFocus(blockRef) {
-        console.log(blockRef);
         this.setState({blockInFocusId: blockRef.id, blockInFocusRef: blockRef.ref});
     }
 
@@ -48,6 +48,16 @@ class EditableNotes extends React.Component {
             data: value,
         };
         this.setState({ blocks: updatedBlocks });
+    }
+
+    deleteNote() {
+        const blocks = this.state.blocks;
+        const index = blocks.map((b) => b.id).indexOf(this.state.blockInFocusId);
+        const updatedBlocks = [...blocks];
+        if (updatedBlocks[index-1]) {
+            updatedBlocks.splice(index, 1);
+            this.setState({ blocks: updatedBlocks })
+        }
     }
 
     addBlock(currentBlock, newBlockType, data) {
@@ -86,6 +96,7 @@ class EditableNotes extends React.Component {
                             data={block.data}
                             onFocusEnter={this.updateCurrentBlockInFocus}
                             updateData={this.updateBlock}
+                            deleteBlock={this.deleteNote}
                         />
                     );
                 })}

@@ -6,7 +6,10 @@ import React, {useRef} from "react";
 import FlashCardBlock from "./FlashCardBlock";
 import * as PropTypes from "prop-types";
 import RichText from './RichText';
-import './Blocks.css';
+import './styles/Blocks.css';
+import {Grid} from "@mui/material";
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -14,7 +17,8 @@ class NotesBlock extends React.Component {
         this.blockType = props.noteType;
         this.blockRef = React.createRef();
         this.blockInFocus = this.blockInFocus.bind(this);
-        // this.addCard = this.addCard.bind(this);
+        this.displayComponent = this.displayComponent.bind(this);
+        this.deleteBlock = this.deleteBlock.bind(this);
     }
 
     blockInFocus = () => {
@@ -34,21 +38,36 @@ class NotesBlock extends React.Component {
         this.props.updateData({id: this.props.id}, value);
     }
 
-    render() {
-        switch (this.blockType) {
+    deleteBlock = () => {
+        this.props.deleteBlock()
+    }
+
+    displayComponent(blockType, tabIndex) {
+        switch (blockType) {
             case "FlashCard":
-                return <FlashCardBlock data={this.props.data}
-                                       innerRef={this.blockRef}
-                                       addCard={this.blockInFocus}
-                                       tabIndex={this.props.tabIndex}/>;
+                return <FlashCardBlock
+                    data={this.props.data}
+                    innerRef={this.blockRef}
+                    addCard={this.blockInFocus}
+                    tabIndex={tabIndex}/>;
             // case "Code":
             //     return <Code data={props.data}/>;
             default:
                 return <RichText data={this.props.data}
-                                 innerRef={this.blockRef}
-                                 onFocus={this.blockInFocus}
-                                 updateData={this.updateData}/>;
+                          innerRef={this.blockRef}
+                          onFocus={this.blockInFocus}
+                          updateData={this.updateData}
+                          deleteBlock={this.deleteBlock}/>;
         }
+    }
+
+    render() {
+        return (
+            <div className="RichMediaBlock">
+                {this.displayComponent(this.blockType, this.props.tabIndex)}
+            </div>
+        )
+
     }
 
 

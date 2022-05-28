@@ -16,7 +16,8 @@ class EditableNotes extends React.Component {
         this.addBlock = this.addBlock.bind(this);
         this.updateCurrentBlockInFocus = this.updateCurrentBlockInFocus.bind(this);
         this.updateBlock = this.updateBlock.bind(this);
-        this.deleteNote = this.deleteNote.bind(this);
+        this.deleteBlock = this.deleteBlock.bind(this);
+        this.deleteCard = this.deleteCard.bind(this);
         // State
         this.state = {
             blocks: [initialBlock],
@@ -43,20 +44,27 @@ class EditableNotes extends React.Component {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(updatedBlock.id);
         const updatedBlocks = [...blocks];
-        updatedBlocks[index] = {
-            ...updatedBlocks[index],
-            data: value,
-        };
+        if (updatedBlocks[index].noteType === "FlashCard") {
+            // For flashcard type blocks, the data field is an array of values
+            updatedBlocks[index].data[updatedBlock.cardKey] = value
+        }
+         else {
+            updatedBlocks[index] = {
+                ...updatedBlocks[index],
+                data: value,
+            };
+        }
+
         this.setState({ blocks: updatedBlocks });
     }
 
-    deleteNote() {
+    deleteBlock() {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(this.state.blockInFocusId);
         const updatedBlocks = [...blocks];
         if (updatedBlocks[index-1]) {
             updatedBlocks.splice(index, 1);
-            this.setState({ blocks: updatedBlocks })
+            this.setState({ blocks: updatedBlocks, blockInFocusId: updatedBlocks[index-1].id })
         }
     }
 
@@ -80,9 +88,19 @@ class EditableNotes extends React.Component {
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
 
-        this.setState({ blocks: updatedBlocks });
+        this.setState({ blocks: updatedBlocks});
     }
 
+    deleteCard(cardIndex) {
+        const blocks = this.state.blocks;
+        const index = blocks.map((b) => b.id).indexOf(this.state.blockInFocusId);
+        const updatedBlocks = [...blocks];
+        updatedBlocks[index].data.splice(cardIndex, 1);
+        this.setState({blocks: updatedBlocks})
+    }
+
+    // TODO this is very inefficient, we shouldn't be rerendering the entire
+    // TODO blocks and flashcard everytime a value is changed in one block
     render () {
         return (
             <div className="Note">
@@ -96,7 +114,8 @@ class EditableNotes extends React.Component {
                             data={block.data}
                             onFocusEnter={this.updateCurrentBlockInFocus}
                             updateData={this.updateBlock}
-                            deleteBlock={this.deleteNote}
+                            deleteBlock={this.deleteBlock}
+                            deleteCard={this.deleteCard}
                         />
                     );
                 })}

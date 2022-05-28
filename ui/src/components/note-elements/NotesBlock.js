@@ -2,14 +2,11 @@
 * and determines the correct component to render
 * @input: id, type */
 
-import React, {useRef} from "react";
+import React from "react";
 import FlashCardBlock from "./FlashCardBlock";
-import * as PropTypes from "prop-types";
 import RichText from './RichText';
 import './styles/Blocks.css';
-import {Grid} from "@mui/material";
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import AddFlashCardForm from "../AddFlashCardForm";
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -19,6 +16,25 @@ class NotesBlock extends React.Component {
         this.blockInFocus = this.blockInFocus.bind(this);
         this.displayComponent = this.displayComponent.bind(this);
         this.deleteBlock = this.deleteBlock.bind(this);
+        this.openFlashCardForm = this.openFlashCardForm.bind(this);
+        this.closeFlashCardForm = this.closeFlashCardForm.bind(this);
+        this.state = {
+            flashCardFormOpen: false,
+            questionToEdit: '',
+            answerToEdit: '',
+            cardKey: '',
+        }
+    }
+
+    openFlashCardForm (currentQA) {
+        this.setState({questionToEdit: currentQA.question,
+            answerToEdit: currentQA.answer,
+            cardKey: currentQA.cardKey,
+            flashCardFormOpen: true});
+    }
+
+    closeFlashCardForm () {
+        this.setState({flashCardFormOpen: false});
     }
 
     blockInFocus = () => {
@@ -28,14 +44,14 @@ class NotesBlock extends React.Component {
         });
     }
 
-    // addCard = () => {
-    //     this.props.addCard({
-    //         id:this.props.id
-    //     })
-    // }
+    updateData = (value, _) => {
+        this.props.updateData({id: this.props.id,
+            cardKey: this.state.cardKey}, value);
+    }
 
-    updateData = (value) => {
-        this.props.updateData({id: this.props.id}, value);
+    deleteCard = (cardKey) => {
+        this.props.deleteCard({id: this.props.id,
+            cardKey: cardKey})
     }
 
     deleteBlock = () => {
@@ -48,10 +64,11 @@ class NotesBlock extends React.Component {
                 return <FlashCardBlock
                     data={this.props.data}
                     innerRef={this.blockRef}
-                    addCard={this.blockInFocus}
-                    tabIndex={tabIndex}/>;
-            // case "Code":
-            //     return <Code data={props.data}/>;
+                    onFocus={this.blockInFocus}
+                    tabIndex={tabIndex}
+                    openEditForm={this.openFlashCardForm}
+                    confirmDelete={this.deleteBlock}
+                    deleteCard={this.deleteCard}/>;
             default:
                 return <RichText data={this.props.data}
                           innerRef={this.blockRef}
@@ -65,6 +82,11 @@ class NotesBlock extends React.Component {
         return (
             <div className="RichMediaBlock">
                 {this.displayComponent(this.blockType, this.props.tabIndex)}
+                <AddFlashCardForm open={this.state.flashCardFormOpen}
+                                  close={this.closeFlashCardForm}
+                                  question={this.state.questionToEdit}
+                                  answer={this.state.answerToEdit}
+                                  saveFlashCard={this.updateData}/>
             </div>
         )
 

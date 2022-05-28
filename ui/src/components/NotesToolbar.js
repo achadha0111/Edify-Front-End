@@ -12,6 +12,10 @@ class Toolbar extends React.Component {
         // this.toolBarAddBlock = this.toolBarAddBlock.bind(this);
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
         this.addTextBlock = this.addTextBlock.bind(this);
+        this.updateNoteName = this.updateNoteName.bind(this);
+        this.state = {
+            noteName: "Untitled"
+        }
     }
 
     openFlashCardForm () {
@@ -22,13 +26,19 @@ class Toolbar extends React.Component {
         this.props.addTextBlock({}, "RichText");
     }
 
+    updateNoteName (value) {
+        this.setState({noteName: value});
+        this.props.updateNoteName(value);
+    }
+
     render() {
         return (
             <div className="Toolbar">
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom>
                         {/* TODO This must be editable*/}
-                        <TextField id="filled-basic" label="Untitled" variant="standard" />
+                        <TextField id="filled-basic" label="Title" variant="standard" value={this.state.value}
+                                   onChange={this.updateNoteName}/>
                     </Typography>
 
                     <Box className="ToolBar Buttons">

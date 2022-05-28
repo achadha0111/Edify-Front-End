@@ -395,6 +395,7 @@
     position: absolute;
     right: 15px;
 }
+
 .ql-snow.ql-toolbar:after,
 .ql-snow .ql-toolbar:after {
     clear: both;
@@ -845,12 +846,22 @@
 .ql-snow .ql-color-picker.ql-color .ql-picker-item {
     background-color: #000;
 }
+
 .ql-toolbar.ql-snow {
     border: none;
     box-sizing: border-box;
     font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     padding: 8px;
+    visibility: collapse;
+    display: none;
 }
+
+
+.quill:focus-within > .ql-toolbar.ql-snow {
+    visibility: visible;
+    display: block;
+}
+
 .ql-toolbar.ql-snow .ql-formats {
     margin-right: 15px;
 }

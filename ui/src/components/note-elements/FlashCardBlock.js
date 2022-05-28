@@ -5,26 +5,27 @@ import FlashCard from './FlashCard';
 import './styles/Blocks.css';
 import ListSubheader from '@mui/material/ListSubheader';
 import {Box, Button, Stack, TextField, Tooltip, Typography} from "@mui/material";
-import AddCardIcon from '@mui/icons-material/AddCard';
 import DeleteIcon from '@mui/icons-material/Delete';
-// TODO This should take props to decide how to render the cards based on the number of cards present.
+import {useState} from "react";
 
 export default function FlashCardBlock(props) {
     let flashCardList = props.data;
+    const [deckName, setDeckname] = useState("Untitled")
 
     return (
-            <ImageList className = "Cardbox" sx={{ maxHeight: 400 }} tabIndex={props.tabIndex} onFocus={props.addCard}>
+            <ImageList className = "Cardbox" sx={{ maxHeight: 400 }} tabIndex={props.tabIndex} onFocus={props.onFocus}>
 
                 <ImageListItem key="Subheader"  cols={2}>
                     <ListSubheader component="div" className="DeckControls">
                         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                             <Typography variant="h4" gutterBottom>
                                 {/* TODO This must be editable*/}
-                                <TextField id="filled-basic" label="Deck Title" variant="standard" />
+                                <TextField id="filled-basic" label="Deck Title" variant="standard"
+                                           />
                             </Typography>
-                            <Box className="fBar Buttons">
+                            <Box className="FBar Buttons">
                                 <Tooltip title="Delete deck">
-                                    <Button variant="text" className="DeleteDeck">
+                                    <Button variant="text" className="DeleteDeck" onClick={props.confirmDelete}>
                                         <DeleteIcon/>
                                     </Button>
                                 </Tooltip>
@@ -35,7 +36,7 @@ export default function FlashCardBlock(props) {
                 </ImageListItem>
                 {flashCardList.map((qAndA, key) => (
                     <ImageListItem key={key}>
-                        <FlashCard data={qAndA}/>
+                        <FlashCard data={qAndA} index={key} openFlashCardForm={props.openEditForm} deleteCard={props.deleteCard}/>
                     </ImageListItem>
                 ))}
             </ImageList>

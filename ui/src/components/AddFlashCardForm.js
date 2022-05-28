@@ -6,17 +6,36 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import 'katex/dist/katex.min.css';
 import convertToMath from "../utils/inlineMathRender";
 
+/* AddFlashCardForm
+* A component that allows users to create a simple text based flashcard.
+* It is a wrapper around mui's <Dialog/> component.
+*
+* It has the following local state:
+* 1. Question
+* 2. Answer
+*
+* It accepts the following props:
+* 1. open: boolean - specifies whether dialog is open or closed
+* 2. close: function - a close function that resets the 'open' boolean
+* 3. addFlashCard: function - a function that passes form entries to the parent component.
+*
+*   */
 export default function AddFlashCardForm(props) {
-    const [question, setQuestion] = useState("");
-    const [answer, setAnswer] = useState("");
+    const [question, setQuestion] = useState(props.question);
+    const [answer, setAnswer] = useState(props.answer);
 
     const onClose = () => {
         props.close();
     }
+
+    useEffect(() => {
+        setQuestion(props.question);
+        setAnswer(props.answer)
+    }, [props])
 
     const updateQuestionPreview = (event) => {
         setQuestion(event.target.value)
@@ -26,8 +45,8 @@ export default function AddFlashCardForm(props) {
         setAnswer(event.target.value)
     }
 
-    const addFlashCard = () => {
-        props.addFlashCard({
+    const saveFlashCard = () => {
+        props.saveFlashCard({
             question: question,
             answer: answer
         }, "FlashCard")
@@ -83,8 +102,14 @@ export default function AddFlashCardForm(props) {
 
                 <DialogActions>
                     <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={addFlashCard}>Add</Button>
+                    <Button onClick={saveFlashCard}>Save</Button>
                 </DialogActions>
             </Dialog>
     );
+}
+
+AddFlashCardForm.defaultProps = {
+    open: false,
+    question: '',
+    answer: ''
 }

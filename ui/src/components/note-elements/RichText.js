@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import './styles/EditorStyles.css';
 import 'katex/dist/katex.min.css';
 import katex from 'katex';
 
@@ -11,6 +11,7 @@ class RichText extends React.Component {
     constructor(props) {
         super(props);
         this.updateAndPropagateValue = this.updateAndPropagateValue.bind(this);
+        this.checkForDelete = this.checkForDelete.bind(this);
         this.state = {
             value: ''
         }
@@ -21,6 +22,16 @@ class RichText extends React.Component {
         this.props.updateData(value);
     }
 
+    checkForDelete(event) {
+        event.preventDefault();
+        const text = this.state.value.replace(/<(.*?)>/g, "");
+        if (event.key === "Backspace" && text === "") {
+            event.preventDefault();
+            this.props.deleteBlock();
+        }
+    }
+
+    // TODO While we are able to do math rendering, the equation editor doesn't reopen to edit an equation
     render () {
        return <ReactQuill
             className="RichTextEditor"
@@ -30,7 +41,9 @@ class RichText extends React.Component {
             modules={RichText.modules}
             onFocus={this.props.onFocus}
             ref={this.props.innerRef}
-        />
+            onKeyUp={this.checkForDelete}
+        >
+        </ReactQuill>
     }
 }
 
@@ -38,7 +51,7 @@ RichText.modules = {
     toolbar: [
         [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
         [{size: []}],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
         [{'list': 'ordered'}, {'list': 'bullet'},
             {'indent': '-1'}, {'indent': '+1'}],
         ['link', 'image', 'video'],

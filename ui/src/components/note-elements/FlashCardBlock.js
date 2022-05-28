@@ -2,7 +2,7 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import FlashCard from './FlashCard';
-import './Blocks.css';
+import './styles/Blocks.css';
 import ListSubheader from '@mui/material/ListSubheader';
 import {Box, Button, Stack, TextField, Tooltip, Typography} from "@mui/material";
 import AddCardIcon from '@mui/icons-material/AddCard';
@@ -13,7 +13,7 @@ export default function FlashCardBlock(props) {
     let flashCardList = props.data;
 
     return (
-            <ImageList className = "Cardbox" sx={{ width: 500, height: 350 }} tabIndex={props.tabIndex} onFocus={props.addCard}>
+            <ImageList className = "Cardbox" sx={{ maxHeight: 400 }} tabIndex={props.tabIndex} onFocus={props.addCard}>
 
                 <ImageListItem key="Subheader"  cols={2}>
                     <ListSubheader component="div" className="DeckControls">

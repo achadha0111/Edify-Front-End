@@ -40,12 +40,20 @@ export default function FlashCard(props) {
     // }
 
     return (
-        <Card className = "FlashCard" sx={{ minWidth: 400}}>
+        <Card className = "FlashCard" sx={{ minWidth: 400, minHeight: 290}}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
                     <div dangerouslySetInnerHTML={{ __html: convertToMath(question) }} />
                 </Typography>
             </CardContent>
+            <CardContent sx={{minHeight: 170}}>
+                <Typography div>
+                    <div dangerouslySetInnerHTML={{ __html: convertToMath(answer) }} />
+                </Typography>
+            </CardContent>
+            {/*<Collapse in={expanded} timeout="auto" unmountOnExit>*/}
+            {/*    */}
+            {/*</Collapse>*/}
             <CardActions>
                 <Button size="small"
                         expand={expanded}
@@ -55,13 +63,6 @@ export default function FlashCard(props) {
                 <Button size="small">Edit</Button>
                 <Button size="small">Delete</Button>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography div>
-                        <div dangerouslySetInnerHTML={{ __html: convertToMath(answer) }} />
-                    </Typography>
-                </CardContent>
-            </Collapse>
         </Card>
     );
 }

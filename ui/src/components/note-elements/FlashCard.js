@@ -28,9 +28,23 @@ export default function FlashCard(props) {
 
     const [expanded, setExpanded] = React.useState(false);
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    // const handleExpandClick = () => {
+    //     setExpanded(!expanded);
+    // };
+
+    const editFlashCard = () => {
+        props.openFlashCardForm({
+            question: question,
+            answer: answer,
+            cardKey: props.index
+        })
+    }
+
+    const deleteCard = () => {
+        props.deleteCard({
+            cardKey: props.index
+        })
+    }
 
     // const handleFlashCardDelete = () => {
     //     props.d({
@@ -42,7 +56,7 @@ export default function FlashCard(props) {
     return (
         <Card className = "FlashCard" sx={{ minWidth: 400, minHeight: 290}}>
             <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
+                <Typography div sx={{ fontSize: 14 }} color="text.primary">
                     <div dangerouslySetInnerHTML={{ __html: convertToMath(question) }} />
                 </Typography>
             </CardContent>
@@ -55,13 +69,11 @@ export default function FlashCard(props) {
             {/*    */}
             {/*</Collapse>*/}
             <CardActions>
-                <Button size="small"
-                        expand={expanded}
-                        onClick={handleExpandClick}>
+                <Button size="small">
                     Show Answer
                 </Button>
-                <Button size="small">Edit</Button>
-                <Button size="small">Delete</Button>
+                <Button size="small" onClick={editFlashCard}>Edit</Button>
+                <Button size="small" onClick={deleteCard}>Delete</Button>
             </CardActions>
         </Card>
     );

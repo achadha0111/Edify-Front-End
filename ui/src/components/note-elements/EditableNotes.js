@@ -99,8 +99,6 @@ class EditableNotes extends React.Component {
         this.setState({blocks: updatedBlocks})
     }
 
-    // TODO this is very inefficient, we shouldn't be rerendering the entire
-    // TODO blocks and flashcard everytime a value is changed in one block
     render () {
         return (
             <div className="Note">

@@ -17,6 +17,10 @@ class RichText extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.innerRef.current.focus();
+    }
+
     updateAndPropagateValue(value) {
         this.setState({value: value});
         this.props.updateData(value);
@@ -32,6 +36,7 @@ class RichText extends React.Component {
     }
 
     // TODO While we are able to do math rendering, the equation editor doesn't reopen to edit an equation
+    // TODO Save button doesn't work on the tooltip
     render () {
        return <ReactQuill
             className="RichTextEditor"

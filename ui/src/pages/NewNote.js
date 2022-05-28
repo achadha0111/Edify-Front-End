@@ -69,9 +69,12 @@ class NewNote extends React.Component {
         // this.focusManagerHandler = this.focusManagerHandler.bind(this);
         // this.flashCardFormClose = this.flashCardFormClose.bind(this);
         this.addNoteElement = this.addNoteElement.bind(this);
+        this.updateNoteName = this.updateNoteName.bind(this);
+
         this.state = {
             flashCardFormOpen: false,
             newElement: {},
+            noteName: 'Untitled'
         };
     }
 
@@ -87,11 +90,16 @@ class NewNote extends React.Component {
         this.setState({flashCardFormOpen: false});
     }
 
+    updateNoteName (noteName) {
+        this.setState({noteName: noteName})
+    }
+
     addNoteElement (data, source) {
         this.setState(
         {newElement:
                 {
                     id: uid(),
+                    noteName: this.state.noteName,
                     noteType: source,
                     data: data
                 }
@@ -101,11 +109,13 @@ class NewNote extends React.Component {
     render () {
         return (
             <Page title="Notes | New Note">
-                <Container>
+                <Container className="NotePage">
                     <div className="Toolbar">
-                        <Toolbar openFlashCardForm={this.openFlashCardForm} addTextBlock={this.addNoteElement}/>
+                        <Toolbar openFlashCardForm={this.openFlashCardForm}
+                                 addTextBlock={this.addNoteElement}
+                                 updateNoteName={this.updateNoteName}/>
                     </div>
-                    <AddFlashCardForm open={this.state.flashCardFormOpen} close={this.closeFlashCardForm} addFlashCard={this.addNoteElement}/>
+                    <AddFlashCardForm open={this.state.flashCardFormOpen} close={this.closeFlashCardForm} saveFlashCard={this.addNoteElement}/>
                     <EditableNotes newElement={this.state.newElement} />
                 </Container>
             </Page>

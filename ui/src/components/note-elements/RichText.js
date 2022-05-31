@@ -13,7 +13,8 @@ class RichText extends React.Component {
         this.updateAndPropagateValue = this.updateAndPropagateValue.bind(this);
         this.checkForDelete = this.checkForDelete.bind(this);
         this.state = {
-            value: ''
+            value: '',
+            previousKey: ''
         }
     }
 
@@ -28,8 +29,11 @@ class RichText extends React.Component {
 
     checkForDelete(event) {
         event.preventDefault();
+        this.setState({previousKey: event.key});
         const text = this.state.value.replace(/<(.*?)>/g, "");
-        if (event.key === "Backspace" && text === "") {
+        if (event.key === "Backspace"
+            && this.state.previousKey === "Shift"
+            && text === "") {
             event.preventDefault();
             this.props.deleteBlock();
         }

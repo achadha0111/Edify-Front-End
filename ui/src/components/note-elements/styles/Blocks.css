@@ -15,13 +15,21 @@
     flex-direction: column;
     margin-top: 2vh;
     background: #f5f4e8;
-    margin-left: 1vh;
     z-index: 0;
-    max-width: 132vh;
+    max-width: 140vw;
 }
 
 .RichTextEditor {
     box-shadow: 2px 2px #dddddd;
+}
+
+.Code {
+    margin-top: 1vh;
+}
+
+.ͼ1.cm-editor.cm-focused {
+    outline-style: none;
+    border-left: thick cornflowerblue solid;
 }
 
 .FlashCard {
@@ -44,7 +52,7 @@
 }
 
 .quill {
-    max-width: 140vh;
+    max-width: 140vw;
     background-color: #fff;
 }
 

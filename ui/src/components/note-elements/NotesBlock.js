@@ -7,6 +7,7 @@ import FlashCardBlock from "./FlashCardBlock";
 import RichText from './RichText';
 import './styles/Blocks.css';
 import AddFlashCardForm from "../AddFlashCardForm";
+import Code from "./Code";
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -69,6 +70,8 @@ class NotesBlock extends React.Component {
                     openEditForm={this.openFlashCardForm}
                     confirmDelete={this.deleteBlock}
                     deleteCard={this.deleteCard}/>;
+            case "Code":
+                return <Code onFocus={this.blockInFocus} deleteBlock={this.deleteBlock}/>
             default:
                 return <RichText data={this.props.data}
                           innerRef={this.blockRef}

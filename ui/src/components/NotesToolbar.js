@@ -13,6 +13,7 @@ class Toolbar extends React.Component {
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
         this.addTextBlock = this.addTextBlock.bind(this);
         this.updateNoteName = this.updateNoteName.bind(this);
+        this.addCodeBlock = this.addCodeBlock.bind(this);
         this.state = {
             noteName: "Untitled"
         }
@@ -24,6 +25,10 @@ class Toolbar extends React.Component {
 
     addTextBlock () {
         this.props.addTextBlock({}, "RichText");
+    }
+
+    addCodeBlock () {
+        this.props.addCodeBlock({}, "Code")
     }
 
     updateNoteName (value) {
@@ -62,7 +67,7 @@ class Toolbar extends React.Component {
                         </Tooltip>
 
                         <Tooltip title="Insert code block">
-                            <Button variant="text" className="InsertCodeBlock">
+                            <Button variant="text" className="InsertCodeBlock" onClick={this.addCodeBlock}>
                                 <Code/>
                             </Button>
                         </Tooltip>

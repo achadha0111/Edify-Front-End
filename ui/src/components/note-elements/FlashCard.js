@@ -41,9 +41,7 @@ export default function FlashCard(props) {
     }
 
     const deleteCard = () => {
-        props.deleteCard({
-            cardKey: props.index
-        })
+        props.deleteCard(props.index)
     }
 
     const displayAnswer = () => {
@@ -58,7 +56,7 @@ export default function FlashCard(props) {
     // }
 
     return (
-        <Card className = "FlashCard" sx={{ minWidth: 400, minHeight: 290}}>
+        <Card className = "FlashCard" sx={{ minWidth: 400, minHeight: 290}} role="flashcard" aria-label="flashcard">
             <CardContent sx={{minHeight: 110}}>
                 <Typography div color="text.primary">
                     <div dangerouslySetInnerHTML={{ __html: convertToMath(question) }} />
@@ -76,8 +74,8 @@ export default function FlashCard(props) {
                 <Button size="small" onClick={displayAnswer}>
                     {showAnswer ? 'Hide Answer' : 'Show Answer'}
                 </Button>
-                <Button size="small" onClick={editFlashCard}>Edit</Button>
-                <Button size="small" onClick={deleteCard}>Delete</Button>
+                <Button size="small" aria-label="EditFlashCard" onClick={editFlashCard}>Edit</Button>
+                <Button size="small" aria-label="DeleteFlashCard" onClick={deleteCard}>Delete</Button>
             </CardActions>
         </Card>
     );

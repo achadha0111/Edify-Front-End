@@ -91,11 +91,12 @@ class EditableNotes extends React.Component {
         this.setState({ blocks: updatedBlocks});
     }
 
-    deleteCard(cardIndex) {
+    deleteCard(cardData) {
+        console.log(cardData)
         const blocks = this.state.blocks;
-        const index = blocks.map((b) => b.id).indexOf(this.state.blockInFocusId);
+        const index = blocks.map((b) => b.id).indexOf(cardData.id);
         const updatedBlocks = [...blocks];
-        updatedBlocks[index].data.splice(cardIndex, 1);
+        updatedBlocks[index].data.splice(cardData.cardIndex, 1);
         this.setState({blocks: updatedBlocks})
     }
 

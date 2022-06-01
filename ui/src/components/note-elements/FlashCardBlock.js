@@ -19,7 +19,8 @@ export default function FlashCardBlock(props) {
     }
 
     return (
-            <ImageList className = "Cardbox" sx={{ maxHeight: 400 }} tabIndex={props.tabIndex} onFocus={props.onFocus}>
+            <ImageList className = "Cardbox" sx={{ maxHeight: 400 }} tabIndex={props.tabIndex} onFocus={props.onFocus}
+            role="card-deck" aria-label="card-deck">
 
                 <ImageListItem key="Subheader"  cols={2}>
                     <ListSubheader component="div" className="DeckControls">
@@ -42,7 +43,8 @@ export default function FlashCardBlock(props) {
                 </ImageListItem>
                 {flashCardList.map((qAndA, key) => (
                     <ImageListItem key={key}>
-                        <FlashCard data={qAndA} index={key} openFlashCardForm={props.openEditForm} deleteCard={props.deleteCard}/>
+                        <FlashCard data={qAndA} index={key} openFlashCardForm={props.openEditForm}
+                                   deleteCard={props.deleteCard}/>
                     </ImageListItem>
                 ))}
             </ImageList>

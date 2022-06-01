@@ -52,7 +52,7 @@ class NotesBlock extends React.Component {
 
     deleteCard = (cardKey) => {
         this.props.deleteCard({id: this.props.id,
-            cardKey: cardKey})
+            cardIndex: cardKey})
     }
 
     deleteBlock = () => {
@@ -83,7 +83,7 @@ class NotesBlock extends React.Component {
 
     render() {
         return (
-            <div className="RichMediaBlock">
+            <div className="RichMediaBlock" role="cell" aria-label={this.blockType}>
                 {this.displayComponent(this.blockType, this.props.tabIndex)}
                 <AddFlashCardForm open={this.state.flashCardFormOpen}
                                   close={this.closeFlashCardForm}

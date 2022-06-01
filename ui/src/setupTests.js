@@ -1,5 +1,22 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react'
+import {render} from '@testing-library/react'
+import {HelmetProvider} from "react-helmet-async";
+
+const AllTheProviders = ({children}) => {
+    return (
+        <HelmetProvider>
+            {children}
+        </HelmetProvider>
+    )
+}
+
+const customRender = (ui, options) =>
+    render(ui, {wrapper: AllTheProviders, ...options})
+
+// re-export everything
+export * from '@testing-library/react';
+export * from '@testing-library/jest-dom';
+export * from '@testing-library/user-event';
+export * from 'react-router-dom';
+// override render method
+export {customRender as render};

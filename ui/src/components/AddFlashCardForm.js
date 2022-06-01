@@ -27,6 +27,7 @@ import convertToMath from "../utils/inlineMathRender";
 export default function AddFlashCardForm(props) {
     const [question, setQuestion] = useState(props.question);
     const [answer, setAnswer] = useState(props.answer);
+    const [showError, setError] = useState(false);
 
     const onClose = () => {
         props.close();
@@ -46,11 +47,16 @@ export default function AddFlashCardForm(props) {
     }
 
     const saveFlashCard = () => {
-        props.saveFlashCard({
-            question: question,
-            answer: answer
-        }, "FlashCard")
-        props.close();
+        if (question !== "" && answer !== "") {
+            props.saveFlashCard({
+                question: question,
+                answer: answer
+            }, "FlashCard")
+            props.close();
+        } else {
+            setError(true);
+        }
+
     }
 
     return (
@@ -64,6 +70,7 @@ export default function AddFlashCardForm(props) {
                         Create your flash card here.
                     </DialogContentText>
                     <TextField
+                        error={showError}
                         autoFocus
                         fullWidth
                         margin="dense"
@@ -83,6 +90,7 @@ export default function AddFlashCardForm(props) {
                     </DialogContentText>
 
                     <TextField
+                        error={showError}
                         fullWidth
                         margin="dense"
                         id="answer"

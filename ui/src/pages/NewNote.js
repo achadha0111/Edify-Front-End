@@ -108,7 +108,7 @@ class NewNote extends React.Component {
 
     render () {
         return (
-            <Page title="Notes | New Note">
+            <Page title="Eruditio | New Note">
                 <Container className="NotePage">
                     <div className="Toolbar">
                         <Toolbar openFlashCardForm={this.openFlashCardForm}

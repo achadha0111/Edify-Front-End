@@ -84,15 +84,14 @@ class EditableNotes extends React.Component {
             // append data to its data array of cards
             updatedBlocks[index].data.push(data)
         } else {
-            // In all other cases, we just add a new text block
+            // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
 
-        this.setState({ blocks: updatedBlocks});
+        this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.id});
     }
 
     deleteCard(cardData) {
-        console.log(cardData)
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(cardData.id);
         const updatedBlocks = [...blocks];

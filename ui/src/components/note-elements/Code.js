@@ -18,16 +18,16 @@ export default function Code(props) {
     }
 
     return (
-        <CodeMirror
-            className="Code"
-            value=""
-            height="200px"
-            extensions={[python()]}
-            onKeyUp={checkForDelete}
-            onFocus={props.onFocus}
-            onChange={(value, viewUpdate) => {
-                setCode(value);
-            }}
-        />
+            <CodeMirror
+                className="Code"
+                value=""
+                height="200px"
+                extensions={[python()]}
+                onKeyUp={checkForDelete}
+                onFocus={props.onFocus}
+                onChange={(value, viewUpdate) => {
+                    setCode(value);
+                }}
+            />
     );
 }

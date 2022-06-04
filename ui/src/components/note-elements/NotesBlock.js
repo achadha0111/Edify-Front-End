@@ -64,14 +64,14 @@ class NotesBlock extends React.Component {
             case "FlashCard":
                 return <FlashCardBlock
                     data={this.props.data}
-                    innerRef={this.blockRef}
                     onFocus={this.blockInFocus}
                     tabIndex={tabIndex}
                     openEditForm={this.openFlashCardForm}
                     confirmDelete={this.deleteBlock}
-                    deleteCard={this.deleteCard}/>;
+                    deleteCard={this.deleteCard}
+                    innerRef={this.blockRef}/>;
             case "Code":
-                return <Code onFocus={this.blockInFocus} deleteBlock={this.deleteBlock}/>
+                return <Code onFocus={this.blockInFocus} deleteBlock={this.deleteBlock} innerRef={this.blockRef} tabIndex={tabIndex}/>
             default:
                 return <RichText data={this.props.data}
                           innerRef={this.blockRef}
@@ -85,6 +85,8 @@ class NotesBlock extends React.Component {
         return (
             <div className="RichMediaBlock" role="cell" aria-label={this.blockType}>
                 {this.displayComponent(this.blockType, this.props.tabIndex)}
+                {/*TODO flashcard form, it creates too many instances
+                TODO in the wrong place*/}
                 <AddFlashCardForm open={this.state.flashCardFormOpen}
                                   close={this.closeFlashCardForm}
                                   question={this.state.questionToEdit}

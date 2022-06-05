@@ -6,8 +6,9 @@ import React from "react";
 import FlashCardBlock from "./FlashCardBlock";
 import RichText from './RichText';
 import './styles/Blocks.css';
-import AddFlashCardForm from "../AddFlashCardForm";
+import AddFlashCardForm from "../dialogs/AddFlashCardForm";
 import Code from "./Code";
+import DeleteDialog from "../dialogs/ConfirmDelete";
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -19,11 +20,14 @@ class NotesBlock extends React.Component {
         this.deleteBlock = this.deleteBlock.bind(this);
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
         this.closeFlashCardForm = this.closeFlashCardForm.bind(this);
+        this.openDeleteDialog = this.openDeleteDialog.bind(this);
+        this.closeDeleteDialog = this.closeDeleteDialog.bind(this);
         this.state = {
             flashCardFormOpen: false,
             questionToEdit: '',
             answerToEdit: '',
             cardKey: '',
+            deleteConfirmOpen: false
         }
     }
 
@@ -38,6 +42,10 @@ class NotesBlock extends React.Component {
         this.setState({flashCardFormOpen: false});
     }
 
+    closeDeleteDialog () {
+        this.setState({deleteConfirmOpen: false});
+    }
+
     blockInFocus = () => {
         this.props.onFocusEnter({
             id: this.props.id,
@@ -48,6 +56,10 @@ class NotesBlock extends React.Component {
     updateData = (value, _) => {
         this.props.updateData({id: this.props.id,
             cardKey: this.state.cardKey}, value);
+    }
+
+    openDeleteDialog = (cardKey) => {
+        this.setState({deleteConfirmOpen: true})
     }
 
     deleteCard = (cardKey) => {
@@ -67,8 +79,8 @@ class NotesBlock extends React.Component {
                     onFocus={this.blockInFocus}
                     tabIndex={tabIndex}
                     openEditForm={this.openFlashCardForm}
-                    confirmDelete={this.deleteBlock}
                     deleteCard={this.deleteCard}
+                    deleteBlock={this.deleteBlock}
                     innerRef={this.blockRef}/>;
             case "Code":
                 return <Code onFocus={this.blockInFocus} deleteBlock={this.deleteBlock} innerRef={this.blockRef} tabIndex={tabIndex}/>

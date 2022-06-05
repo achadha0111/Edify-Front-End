@@ -8,7 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useEffect, useState} from "react";
 import 'katex/dist/katex.min.css';
-import convertToMath from "../utils/inlineMathRender";
+import convertToMath from "../../utils/inlineMathRender";
 
 /* AddFlashCardForm
 * A component that allows users to create a simple text based flashcard.

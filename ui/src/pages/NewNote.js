@@ -11,11 +11,10 @@ import Page from '../components/Page';
 // import Iconify from "../components/Iconify";
 // import {BlogPostCard, BlogPostsSort, NotesSearch} from "../sections/@dashboard/notes";
 // import POSTS from "../_mock/blog";
-import AddFlashCardForm from "../components/AddFlashCardForm";
+import AddFlashCardForm from "../components/dialogs/AddFlashCardForm";
 import Toolbar from "../components/NotesToolbar";
 import uid from "../utils/uid";
 import EditableNotes from "../components/note-elements/EditableNotes";
-import FlashCard from "../components/note-elements/FlashCard";
 
 const RootStyle = styled('div')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {

@@ -32,7 +32,7 @@ export default function FlashCardBlock(props) {
                             </Typography>
                             <Box className="FBar Buttons">
                                 <Tooltip title="Delete deck">
-                                    <Button variant="text" className="DeleteDeck" onClick={props.confirmDelete}>
+                                    <Button variant="text" className="DeleteDeck" onClick={props.deleteBlock}>
                                         <DeleteIcon/>
                                     </Button>
                                 </Tooltip>

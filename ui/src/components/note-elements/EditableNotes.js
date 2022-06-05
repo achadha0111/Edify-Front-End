@@ -6,6 +6,7 @@ import React from 'react';
 import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 
+
 // This block always displays on adding a new note
 const initialBlock = {id: uid(), noteType: "RichText", data: {}}
 

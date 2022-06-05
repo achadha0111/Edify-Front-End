@@ -198,4 +198,61 @@ test('add flashcard to new deck', async () => {
     // With two cards
     expect(flashcards.length).toEqual(2);
 
-}, 10000)
+}, 10000);
+
+// test('open flashcard delete confirmation dialog', async () => {
+//
+//     render (<NewNote/>);
+//
+//     const flashCardButton = screen.getByLabelText("Insert flashcard");
+//
+//     await userEvent.click(flashCardButton);
+//
+//     let questionField = screen.getByRole('textbox', {name:/Question/});
+//     const answerField = screen.getByRole('textbox', {name:/Answer/});
+//
+//     await userEvent.type(questionField, "What is this website built in?");
+//     await userEvent.type(answerField, "React");
+//
+//     await userEvent.click(screen.getByRole('button', {name:/Save/}));
+//     await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
+//
+//     await userEvent.click(screen.getByRole('button', {name:'Delete'}));
+//
+//     expect(screen.getByText(/Are you sure you want to delete this card?/i)).toBeInTheDocument();
+//
+//     await userEvent.click(screen.getByRole('button', {name: 'Yes'}));
+//
+//     const flashcards = screen.getAllByRole('flashcard');
+//
+//     expect(flashcards.length).toEqual(0);
+// }, 10000);
+//
+// test('open flashcard deck delete confirmation dialog', async () => {
+//
+//     render (<NewNote/>);
+//
+//     const flashCardButton = screen.getByLabelText("Insert flashcard");
+//
+//     await userEvent.click(flashCardButton);
+//
+//     let questionField = screen.getByRole('textbox', {name:/Question/});
+//     const answerField = screen.getByRole('textbox', {name:/Answer/});
+//
+//     await userEvent.type(questionField, "What is this website built in?");
+//     await userEvent.type(answerField, "React");
+//
+//     await userEvent.click(screen.getByRole('button', {name:/Save/}));
+//     await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
+//
+//     await userEvent.click(screen.getByRole('button', {name:'Delete deck'}));
+//
+//     expect(screen.getByText(/Are you sure you want to delete this deck?/)).toBeInTheDocument();
+//
+//     await userEvent.click(screen.getByRole('button', {name: 'Yes'}));
+//
+//     const flashcardDeck = screen.getAllByRole('cell', {name: /FlashCard/});
+//
+//     expect(flashcardDeck.length).toEqual(0);
+//
+// }, 10000);

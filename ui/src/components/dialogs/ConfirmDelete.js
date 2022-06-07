@@ -19,7 +19,8 @@ export default function DeleteDialog(props) {
         <DialogTitle> Delete confirmation</DialogTitle>
         <DialogContent>
             <DialogContentText>
-                Are you sure you want to delete this {props.entity ? 'card' : 'deck'}?
+                Are you sure you want to delete
+                this {props.entity !== "Deck" ? 'card':'deck'}?
                 This action cannot be undone.
             </DialogContentText>
         </DialogContent>

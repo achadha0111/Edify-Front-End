@@ -44,16 +44,16 @@ export default function FlashCardBlock(props) {
     }
 
     return (
-        <div>
+        <div className="Cardbox" tabIndex={props.tabIndex}>
             <DeleteDialog open={deleteOpen}
                           entity={entity}
                           close={closeDeleteDialog}
                           delete={executeDelete}/>
 
-            <ImageList className = "Cardbox" sx={{ maxHeight: 400 }} tabIndex={props.tabIndex} onFocus={props.onFocus}
+            <ImageList sx={{ maxHeight: 400 }}  onFocus={props.onFocus}
                        role="card-deck" aria-label="card-deck">
 
-                <ImageListItem key="Subheader"  cols={2}>
+                <ImageListItem key="Subheader" cols={2}>
                     <ListSubheader component="div" className="DeckControls">
                         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                             <Typography variant="h4" gutterBottom>
@@ -70,10 +70,10 @@ export default function FlashCardBlock(props) {
                             </Box>
                         </Stack>
                     </ListSubheader>
-
                 </ImageListItem>
+
                 {flashCardList.map((qAndA, key) => (
-                    <ImageListItem key={key}>
+                    <ImageListItem key={key} cols={2}>
                         <FlashCard data={qAndA} index={key} openFlashCardForm={props.openEditForm}
                                    deleteCard={openDeleteConfirm}/>
                     </ImageListItem>

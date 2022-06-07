@@ -60,13 +60,8 @@ const ContentStyle = styled('div')(({ theme }) => ({
 class NewNote extends React.Component {
     constructor(props) {
         super(props);
-        // this.updatePageHandler = this.updatePageHandler.bind(this);
-        // this.addBlockHandler = this.addBlockHandler.bind(this);
         this.openFlashCardForm =this.openFlashCardForm.bind(this);
         this.closeFlashCardForm =this.closeFlashCardForm.bind(this);
-        // this.deleteBlockHandler = this.deleteBlockHandler.bind(this);
-        // this.focusManagerHandler = this.focusManagerHandler.bind(this);
-        // this.flashCardFormClose = this.flashCardFormClose.bind(this);
         this.addNoteElement = this.addNoteElement.bind(this);
         this.updateNoteName = this.updateNoteName.bind(this);
 

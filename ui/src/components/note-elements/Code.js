@@ -13,7 +13,7 @@ export default function Code(props) {
             && previousKey === "Shift"
             && code === "") {
             event.preventDefault();
-            props.deleteBlock();
+            props.deleteBlock({});
         }
     }
 

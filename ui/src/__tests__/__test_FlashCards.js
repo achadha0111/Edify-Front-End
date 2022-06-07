@@ -48,44 +48,6 @@ test("add and edit flashcard", async () => {
 
 }, 10000);
 
-
-test('delete flashcard and delete flashcard deck', async () => {
-    render (<NewNote/>);
-
-    const flashCardButton = screen.getByLabelText("Insert flashcard");
-
-    await userEvent.click(flashCardButton);
-
-    let questionField = screen.getByRole('textbox', {name:/Question/});
-    const answerField = screen.getByRole('textbox', {name:/Answer/});
-
-    await userEvent.type(questionField, "What is this website built in?");
-    await userEvent.type(answerField, "React");
-
-    let saveFlashCardButton = screen.getByRole('button', {name:/Save/});
-
-    await userEvent.click(saveFlashCardButton);
-    await waitForElementToBeRemoved(questionField);
-
-    const deleteFlashCardButton = screen.getByRole('button', {name: /DeleteFlashCard/i});
-
-    await userEvent.click(deleteFlashCardButton);
-
-    expect(screen.queryByRole('flashcard')).not.toBeInTheDocument();
-    let flashCardCells = screen.getAllByRole('cell', {name:/FlashCard/i});
-
-    expect(flashCardCells.length).toEqual(1);
-
-    const deleteDeckButton = screen.getByRole('button', {name: /Delete deck/i});
-
-    await userEvent.click(deleteDeckButton);
-
-    flashCardCells = screen.queryAllByRole('cell', {name:/FlashCard/i});
-
-    expect(flashCardCells.length).toEqual(0);
-
-}, 6000);
-
 test('add flashcard to same deck', async () => {
     render (<NewNote/>);
 
@@ -159,59 +121,59 @@ test('add flashcard to new deck', async () => {
 
 }, 10000);
 
-// test('open flashcard delete confirmation dialog', async () => {
-//
-//     render (<NewNote/>);
-//
-//     const flashCardButton = screen.getByLabelText("Insert flashcard");
-//
-//     await userEvent.click(flashCardButton);
-//
-//     let questionField = screen.getByRole('textbox', {name:/Question/});
-//     const answerField = screen.getByRole('textbox', {name:/Answer/});
-//
-//     await userEvent.type(questionField, "What is this website built in?");
-//     await userEvent.type(answerField, "React");
-//
-//     await userEvent.click(screen.getByRole('button', {name:/Save/}));
-//     await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
-//
-//     await userEvent.click(screen.getByRole('button', {name:'Delete'}));
-//
-//     expect(screen.getByText(/Are you sure you want to delete this card?/i)).toBeInTheDocument();
-//
-//     await userEvent.click(screen.getByRole('button', {name: 'Yes'}));
-//
-//     const flashcards = screen.getAllByRole('flashcard');
-//
-//     expect(flashcards.length).toEqual(0);
-// }, 10000);
-//
-// test('open flashcard deck delete confirmation dialog', async () => {
-//
-//     render (<NewNote/>);
-//
-//     const flashCardButton = screen.getByLabelText("Insert flashcard");
-//
-//     await userEvent.click(flashCardButton);
-//
-//     let questionField = screen.getByRole('textbox', {name:/Question/});
-//     const answerField = screen.getByRole('textbox', {name:/Answer/});
-//
-//     await userEvent.type(questionField, "What is this website built in?");
-//     await userEvent.type(answerField, "React");
-//
-//     await userEvent.click(screen.getByRole('button', {name:/Save/}));
-//     await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
-//
-//     await userEvent.click(screen.getByRole('button', {name:'Delete deck'}));
-//
-//     expect(screen.getByText(/Are you sure you want to delete this deck?/)).toBeInTheDocument();
-//
-//     await userEvent.click(screen.getByRole('button', {name: 'Yes'}));
-//
-//     const flashcardDeck = screen.getAllByRole('cell', {name: /FlashCard/});
-//
-//     expect(flashcardDeck.length).toEqual(0);
-//
-// }, 10000);
+test('open flashcard delete confirmation dialog', async () => {
+
+    render (<NewNote/>);
+
+    const flashCardButton = screen.getByLabelText("Insert flashcard");
+
+    await userEvent.click(flashCardButton);
+
+    let questionField = screen.getByRole('textbox', {name:/Question/});
+    const answerField = screen.getByRole('textbox', {name:/Answer/});
+
+    await userEvent.type(questionField, "What is this website built in?");
+    await userEvent.type(answerField, "React");
+
+    await userEvent.click(screen.getByRole('button', {name:/Save/}));
+    await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
+
+    await userEvent.click(screen.getByRole('button', {name:'DeleteFlashCard'}));
+
+    expect(screen.getByText(/Are you sure you want to delete this card?/i)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', {name: 'Yes'}));
+
+    const flashcards = screen.queryAllByRole('flashcard');
+
+    expect(flashcards.length).toEqual(0);
+}, 10000);
+
+test('open flashcard deck delete confirmation dialog', async () => {
+
+    render (<NewNote/>);
+
+    const flashCardButton = screen.getByLabelText("Insert flashcard");
+
+    await userEvent.click(flashCardButton);
+
+    let questionField = screen.getByRole('textbox', {name:/Question/});
+    const answerField = screen.getByRole('textbox', {name:/Answer/});
+
+    await userEvent.type(questionField, "What is this website built in?");
+    await userEvent.type(answerField, "React");
+
+    await userEvent.click(screen.getByRole('button', {name:/Save/}));
+    await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
+
+    await userEvent.click(screen.getByRole('button', {name:'Delete deck'}));
+
+    expect(screen.getByText(/Are you sure you want to delete this deck?/)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', {name: 'Yes'}));
+
+    const flashcardDeck = screen.queryAllByRole('cell', {name: /FlashCard/});
+
+    expect(flashcardDeck.length).toBe(0);
+
+}, 10000);

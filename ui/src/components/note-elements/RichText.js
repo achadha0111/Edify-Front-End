@@ -35,7 +35,7 @@ class RichText extends React.Component {
             && this.state.previousKey === "Shift"
             && text === "") {
             event.preventDefault();
-            this.props.deleteBlock();
+            this.props.deleteBlock({});
         }
     }
 

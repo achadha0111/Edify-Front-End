@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactQuill from 'react-quill';
 import './styles/EditorStyles.css';
 import 'katex/dist/katex.min.css';
@@ -35,7 +35,7 @@ class RichText extends React.Component {
             && this.state.previousKey === "Shift"
             && text === "") {
             event.preventDefault();
-            this.props.deleteBlock();
+            this.props.deleteBlock({});
         }
     }
 

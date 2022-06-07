@@ -17,18 +17,18 @@ class NotesBlock extends React.Component {
         this.blockRef = React.createRef();
         this.blockInFocus = this.blockInFocus.bind(this);
         this.displayComponent = this.displayComponent.bind(this);
-        this.deleteBlock = this.deleteBlock.bind(this);
+        this.delete = this.delete.bind(this);
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
         this.closeFlashCardForm = this.closeFlashCardForm.bind(this);
-        this.openDeleteDialog = this.openDeleteDialog.bind(this);
-        this.closeDeleteDialog = this.closeDeleteDialog.bind(this);
+        // this.openDeleteDialog = this.openDeleteDialog.bind(this);
+        // this.closeDeleteDialog = this.closeDeleteDialog.bind(this);
         this.state = {
             flashCardFormOpen: false,
             questionToEdit: '',
             answerToEdit: '',
-            cardKey: '',
-            deleteConfirmOpen: false
+            cardKey: ''
         }
+
     }
 
     openFlashCardForm (currentQA) {
@@ -41,10 +41,13 @@ class NotesBlock extends React.Component {
     closeFlashCardForm () {
         this.setState({flashCardFormOpen: false});
     }
+    //
+    // openDeleteDialog = (deleteEntity) => {
+    //     this.setState({deleteConfirmOpen: true, entityToDelete: deleteEntity.cardKey});
+    //     console.log(this.state.entityToDelete);
+    // }
 
-    closeDeleteDialog () {
-        this.setState({deleteConfirmOpen: false});
-    }
+
 
     blockInFocus = () => {
         this.props.onFocusEnter({
@@ -58,17 +61,13 @@ class NotesBlock extends React.Component {
             cardKey: this.state.cardKey}, value);
     }
 
-    openDeleteDialog = (cardKey) => {
-        this.setState({deleteConfirmOpen: true})
-    }
-
-    deleteCard = (cardKey) => {
-        this.props.deleteCard({id: this.props.id,
-            cardIndex: cardKey})
-    }
-
-    deleteBlock = () => {
-        this.props.deleteBlock()
+    delete = (deleteEntity) => {
+        if (deleteEntity.cardKey >= 0) {
+            this.props.deleteCard({id: this.props.id,
+                cardIndex: deleteEntity.cardKey});
+        } else {
+            this.props.deleteBlock()
+        }
     }
 
     displayComponent(blockType, tabIndex) {
@@ -79,17 +78,16 @@ class NotesBlock extends React.Component {
                     onFocus={this.blockInFocus}
                     tabIndex={tabIndex}
                     openEditForm={this.openFlashCardForm}
-                    deleteCard={this.deleteCard}
-                    deleteBlock={this.deleteBlock}
+                    delete={this.delete}
                     innerRef={this.blockRef}/>;
             case "Code":
-                return <Code onFocus={this.blockInFocus} deleteBlock={this.deleteBlock} innerRef={this.blockRef} tabIndex={tabIndex}/>
+                return <Code onFocus={this.blockInFocus} deleteBlock={this.delete} innerRef={this.blockRef} tabIndex={tabIndex}/>
             default:
                 return <RichText data={this.props.data}
                           innerRef={this.blockRef}
                           onFocus={this.blockInFocus}
                           updateData={this.updateData}
-                          deleteBlock={this.deleteBlock}/>;
+                          deleteBlock={this.delete}/>;
         }
     }
 

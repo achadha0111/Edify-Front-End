@@ -41,7 +41,7 @@ export default function FlashCard(props) {
     }
 
     const deleteCard = () => {
-        props.deleteCard(props.index)
+        props.deleteCard({cardIndex: props.index})
     }
 
     const displayAnswer = () => {

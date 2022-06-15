@@ -5,7 +5,7 @@
 import React from "react";
 import FlashCardBlock from "./FlashCardBlock";
 import RichText from './RichText';
-import './styles/Blocks.css';
+import '../styles/Blocks.css';
 import AddFlashCardForm from "../dialogs/AddFlashCardForm";
 import Code from "./Code";
 
@@ -71,7 +71,7 @@ class NotesBlock extends React.Component {
 
     displayComponent(blockType, tabIndex) {
         switch (blockType) {
-            case "FlashCard":
+            case "NotesFlashCard":
                 return <FlashCardBlock
                     data={this.props.data}
                     onFocus={this.blockInFocus}

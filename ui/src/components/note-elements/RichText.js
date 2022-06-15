@@ -1,6 +1,6 @@
 import React from "react";
 import ReactQuill from 'react-quill';
-import './styles/EditorStyles.css';
+import '../styles/EditorStyles.css';
 import 'katex/dist/katex.min.css';
 import katex from 'katex';
 

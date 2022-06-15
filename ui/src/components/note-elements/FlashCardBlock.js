@@ -1,8 +1,8 @@
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import FlashCard from './FlashCard';
-import './styles/Blocks.css';
+import NotesFlashCard from './NotesFlashCard';
+import '../styles/Blocks.css';
 import ListSubheader from '@mui/material/ListSubheader';
 import {Box, Button, Stack, TextField, Tooltip, Typography} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -74,8 +74,8 @@ export default function FlashCardBlock(props) {
 
                 {flashCardList.map((qAndA, key) => (
                     <ImageListItem key={key} cols={2}>
-                        <FlashCard data={qAndA} index={key} openFlashCardForm={props.openEditForm}
-                                   deleteCard={openDeleteConfirm}/>
+                        <NotesFlashCard data={qAndA} index={key} openFlashCardForm={props.openEditForm}
+                                        deleteCard={openDeleteConfirm}/>
                     </ImageListItem>
                 ))}
             </ImageList>

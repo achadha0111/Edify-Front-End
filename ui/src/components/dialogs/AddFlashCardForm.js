@@ -51,7 +51,7 @@ export default function AddFlashCardForm(props) {
             props.saveFlashCard({
                 question: question,
                 answer: answer
-            }, "FlashCard")
+            }, "NotesFlashCard")
             props.close();
         } else {
             setError(true);

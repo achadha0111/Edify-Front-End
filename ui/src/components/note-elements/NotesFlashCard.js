@@ -22,7 +22,7 @@ function ExpandMoreIcon() {
     return null;
 }
 
-export default function FlashCard(props) {
+export default function NotesFlashCard(props) {
     const question = props.data.question;
     const answer = props.data.answer;
 

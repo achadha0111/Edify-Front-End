@@ -6,7 +6,6 @@ import React from 'react';
 import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 
-
 // This block always displays on adding a new note
 const initialBlock = {id: uid(), noteType: "RichText", data: {}}
 
@@ -19,6 +18,7 @@ class EditableNotes extends React.Component {
         this.updateBlock = this.updateBlock.bind(this);
         this.deleteBlock = this.deleteBlock.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
+        this.saveNote = this.saveNote.bind(this);
         // State
         this.state = {
             blocks: [initialBlock],
@@ -33,8 +33,24 @@ class EditableNotes extends React.Component {
             let currentBlockId = this.state.blockInFocusId;
             let currentBlock = {id: currentBlockId, ref: currentBlockRef};
             this.addBlock(currentBlock, this.props.newElement.noteType, this.props.newElement.data);
+        } else if (prevProps.lastSaved !== this.props.lastSaved) {
+            this.saveNote().then(r => console.log(r));
         }
         return null
+    }
+
+    async saveNote() {
+        const response = await fetch('/notes-api/createnote', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({noteName: this.props.newElement.noteName,
+                blocks: this.state.blocks})
+        })
+
+        return response.json();
     }
 
     updateCurrentBlockInFocus(blockRef) {

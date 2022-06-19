@@ -14,6 +14,11 @@
     max-width: 140vw;
 }
 
+.lastSave {
+    color: darkgray;
+    font-max-size: 0.5vh;
+}
+
 .RichTextEditor {
     box-shadow: 2px 2px #dddddd;
 }

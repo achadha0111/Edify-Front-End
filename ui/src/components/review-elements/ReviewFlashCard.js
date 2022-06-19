@@ -62,10 +62,12 @@ export default function ReviewFlashCard(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={displayAnswer}>
+                <Button size="small" aria-label="DisplayAnswer" onClick={displayAnswer}>
                     {showAnswer ? 'Hide Answer' : 'Show Answer'}
                 </Button>
-                {showAnswer ? <Button size="small"
+                {showAnswer ? <Button
+                                      aria-label="RecordRemember"
+                                      size="small"
                                       value="Remembered"
                                       onClick={sendResponse}>
                     Remembered

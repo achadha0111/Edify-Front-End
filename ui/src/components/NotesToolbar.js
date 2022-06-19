@@ -15,7 +15,7 @@ class Toolbar extends React.Component {
         this.updateNoteName = this.updateNoteName.bind(this);
         this.addCodeBlock = this.addCodeBlock.bind(this);
         this.state = {
-            noteName: "Untitled"
+            noteName: "Untitled",
         }
     }
 
@@ -45,7 +45,9 @@ class Toolbar extends React.Component {
                         <TextField id="filled-basic" label="Title" variant="standard" value={this.state.value}
                                    onChange={this.updateNoteName}/>
                     </Typography>
-
+                    <Typography variant="p" className="lastSave">
+                        Last saved at: {new Date(this.props.lastSaved).toString()}
+                    </Typography>
                     <Box className="ToolBar Buttons">
 
                         <Tooltip title="Save note">
@@ -73,8 +75,6 @@ class Toolbar extends React.Component {
                         </Tooltip>
 
                     </Box>
-
-
 
                 </Stack>
             </div>

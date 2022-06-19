@@ -49,7 +49,7 @@ class Toolbar extends React.Component {
                     <Box className="ToolBar Buttons">
 
                         <Tooltip title="Save note">
-                            <Button variant="text" className="SaveNote">
+                            <Button variant="text" className="SaveNote" onClick={this.props.saveNote}>
                                 <SaveIcon/>
                             </Button>
                         </Tooltip>

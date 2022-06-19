@@ -64,17 +64,22 @@ class NewNote extends React.Component {
         this.closeFlashCardForm =this.closeFlashCardForm.bind(this);
         this.addNoteElement = this.addNoteElement.bind(this);
         this.updateNoteName = this.updateNoteName.bind(this);
+        this.saveNote = this.saveNote.bind(this);
 
         this.state = {
             flashCardFormOpen: false,
             newElement: {},
-            noteName: 'Untitled'
+            noteName: 'Untitled',
+            lastSaved: Date.now()
         };
     }
 
     // const smUp = useResponsive('up', 'sm');
     //
     // const mdUp = useResponsive('up', 'md');
+    saveNote () {
+        this.setState({lastSaved: Date.now()})
+    }
 
     openFlashCardForm () {
         this.setState({flashCardFormOpen: true});
@@ -108,10 +113,11 @@ class NewNote extends React.Component {
                         <Toolbar openFlashCardForm={this.openFlashCardForm}
                                  addTextBlock={this.addNoteElement}
                                  updateNoteName={this.updateNoteName}
-                                 addCodeBlock={this.addNoteElement}/>
+                                 addCodeBlock={this.addNoteElement}
+                                 saveNote={this.saveNote}/>
                     </div>
                     <AddFlashCardForm open={this.state.flashCardFormOpen} close={this.closeFlashCardForm} saveFlashCard={this.addNoteElement}/>
-                    <EditableNotes newElement={this.state.newElement} />
+                    <EditableNotes newElement={this.state.newElement} lastSaved={this.state.lastSaved}/>
                 </Container>
             </Page>
         )

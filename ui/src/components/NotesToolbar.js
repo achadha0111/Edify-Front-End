@@ -31,9 +31,9 @@ class Toolbar extends React.Component {
         this.props.addCodeBlock({}, "Code")
     }
 
-    updateNoteName (value) {
-        this.setState({noteName: value});
-        this.props.updateNoteName(value);
+    updateNoteName (event) {
+        this.setState({noteName: event.target.value});
+        this.props.updateNoteName(event.target.value);
     }
 
     render() {

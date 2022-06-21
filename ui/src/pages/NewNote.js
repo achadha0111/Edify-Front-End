@@ -118,7 +118,7 @@ class NewNote extends React.Component {
                                  lastSaved={this.state.lastSaved}/>
                     </div>
                     <AddFlashCardForm open={this.state.flashCardFormOpen} close={this.closeFlashCardForm} saveFlashCard={this.addNoteElement}/>
-                    <EditableNotes newElement={this.state.newElement} lastSaved={this.state.lastSaved}/>
+                    <EditableNotes newElement={this.state.newElement} lastSaved={this.state.lastSaved} noteName={this.state.noteName}/>
                 </Container>
             </Page>
         )

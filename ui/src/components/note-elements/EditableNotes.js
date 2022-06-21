@@ -7,7 +7,7 @@ import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 
 // This block always displays on adding a new note
-const initialBlock = {id: uid(), noteType: "RichText", data: {}}
+const initialBlock = {id: uid(), noteType: "RichText", data: ""}
 
 class EditableNotes extends React.Component {
     constructor(props) {
@@ -36,7 +36,8 @@ class EditableNotes extends React.Component {
             let currentBlock = {id: currentBlockId, ref: currentBlockRef};
             this.addBlock(currentBlock, this.props.newElement.noteType, this.props.newElement.data);
         } else if (prevProps.lastSaved !== this.props.lastSaved) {
-            this.saveNote().then(r => {
+            const noteTitle = this.props.noteName;
+            this.saveNote(noteTitle).then(r => {
                 if (!this.state.id) {
                     this.setState({id: r["noteId"]})
                 }
@@ -45,8 +46,9 @@ class EditableNotes extends React.Component {
         return null
     }
 
-    async saveNote() {
-        let noteBody = {noteName: this.props.newElement.noteName,
+    async saveNote(noteName) {
+        console.log(noteName);
+        let noteBody = {noteName: noteName,
             blocks: this.state.blocks};
 
         // Note exists so we provide an ID to update

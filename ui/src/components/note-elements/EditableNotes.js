@@ -21,6 +21,8 @@ class EditableNotes extends React.Component {
         this.saveNote = this.saveNote.bind(this);
         // State
         this.state = {
+            // Updated on first save
+            id: null,
             blocks: [initialBlock],
             blockInFocusRef: '',
             blockInFocusId: initialBlock.id,
@@ -34,20 +36,33 @@ class EditableNotes extends React.Component {
             let currentBlock = {id: currentBlockId, ref: currentBlockRef};
             this.addBlock(currentBlock, this.props.newElement.noteType, this.props.newElement.data);
         } else if (prevProps.lastSaved !== this.props.lastSaved) {
-            this.saveNote().then(r => console.log(r));
+            this.saveNote().then(r => {
+                if (!this.state.id) {
+                    this.setState({id: r["noteId"]})
+                }
+            });
         }
         return null
     }
 
     async saveNote() {
-        const response = await fetch('/notes-api/createnote', {
+        let noteBody = {noteName: this.props.newElement.noteName,
+            blocks: this.state.blocks};
+
+        // Note exists so we provide an ID to update
+        if (this.state.id) {
+            noteBody["id"] = this.state.id;
+        }
+
+        console.log(noteBody);
+
+        const response = await fetch('/notes-api/savenote', {
             method: 'POST',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({noteName: this.props.newElement.noteName,
-                blocks: this.state.blocks})
+            body: JSON.stringify(noteBody)
         })
 
         return response.json();

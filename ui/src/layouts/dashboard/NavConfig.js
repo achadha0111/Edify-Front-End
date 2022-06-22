@@ -25,7 +25,7 @@ const navConfig = [
   },
   {
     title: 'New Note',
-    path: '/home/newnote',
+    path: '/home/note',
     icon: getIcon('eva:plus-fill'),
   },
   // {

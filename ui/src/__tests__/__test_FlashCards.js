@@ -1,10 +1,10 @@
 import {render, screen} from "../setupTests";
-import NewNote from "../pages/NewNote";
+import Note from "../pages/Note";
 import userEvent from "@testing-library/user-event";
 import {waitForElementToBeRemoved} from "@testing-library/react";
 
 test("add and edit flashcard", async () => {
-    render(<NewNote/>);
+    render(<Note/>);
     const flashCardButton = screen.getByLabelText("Insert flashcard");
 
     await userEvent.click(flashCardButton);
@@ -49,7 +49,7 @@ test("add and edit flashcard", async () => {
 }, 10000);
 
 test('add flashcard to same deck', async () => {
-    render (<NewNote/>);
+    render (<Note/>);
 
     const flashCardButton = screen.getByLabelText("Insert flashcard");
 
@@ -85,7 +85,7 @@ test('add flashcard to same deck', async () => {
 
 test('add flashcard to new deck', async () => {
 
-    render (<NewNote/>);
+    render (<Note/>);
 
     const flashCardButton = screen.getByLabelText("Insert flashcard");
 
@@ -123,7 +123,7 @@ test('add flashcard to new deck', async () => {
 
 test('open flashcard delete confirmation dialog', async () => {
 
-    render (<NewNote/>);
+    render (<Note/>);
 
     const flashCardButton = screen.getByLabelText("Insert flashcard");
 
@@ -151,7 +151,7 @@ test('open flashcard delete confirmation dialog', async () => {
 
 test('open flashcard deck delete confirmation dialog', async () => {
 
-    render (<NewNote/>);
+    render (<Note/>);
 
     const flashCardButton = screen.getByLabelText("Insert flashcard");
 

@@ -14,9 +14,6 @@ class Toolbar extends React.Component {
         this.addTextBlock = this.addTextBlock.bind(this);
         this.updateNoteName = this.updateNoteName.bind(this);
         this.addCodeBlock = this.addCodeBlock.bind(this);
-        this.state = {
-            noteName: "Untitled",
-        }
     }
 
     openFlashCardForm () {
@@ -32,7 +29,6 @@ class Toolbar extends React.Component {
     }
 
     updateNoteName (event) {
-        this.setState({noteName: event.target.value});
         this.props.updateNoteName(event.target.value);
     }
 
@@ -41,7 +37,7 @@ class Toolbar extends React.Component {
             <div className="Toolbar">
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom>
-                        <TextField id="filled-basic" label="Title" variant="standard" value={this.state.value}
+                        <TextField id="filled-basic" label="Title" variant="standard" value={this.props.noteName}
                                    onChange={this.updateNoteName}/>
                     </Typography>
                     <Typography variant="p" className="lastSave">
@@ -80,6 +76,10 @@ class Toolbar extends React.Component {
 
         );
     }
+}
+
+Toolbar.defaultProps = {
+    noteName: "Untitled"
 }
 
 export default Toolbar;

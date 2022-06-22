@@ -6,9 +6,6 @@ import React from 'react';
 import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 
-// This block always displays on adding a new note
-const initialBlock = {id: uid(), noteType: "RichText", data: ""}
-
 class EditableNotes extends React.Component {
     constructor(props) {
         super(props);
@@ -23,14 +20,15 @@ class EditableNotes extends React.Component {
         this.state = {
             // Updated on first save
             id: null,
-            blocks: [initialBlock],
+            blocks: props.blocks,
             blockInFocusRef: '',
-            blockInFocusId: initialBlock.id,
+            blockInFocusId: props.blocks[0].id,
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.newElement.id !== this.props.newElement.id) {
+            console.log("adding block");
             let currentBlockRef = this.state.blockInFocusRef;
             let currentBlockId = this.state.blockInFocusId;
             let currentBlock = {id: currentBlockId, ref: currentBlockRef};
@@ -42,6 +40,8 @@ class EditableNotes extends React.Component {
                     this.setState({id: r["noteId"]})
                 }
             });
+        } else if (prevProps.blocks !== this.props.blocks) {
+            this.setState({blocks: this.props.blocks})
         }
         return null
     }
@@ -142,7 +142,7 @@ class EditableNotes extends React.Component {
                             tabIndex={index}
                             key={block.id}
                             id={block.id}
-                            noteType={block.noteType}
+                            noteType={block.type}
                             data={block.data}
                             onFocusEnter={this.updateCurrentBlockInFocus}
                             updateData={this.updateBlock}

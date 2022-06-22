@@ -5,7 +5,7 @@ import {
 import userEvent from "@testing-library/user-event";
 import Toolbar from "../components/NotesToolbar";
 
-/* Note: button interactions will be tested in the tests for NewNote */
+/* Note: button interactions will be tested in the tests for Note */
 
 test('render of the main toolbar', () => {
     render(

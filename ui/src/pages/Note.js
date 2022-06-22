@@ -14,14 +14,16 @@ function Note() {
     const [noteName, setNoteName] = useState("Untitled");
     const [lastSaved, setLastSaved] = useState(Date.now());
     const [blocks, setBlocks] = useState([{id: uid(), noteType: "RichText", data: ""}])
+    const [noteId, setNoteId] = useState(null)
     const location = useLocation();
 
     useEffect(() => {
-        if (location) {
-            const noteId=location["pathname"].split("/")[3];
+        const noteId = location["pathname"].split("/")[3]
+        if (noteId) {
             fetchNoteBlocks(noteId).then(r => {
                 const note= r["note"]
                 note["blocks"][0]["id"] = uid();
+                setNoteId(noteId);
                 setBlocks([...note["blocks"]]);
                 setNoteName(note["noteName"])
             })
@@ -55,15 +57,13 @@ function Note() {
     }
 
     function addNoteElement (data, source) {
-        setNewElement(
-            {newElement:
-                    {
+        console.log("Triggered add request")
+        setNewElement({
                         id: uid(),
                         noteName: noteName,
                         noteType: source,
                         data: data
-                    }
-            })
+                    })
     }
 
     return (
@@ -79,7 +79,12 @@ function Note() {
                              lastSaved={lastSaved}/>
                 </div>
                 <AddFlashCardForm open={flashCardFormOpen} close={closeFlashCardForm} saveFlashCard={addNoteElement}/>
-                <EditableNotes blocks={blocks} newElement={newElement} lastSaved={lastSaved} noteName={noteName}/>
+                <EditableNotes
+                    noteId={noteId}
+                    blocks={blocks}
+                    newElement={newElement}
+                    lastSaved={lastSaved}
+                    noteName={noteName}/>
             </Container>
         </Page>
     )

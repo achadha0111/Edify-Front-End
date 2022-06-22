@@ -30,7 +30,8 @@ class RichText extends React.Component {
     checkForDelete(event) {
         event.preventDefault();
         this.setState({previousKey: event.key});
-        const text = this.state.value.replace(/<(.*?)>/g, "");
+        let text = this.state.value;
+        text = text.replace(/<(.*?)>/g, "")
         if (event.key === "Backspace"
             && this.state.previousKey === "Shift"
             && text === "") {

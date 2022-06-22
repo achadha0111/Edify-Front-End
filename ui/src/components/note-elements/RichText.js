@@ -13,7 +13,7 @@ class RichText extends React.Component {
         this.updateAndPropagateValue = this.updateAndPropagateValue.bind(this);
         this.checkForDelete = this.checkForDelete.bind(this);
         this.state = {
-            value: '',
+            value: this.props.data,
             previousKey: ''
         }
     }
@@ -71,6 +71,10 @@ RichText.modules = {
         // toggle to add extra line breaks when pasting HTML:
         matchVisual: false,
     }
+}
+
+RichText.defaultProps = {
+    data: ''
 }
 
 export default RichText;

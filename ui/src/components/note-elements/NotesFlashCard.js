@@ -8,29 +8,11 @@ import {Collapse, IconButton} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import convertToMath from "../../utils/inlineMathRender";
 
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
-function ExpandMoreIcon() {
-    return null;
-}
-
 export default function NotesFlashCard(props) {
     const question = props.data.question;
     const answer = props.data.answer;
 
     const [showAnswer, setShowAnswer] = React.useState(false);
-
-    // const handleExpandClick = () => {
-    //     setExpanded(!expanded);
-    // };
 
     const editFlashCard = () => {
         props.openFlashCardForm({
@@ -48,13 +30,6 @@ export default function NotesFlashCard(props) {
         setShowAnswer(!showAnswer);
     }
 
-    // const handleFlashCardDelete = () => {
-    //     props.d({
-    //         question: question,
-    //         answer: answer
-    //     })
-    // }
-
     return (
         <Card className = "FlashCard" sx={{ minWidth: 400, minHeight: 290}} role="flashcard" aria-label="flashcard">
             <CardContent sx={{minHeight: 110}}>
@@ -67,9 +42,6 @@ export default function NotesFlashCard(props) {
                     {showAnswer ? <div dangerouslySetInnerHTML={{ __html: convertToMath(answer) }} /> : null}
                 </Typography>
             </CardContent>
-            {/*<Collapse in={expanded} timeout="auto" unmountOnExit>*/}
-            {/*    */}
-            {/*</Collapse>*/}
             <CardActions>
                 <Button size="small" onClick={displayAnswer}>
                     {showAnswer ? 'Hide Answer' : 'Show Answer'}

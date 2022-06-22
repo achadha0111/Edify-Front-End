@@ -8,7 +8,7 @@ import Review from './pages/Review';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
-import NewNote from "./pages/NewNote";
+import Note from "./pages/Note";
 
 // ----------------------------------------------------------------------
 
@@ -19,9 +19,10 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'app', element: <Home /> },
-        { path: 'newnote', element: <NewNote/> },
+        { path: 'note', element: <Note/> },
         { path: 'review', element: <Review /> },
         { path: 'home', element: <Home /> },
+        { path: 'note/:id', element: <Note/>}
       ],
     },
     {

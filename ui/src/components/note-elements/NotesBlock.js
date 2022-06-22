@@ -19,8 +19,7 @@ class NotesBlock extends React.Component {
         this.delete = this.delete.bind(this);
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
         this.closeFlashCardForm = this.closeFlashCardForm.bind(this);
-        // this.openDeleteDialog = this.openDeleteDialog.bind(this);
-        // this.closeDeleteDialog = this.closeDeleteDialog.bind(this);
+
         this.state = {
             flashCardFormOpen: false,
             questionToEdit: '',
@@ -40,13 +39,6 @@ class NotesBlock extends React.Component {
     closeFlashCardForm () {
         this.setState({flashCardFormOpen: false});
     }
-    //
-    // openDeleteDialog = (deleteEntity) => {
-    //     this.setState({deleteConfirmOpen: true, entityToDelete: deleteEntity.cardKey});
-    //     console.log(this.state.entityToDelete);
-    // }
-
-
 
     blockInFocus = () => {
         this.props.onFocusEnter({
@@ -103,10 +95,7 @@ class NotesBlock extends React.Component {
                                   saveFlashCard={this.updateData}/>
             </div>
         )
-
     }
-
-
 }
 
 export default NotesBlock;

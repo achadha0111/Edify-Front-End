@@ -1,9 +1,9 @@
-import NewNote from "../pages/NewNote"
+import Note from "../pages/Note"
 import {render, screen} from "../setupTests";
 import userEvent from "@testing-library/user-event";
 
 test("displaying startup page with initial block", () => {
-    render(<NewNote/>);
+    render(<Note/>);
 
     const cells = screen.getAllByRole('cell', {name:/RichText/i});
 
@@ -11,7 +11,7 @@ test("displaying startup page with initial block", () => {
 });
 
 test("clicking text button adds a text block", async () => {
-    render(<NewNote/>);
+    render(<Note/>);
 
     const textBoxButton = screen.getByLabelText("Add text block");
 
@@ -23,7 +23,7 @@ test("clicking text button adds a text block", async () => {
 });
 
 test("clicking code button adds a code cell", async () => {
-    render(<NewNote/>);
+    render(<Note/>);
 
     const codeBlockButton = screen.getByLabelText("Insert code block");
 

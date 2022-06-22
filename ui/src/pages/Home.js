@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink, Route, Switch} from 'react-router-dom';
 // material
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
@@ -8,6 +8,7 @@ import { NotesCard, NotesSort, NotesSearch } from '../sections/@dashboard/notes'
 // mock
 import POSTS from '../_mock/blog';
 import {useEffect, useState} from "react";
+import Note from "./Note";
 
 // ----------------------------------------------------------------------
 
@@ -44,7 +45,7 @@ export default function Home() {
           <Typography variant="h4" gutterBottom>
             My Notes
           </Typography>
-          <Button variant="contained" component={RouterLink} to="/home/newnote" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" component={RouterLink} to="/home/note" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Note
           </Button>
         </Stack>

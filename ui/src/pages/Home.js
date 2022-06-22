@@ -7,6 +7,7 @@ import Iconify from '../components/Iconify';
 import { NotesCard, NotesSort, NotesSearch } from '../sections/@dashboard/notes';
 // mock
 import POSTS from '../_mock/blog';
+import {useEffect, useState} from "react";
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,23 @@ const SORT_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function Home() {
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    fetchLatestNotes().then(r =>
+        setNotes(r["noteInfoList"])
+    );
+  }, [])
+
+  async function fetchLatestNotes() {
+    const response = await fetch("/notes-api/getallnoteinfo", {
+      method: "GET",
+      mode: 'cors',
+    })
+
+    return response.json();
+  }
+
   return (
     <Page title="Notes | Home">
       <Container>
@@ -37,7 +55,7 @@ export default function Home() {
         </Stack>
 
         <Grid container spacing={3}>
-          {POSTS.map((post, index) => (
+          {notes.map((post, index) => (
             <NotesCard key={post.id} post={post} index={index} />
           ))}
         </Grid>

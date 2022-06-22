@@ -58,69 +58,34 @@ NotesCard.propTypes = {
 };
 
 export default function NotesCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+  const { noteName, createdAt } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
-  const POST_INFO = [
-    { number: comment, icon: 'eva:message-circle-fill' },
-    { number: view, icon: 'eva:eye-fill' },
-    { number: share, icon: 'eva:share-fill' },
-  ];
 
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
-        <CardMediaStyle
-          sx={{
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-              },
-            }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
-              },
-            }),
-          }}
-        >
-          <SvgIconStyle
-            color="paper"
-            src="/static/icons/shape-avatar.svg"
-            sx={{
-              width: 80,
-              height: 36,
-              zIndex: 9,
-              bottom: -15,
-              position: 'absolute',
-              color: 'background.paper',
-              ...((latestPostLarge || latestPost) && { display: 'none' }),
-            }}
-          />
-          <AvatarStyle
-            alt={author.name}
-            src={author.avatarUrl}
-            sx={{
-              ...((latestPostLarge || latestPost) && {
-                zIndex: 9,
-                top: 24,
-                left: 24,
-                width: 40,
-                height: 40,
-              }),
-            }}
-          />
-
-          <CoverImgStyle alt={title} src={cover} />
-        </CardMediaStyle>
+        {/*<CardMediaStyle*/}
+        {/*  sx={{*/}
+        {/*    ...((latestPostLarge || latestPost) && {*/}
+        {/*      pt: 'calc(100% * 4 / 3)',*/}
+        {/*      '&:after': {*/}
+        {/*        content: "''",*/}
+        {/*        width: '100%',*/}
+        {/*        height: '10%',*/}
+        {/*        position: 'absolute',*/}
+        {/*      },*/}
+        {/*    }),*/}
+        {/*    ...(latestPostLarge && {*/}
+        {/*      pt: {*/}
+        {/*        xs: 'calc(100% * 4 / 3)',*/}
+        {/*        sm: 'calc(100% * 3 / 4.66)',*/}
+        {/*      },*/}
+        {/*    }),*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*</CardMediaStyle>*/}
 
         <CardContent
           sx={{
@@ -132,9 +97,9 @@ export default function NotesCard({ post, index }) {
             }),
           }}
         >
-          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
-            {fDate(createdAt)}
-          </Typography>
+          {/*<Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>*/}
+          {/*  {fDate(createdAt)}*/}
+          {/*</Typography>*/}
 
           <TitleStyle
             to="#"
@@ -145,31 +110,12 @@ export default function NotesCard({ post, index }) {
             sx={{
               ...(latestPostLarge && { typography: 'h5', height: 60 }),
               ...((latestPostLarge || latestPost) && {
-                color: 'common.white',
+                color: 'common.black',
               }),
             }}
           >
-            {title}
+            {noteName}
           </TitleStyle>
-
-          <InfoStyle>
-            {POST_INFO.map((info, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  ml: index === 0 ? 0 : 1.5,
-                  ...((latestPostLarge || latestPost) && {
-                    color: 'grey.500',
-                  }),
-                }}
-              >
-                <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
-                <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
-              </Box>
-            ))}
-          </InfoStyle>
         </CardContent>
       </Card>
     </Grid>

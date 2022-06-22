@@ -21,11 +21,11 @@ class Toolbar extends React.Component {
     }
 
     addTextBlock () {
-        this.props.addTextBlock({}, "RichText");
+        this.props.addTextBlock("", "RichText");
     }
 
     addCodeBlock () {
-        this.props.addCodeBlock({}, "Code")
+        this.props.addCodeBlock("", "Code")
     }
 
     updateNoteName (event) {

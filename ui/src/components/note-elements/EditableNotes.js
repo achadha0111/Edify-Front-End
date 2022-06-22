@@ -28,7 +28,6 @@ class EditableNotes extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.newElement.id !== this.props.newElement.id) {
-            console.log("adding block");
             let currentBlockRef = this.state.blockInFocusRef;
             let currentBlockId = this.state.blockInFocusId;
             let currentBlock = {id: currentBlockId, ref: currentBlockRef};
@@ -41,7 +40,7 @@ class EditableNotes extends React.Component {
                 }
             });
         } else if (prevProps.blocks !== this.props.blocks) {
-            this.setState({blocks: this.props.blocks})
+            this.setState({blocks: this.props.blocks, id: this.props.noteId})
         }
         return null
     }

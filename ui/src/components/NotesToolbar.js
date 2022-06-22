@@ -41,7 +41,6 @@ class Toolbar extends React.Component {
             <div className="Toolbar">
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom>
-                        {/* TODO This must be editable*/}
                         <TextField id="filled-basic" label="Title" variant="standard" value={this.state.value}
                                    onChange={this.updateNoteName}/>
                     </Typography>

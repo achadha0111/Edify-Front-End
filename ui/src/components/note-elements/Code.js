@@ -4,14 +4,14 @@ import {useState} from "react";
 
 export default function Code(props) {
 
-    const [code, setCode] = useState("");
+    const [userCode, setUserCode] = useState("");
     const [previousKey, setPreviousKey] = useState("");
 
     function checkForDelete(event) {
         setPreviousKey(event.key);
         if (event.key === "Backspace"
             && previousKey === "Shift"
-            && code === "") {
+            && userCode === "") {
             event.preventDefault();
             props.deleteBlock({});
         }
@@ -26,7 +26,7 @@ export default function Code(props) {
                 onKeyUp={checkForDelete}
                 onFocus={props.onFocus}
                 onChange={(value, viewUpdate) => {
-                    setCode(value);
+                    setUserCode(value);
                 }}
             />
     );

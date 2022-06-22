@@ -8,7 +8,6 @@ import RichText from './RichText';
 import '../styles/Blocks.css';
 import AddFlashCardForm from "../dialogs/AddFlashCardForm";
 import Code from "./Code";
-import DeleteDialog from "../dialogs/ConfirmDelete";
 
 class NotesBlock extends React.Component {
     constructor(props) {

@@ -51,7 +51,7 @@ export default function AddFlashCardForm(props) {
             props.saveFlashCard({
                 question: question,
                 answer: answer
-            }, "NotesFlashCard")
+            }, "FlashCard")
             props.close();
         } else {
             setError(true);
@@ -81,6 +81,7 @@ export default function AddFlashCardForm(props) {
                         value={question}
                         variant="standard"
                         onChange={updateQuestionPreview}
+                        aria-label="QuestionInput"
                     />
                     <DialogContentText component={"div"} className="questionPreview">
                         <div>Question:</div>
@@ -100,6 +101,7 @@ export default function AddFlashCardForm(props) {
                         value={answer}
                         variant="standard"
                         onChange={updateAnswerPreview}
+                        aria-label="AnswerInput"
                     />
 
                     <DialogContentText component={"div"} className="answerPreview">
@@ -110,7 +112,7 @@ export default function AddFlashCardForm(props) {
 
                 <DialogActions>
                     <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={saveFlashCard}>Save</Button>
+                    <Button onClick={saveFlashCard} aria-label="SaveFlashCard">Save</Button>
                 </DialogActions>
             </Dialog>
     );

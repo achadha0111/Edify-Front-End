@@ -1,12 +1,15 @@
 import React from 'react'
 import {render} from '@testing-library/react'
 import {HelmetProvider} from "react-helmet-async";
+import {BrowserRouter} from "react-router-dom";
 
 const AllTheProviders = ({children}) => {
     return (
-        <HelmetProvider>
-            {children}
-        </HelmetProvider>
+        <BrowserRouter>
+            <HelmetProvider>
+                {children}
+            </HelmetProvider>
+        </BrowserRouter>
     )
 }
 

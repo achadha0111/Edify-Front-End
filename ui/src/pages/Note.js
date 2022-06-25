@@ -26,7 +26,7 @@ function Note() {
                 setNoteId(noteId);
                 setBlocks([...note["blocks"]]);
                 setNoteName(note["noteName"])
-            })
+            });
         }
     }, [location])
 
@@ -57,7 +57,6 @@ function Note() {
     }
 
     function addNoteElement (data, source) {
-        console.log("Triggered add request")
         setNewElement({
                         id: uid(),
                         noteName: noteName,

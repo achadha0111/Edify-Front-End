@@ -23,7 +23,7 @@ test('render of the main toolbar', () => {
 });
 
 test('note name can be updated', async () => {
-    const updateNoteName = () => {
+    const updateNoteName = (notename) => {
         return null
     }
 

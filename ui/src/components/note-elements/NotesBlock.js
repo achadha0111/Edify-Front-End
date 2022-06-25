@@ -63,7 +63,7 @@ class NotesBlock extends React.Component {
 
     displayComponent(blockType, tabIndex) {
         switch (blockType) {
-            case "NotesFlashCard":
+            case "FlashCard":
                 return <FlashCardBlock
                     data={this.props.data}
                     onFocus={this.blockInFocus}

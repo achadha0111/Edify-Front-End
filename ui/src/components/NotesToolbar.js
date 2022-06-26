@@ -1,81 +1,77 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Button, ButtonGroup, Stack, TextField, Tooltip, Typography} from "@mui/material";
 import { Code, CreditCard } from '@mui/icons-material';
 import SaveIcon from "@mui/icons-material/Save";
 import ShortTextIcon from "@mui/icons-material/ShortText";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 
-class Toolbar extends React.Component {
+function Toolbar(props) {
+    const [noteName, setNoteName] = useState(props.noteName);
 
-    constructor(props) {
-        super(props);
-        // this.toolBarAddBlock = this.toolBarAddBlock.bind(this);
-        this.openFlashCardForm = this.openFlashCardForm.bind(this);
-        this.addTextBlock = this.addTextBlock.bind(this);
-        this.updateNoteName = this.updateNoteName.bind(this);
-        this.addCodeBlock = this.addCodeBlock.bind(this);
+    useEffect(() => {
+        setNoteName(props.noteName);
+    });
+
+    function openFlashCardForm() {
+        props.openFlashCardForm();
     }
 
-    openFlashCardForm () {
-        this.props.openFlashCardForm();
+    function addTextBlock() {
+        props.addTextBlock("", "RichText");
     }
 
-    addTextBlock () {
-        this.props.addTextBlock("", "RichText");
+    function addCodeBlock() {
+        props.addCodeBlock("", "Code")
     }
 
-    addCodeBlock () {
-        this.props.addCodeBlock("", "Code")
+    function updateNoteName (event) {
+        setNoteName(event.target.value);
+        props.updateNoteName(event.target.value);
     }
 
-    updateNoteName (event) {
-        this.props.updateNoteName(event.target.value);
-    }
+    return (
+        <div className="Toolbar">
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                <Typography variant="h4" gutterBottom>
+                    <TextField id="filled-basic" label="Title" variant="standard" value={noteName}
+                               onChange={updateNoteName}/>
+                </Typography>
+                <Typography variant="p" className="lastSave">
+                    Last saved at: {new Date(props.lastSaved).toString()}
+                </Typography>
+                <Box className="ToolBar Buttons">
 
-    render() {
-        return (
-            <div className="Toolbar">
-                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-                    <Typography variant="h4" gutterBottom>
-                        <TextField id="filled-basic" label="Title" variant="standard" value={this.props.noteName}
-                                   onChange={this.updateNoteName}/>
-                    </Typography>
-                    <Typography variant="p" className="lastSave">
-                        Last saved at: {new Date(this.props.lastSaved).toString()}
-                    </Typography>
-                    <Box className="ToolBar Buttons">
+                    <Tooltip title="Save note">
+                        <Button variant="text" className="SaveNote" onClick={props.saveNote}>
+                            <SaveIcon/>
+                        </Button>
+                    </Tooltip>
 
-                        <Tooltip title="Save note">
-                            <Button variant="text" className="SaveNote" onClick={this.props.saveNote}>
-                                <SaveIcon/>
-                            </Button>
-                        </Tooltip>
+                    <Tooltip title="Add text block">
+                        <Button variant="text" className="InsertRichTextBlock" onClick={addTextBlock}>
+                            <ShortTextIcon/>
+                        </Button>
+                    </Tooltip>
 
-                        <Tooltip title="Add text block">
-                            <Button variant="text" className="InsertRichTextBlock" onClick={this.addTextBlock}>
-                                <ShortTextIcon/>
-                            </Button>
-                        </Tooltip>
+                    <Tooltip title="Insert flashcard">
+                        <Button variant="text" className="InsertFlashCardBlock" onClick={openFlashCardForm}>
+                            <SubtitlesIcon/>
+                        </Button>
+                    </Tooltip>
 
-                        <Tooltip title="Insert flashcard">
-                            <Button variant="text" className="InsertFlashCardBlock" onClick={this.openFlashCardForm}>
-                                <SubtitlesIcon/>
-                            </Button>
-                        </Tooltip>
+                    <Tooltip title="Insert code block">
+                        <Button variant="text" className="InsertCodeBlock" onClick={addCodeBlock}>
+                            <Code/>
+                        </Button>
+                    </Tooltip>
 
-                        <Tooltip title="Insert code block">
-                            <Button variant="text" className="InsertCodeBlock" onClick={this.addCodeBlock}>
-                                <Code/>
-                            </Button>
-                        </Tooltip>
+                </Box>
 
-                    </Box>
+            </Stack>
+        </div>
 
-                </Stack>
-            </div>
+    );
 
-        );
-    }
 }
 
 Toolbar.defaultProps = {

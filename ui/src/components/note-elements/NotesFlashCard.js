@@ -43,7 +43,7 @@ export default function NotesFlashCard(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={displayAnswer}>
+                <Button aria-label="ShowAnswer" size="small" onClick={displayAnswer}>
                     {showAnswer ? 'Hide Answer' : 'Show Answer'}
                 </Button>
                 <Button size="small" aria-label="EditFlashCard" onClick={editFlashCard}>Edit</Button>

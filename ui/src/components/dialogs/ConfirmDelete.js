@@ -25,8 +25,8 @@ export default function DeleteDialog(props) {
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button onClick={confirmDelete}>Yes</Button>
-            <Button onClick={close}>Cancel</Button>
+            <Button aria-label="ConfirmDelete" onClick={confirmDelete}>Yes</Button>
+            <Button aria-label="CancelDelete" onClick={close}>Cancel</Button>
         </DialogActions>
     </Dialog>)
 }

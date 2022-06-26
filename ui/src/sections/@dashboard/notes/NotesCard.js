@@ -10,6 +10,7 @@ import { fShortenNumber } from '../../../utils/formatNumber';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
 import Note from "../../../pages/Note";
+import convertToMath from "../../../utils/inlineMathRender";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +19,7 @@ const CardMediaStyle = styled('div')({
   paddingTop: 'calc(100% * 3 / 4)',
 });
 
-const TitleStyle = styled(Link)({
+const TitleStyle = styled(RouterLink)({
   height: 44,
   overflow: 'hidden',
   WebkitLineClamp: 2,
@@ -59,7 +60,7 @@ NotesCard.propTypes = {
 };
 
 export default function NotesCard({ post, index }) {
-  const { noteName, createdAt, id } = post;
+  const { noteName, updatedAt, id } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
@@ -98,17 +99,17 @@ export default function NotesCard({ post, index }) {
             }),
           }}
         >
-          {/*<Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>*/}
-          {/*  {fDate(createdAt)}*/}
-          {/*</Typography>*/}
+          <Typography aria-label="LastUpdate" gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
+            {updatedAt}
+          </Typography>
 
           <TitleStyle
+            aria-label="NoteTitle"
             to={`/home/note/${id}`}
             color="inherit"
             variant="subtitle2"
             underline="hover"
             component={RouterLink}
-            target="_blank"
             sx={{
               ...(latestPostLarge && { typography: 'h5', height: 60 }),
               ...((latestPostLarge || latestPost) && {

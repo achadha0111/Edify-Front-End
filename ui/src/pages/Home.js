@@ -56,8 +56,8 @@ export default function Home() {
         </Stack>
 
         <Grid container spacing={3}>
-          {notes.map((post, index) => (
-            <NotesCard key={post.id} post={post} index={index} />
+          {notes.map((note, index) => (
+            <NotesCard key={note.id} note={note} index={index} />
           ))}
         </Grid>
       </Container>

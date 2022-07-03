@@ -9,6 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {useEffect, useState} from "react";
 import 'katex/dist/katex.min.css';
 import convertToMath from "../../utils/inlineMathRender";
+import blockTypes from "../../utils/blockTypes";
 
 /* AddFlashCardForm
 * A component that allows users to create a simple text based flashcard.
@@ -51,7 +52,7 @@ export default function AddFlashCardForm(props) {
             props.saveFlashCard({
                 question: question,
                 answer: answer
-            }, "FlashCard")
+            }, blockTypes.FlashCard)
             props.close();
         } else {
             setError(true);

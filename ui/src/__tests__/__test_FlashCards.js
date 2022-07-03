@@ -57,7 +57,7 @@ test('add flashcard to same deck', async () => {
     await userEvent.type(questionField, "What is this website built in?");
     await userEvent.type(answerField, "React");
 
-    await userEvent.click(screen.getByText(/Save/));
+    await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
     await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
 
     await userEvent.click(screen.getByLabelText("Insert flashcard"));
@@ -65,7 +65,7 @@ test('add flashcard to same deck', async () => {
     await userEvent.type(screen.getByRole('textbox', {name:/Question/}), "Do you like Javascript?");
     await userEvent.type(screen.getByRole('textbox', {name:/Answer/}), "No");
 
-    await userEvent.click(screen.getByText(/Save/));
+    await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
     await waitForElementToBeRemoved(screen.queryByRole('textbox', {name:/Question/}));
 
     const flashCardBlocks = screen.getAllByRole('cell', {name:/FlashCard/i});
@@ -157,7 +157,7 @@ test('open flashcard deck delete confirmation dialog', async () => {
     await userEvent.type(questionField, "What is this website built in?");
     await userEvent.type(answerField, "React");
 
-    await userEvent.click(screen.getByText(/Save/));
+    await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
     await waitForElementToBeRemoved(screen.queryByRole('button', {name:/Save/}));
 
     await userEvent.click(screen.getByRole('button', {name:'Delete deck'}));

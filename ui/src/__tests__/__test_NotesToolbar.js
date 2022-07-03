@@ -9,7 +9,7 @@ import Toolbar from "../components/NotesToolbar";
 
 test('render of the main toolbar', () => {
     render(
-        <Toolbar/>
+        <Toolbar lastSaved=""/>
     );
 
     expect(screen.getByLabelText(/Save note/i)).toBeInTheDocument();

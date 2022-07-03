@@ -5,9 +5,9 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
 const notesInfo = {"noteInfoList": [
-    {id: 1, updatedAt: "27-06-22", noteName: "TestNote1"},
-    {id: 2, updatedAt: "28-06-22", noteName: "TestNote2"},
-    {id: 3, updatedAt: "24-06-22", noteName: "TestNote3"}]};
+        {id: 1, lastSaved: Date.now(), noteName: "TestNote1"},
+        {id: 2, lastSaved: Date.now(), noteName: "TestNote2"},
+        {id: 3, lastSaved: Date.now(), noteName: "TestNote3"}]};
 
 const server = setupServer(
     // capture "GET /greeting" requests

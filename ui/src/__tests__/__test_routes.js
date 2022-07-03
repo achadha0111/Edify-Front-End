@@ -14,6 +14,7 @@ import {setupServer} from "msw/node";
 import {rest} from "msw";
 import uid from "../utils/uid";
 import Home from "../pages/Home";
+import blockTypes from "../utils/blockTypes";
 
 const render = (ui, {route = '/'} = {}) => {
     window.history.pushState({}, 'Home page', route);
@@ -27,7 +28,7 @@ const mockNote = {"note":
                 {
                     id: uid(),
                     noteName: "TestNote1",
-                    noteType: "FlashCard",
+                    type: blockTypes.FlashCard,
                     data: [{question: "A", answer: "B"}]
                 }
             ]
@@ -35,9 +36,9 @@ const mockNote = {"note":
 };
 
 const notesInfo = {"noteInfoList": [
-        {id: 1, updatedAt: "27-06-22", noteName: "TestNote1"},
-        {id: 2, updatedAt: "28-06-22", noteName: "TestNote2"},
-        {id: 3, updatedAt: "24-06-22", noteName: "TestNote3"}]};
+        {id: 1, lastSaved: "2022-07-03T09:17:09.495+00:00", noteName: "TestNote1"},
+        {id: 2, lastSaved: "2022-07-03T09:17:09.495+00:00", noteName: "TestNote2"},
+        {id: 3, lastSaved: "2022-07-03T09:17:09.495+00:00", noteName: "TestNote3"}]};
 
 const server = setupServer(
     rest.get('/notes-api/getnote', (req, res, ctx) => {
@@ -87,7 +88,7 @@ test('opening existing note', async () => {
 
     await userEvent.click(titles[0]);
 
-    await waitFor(() => screen.findByLabelText("FlashCard"));
+    await waitFor(() => screen.findByLabelText("flashcard"));
 
     const flashcards = screen.getAllByRole('flashcard');
 

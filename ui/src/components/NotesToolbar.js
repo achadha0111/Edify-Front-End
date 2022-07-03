@@ -4,6 +4,8 @@ import { Code, CreditCard } from '@mui/icons-material';
 import SaveIcon from "@mui/icons-material/Save";
 import ShortTextIcon from "@mui/icons-material/ShortText";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
+import blockTypes from "../utils/blockTypes";
+import {fDateTime} from "../utils/formatTime";
 
 function Toolbar(props) {
     const [noteName, setNoteName] = useState(props.noteName);
@@ -17,11 +19,11 @@ function Toolbar(props) {
     }
 
     function addTextBlock() {
-        props.addTextBlock("", "RichText");
+        props.addTextBlock("", blockTypes.RichText);
     }
 
     function addCodeBlock() {
-        props.addCodeBlock("", "Code")
+        props.addCodeBlock("", blockTypes.Code)
     }
 
     function updateNoteName (event) {
@@ -37,7 +39,7 @@ function Toolbar(props) {
                                onChange={updateNoteName}/>
                 </Typography>
                 <Typography variant="p" className="lastSave">
-                    Last saved at: {new Date(props.lastSaved).toString()}
+                    Last saved on: {props.lastSaved === "" ? "Not Saved" : fDateTime(props.lastSaved)}
                 </Typography>
                 <Box className="ToolBar Buttons">
 
@@ -75,7 +77,8 @@ function Toolbar(props) {
 }
 
 Toolbar.defaultProps = {
-    noteName: "Untitled"
+    noteName: "Untitled",
+    lastSaved: ""
 }
 
 export default Toolbar;

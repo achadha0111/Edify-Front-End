@@ -8,6 +8,7 @@ import RichText from './RichText';
 import '../styles/Blocks.css';
 import AddFlashCardForm from "../dialogs/AddFlashCardForm";
 import Code from "./Code";
+import blockTypes from "../../utils/blockTypes";
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -48,8 +49,12 @@ class NotesBlock extends React.Component {
     }
 
     updateData = (value, _) => {
-        this.props.updateData({id: this.props.id,
-            cardKey: this.state.cardKey}, value);
+        this.props.updateData(
+            {
+                id: this.props.id,
+                cardKey: this.state.cardKey
+            },
+            value);
     }
 
     delete = (deleteEntity) => {
@@ -62,8 +67,9 @@ class NotesBlock extends React.Component {
     }
 
     displayComponent(blockType, tabIndex) {
+        console.log(this.props.data)
         switch (blockType) {
-            case "FlashCard":
+            case blockTypes.FlashCard:
                 return <FlashCardBlock
                     data={this.props.data}
                     onFocus={this.blockInFocus}
@@ -71,7 +77,7 @@ class NotesBlock extends React.Component {
                     openEditForm={this.openFlashCardForm}
                     delete={this.delete}
                     innerRef={this.blockRef}/>;
-            case "Code":
+            case blockTypes.Code:
                 return <Code onFocus={this.blockInFocus} deleteBlock={this.delete} innerRef={this.blockRef} tabIndex={tabIndex}/>
             default:
                 return <RichText data={this.props.data}

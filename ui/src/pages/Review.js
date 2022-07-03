@@ -24,7 +24,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/review';
+
 // mock
 import flashcards from '../_mock/flashcard';
 import ReviewFlashCard from "../components/review-elements/ReviewFlashCard";

@@ -7,13 +7,14 @@ import Toolbar from "../components/NotesToolbar";
 import uid from "../utils/uid";
 import EditableNotes from "../components/note-elements/EditableNotes";
 import {useLocation} from "react-router-dom";
+import blockTypes from "../utils/blockTypes";
 
 function Note() {
     const [flashCardFormOpen, setFlashCardFormOpen] = useState(false);
     const [newElement, setNewElement] = useState({});
     const [noteName, setNoteName] = useState("Untitled");
-    const [lastSaved, setLastSaved] = useState(Date.now());
-    const [blocks, setBlocks] = useState([{id: uid(), noteType: "RichText", data: ""}])
+    const [lastSaved, setLastSaved] = useState("");
+    const [blocks, setBlocks] = useState([{id: uid(), type: blockTypes.RichText, data: ""}])
     const [noteId, setNoteId] = useState(null)
     const location = useLocation();
 
@@ -26,6 +27,7 @@ function Note() {
                 setNoteId(noteId);
                 setBlocks([...note["blocks"]]);
                 setNoteName(note["noteName"])
+                setLastSaved(note["lastSaved"])
             });
         }
     }, [location])
@@ -60,7 +62,7 @@ function Note() {
         setNewElement({
                         id: uid(),
                         noteName: noteName,
-                        noteType: source,
+                        type: source,
                         data: data
                     })
     }

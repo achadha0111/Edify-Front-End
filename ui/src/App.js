@@ -11,7 +11,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <ScrollToTop />
-      <Router />x
+      <Router />
     </ThemeProvider>
   );
 }

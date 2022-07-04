@@ -53,7 +53,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   padding: theme.spacing(12, 0),
 }));
-
 // ----------------------------------------------------------------------
 
 export default function Login() {
@@ -80,32 +79,19 @@ export default function Login() {
         {mdUp && (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              Edify
             </Typography>
-            <img src="/static/illustrations/illustration_login.png" alt="login" />
+            {/*<img src="/static/illustrations/illustration_login.png" alt="login" />*/}
           </SectionStyle>
         )}
 
         <Container maxWidth="sm">
           <ContentStyle>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              Sign in
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Enter your details below.</Typography>
-
             <AuthSocial />
-
-            <LoginForm />
-
-            {!smUp && (
-              <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-                Don’t have an account?{' '}
-                <Link variant="subtitle2" component={RouterLink} to="/register">
-                  Get started
-                </Link>
-              </Typography>
-            )}
           </ContentStyle>
         </Container>
       </RootStyle>

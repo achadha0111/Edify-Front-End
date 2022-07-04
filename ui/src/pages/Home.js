@@ -1,4 +1,4 @@
-import {Link as RouterLink, Route, Switch} from 'react-router-dom';
+import {Link as RouterLink, Route, Switch, useNavigate} from 'react-router-dom';
 // material
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
@@ -8,7 +8,9 @@ import { NotesCard, NotesSort, NotesSearch } from '../sections/@dashboard/notes'
 // mock
 import POSTS from '../_mock/blog';
 import {useEffect, useState} from "react";
+import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import Note from "./Note";
+import firebaseApp from "../firebase";
 
 // ----------------------------------------------------------------------
 
@@ -22,12 +24,17 @@ const SORT_OPTIONS = [
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchLatestNotes().then(r =>
-        setNotes(r["noteInfoList"])
-    );
-  }, [])
+    if (sessionStorage.getItem('Token')) {
+      fetchLatestNotes().then(r =>
+          setNotes(r["noteInfoList"])
+      );
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   async function fetchLatestNotes() {
     const response = await fetch("/notes-api/getallnoteinfo", {

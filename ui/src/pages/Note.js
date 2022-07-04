@@ -6,7 +6,7 @@ import AddFlashCardForm from "../components/dialogs/AddFlashCardForm";
 import Toolbar from "../components/NotesToolbar";
 import uid from "../utils/uid";
 import EditableNotes from "../components/note-elements/EditableNotes";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import blockTypes from "../utils/blockTypes";
 
 function Note() {
@@ -17,20 +17,25 @@ function Note() {
     const [blocks, setBlocks] = useState([{id: uid(), type: blockTypes.RichText, data: ""}])
     const [noteId, setNoteId] = useState(null)
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const noteId = location["pathname"].split("/")[3]
-        if (noteId) {
-            fetchNoteBlocks(noteId).then(r => {
-                const note= r["note"]
-                note["blocks"][0]["id"] = uid();
-                setNoteId(noteId);
-                setBlocks([...note["blocks"]]);
-                setNoteName(note["noteName"])
-                setLastSaved(note["lastSaved"])
-            });
+        if (sessionStorage.getItem('Token')) {
+            const noteId = location["pathname"].split("/")[3]
+            if (noteId) {
+                fetchNoteBlocks(noteId).then(r => {
+                    const note= r["note"]
+                    note["blocks"][0]["id"] = uid();
+                    setNoteId(noteId);
+                    setBlocks([...note["blocks"]]);
+                    setNoteName(note["noteName"])
+                    setLastSaved(note["lastSaved"])
+                });
+            }
+        } else {
+            navigate("/login");
         }
-    }, [location])
+    }, [location]);
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id

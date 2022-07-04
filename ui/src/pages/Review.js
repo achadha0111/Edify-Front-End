@@ -1,7 +1,7 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import {useEffect, useState} from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // material
 import {
   Card,
@@ -36,9 +36,14 @@ export default function Review() {
   const [answer, setAnswer] = useState("");
   const [flashCardId, setFlashCardId] = useState("");
   const [cardsLeft, setCardsLeft] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    startReviewSession(flashcards);
+    if (sessionStorage.getItem('Token')) {
+      startReviewSession(flashcards);
+    } else {
+      navigate("/login");
+    }
   }, [flashcards]);
 
   const startReviewSession = (cards) => {

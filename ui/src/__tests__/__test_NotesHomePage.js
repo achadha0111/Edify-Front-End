@@ -1,8 +1,10 @@
-import {render, screen} from "../setupTests";
+import {customBeforeEach, render, screen} from "../setupTests";
 import {waitFor} from "@testing-library/react";
 import Home from "../pages/Home";
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
+
+customBeforeEach();
 
 const notesInfo = {"noteInfoList": [
         {id: 1, lastSaved: Date.now(), noteName: "TestNote1"},

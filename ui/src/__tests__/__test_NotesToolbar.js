@@ -1,11 +1,12 @@
 import {
     screen,
-    render,
+    render, customBeforeEach,
 } from '../setupTests';
 import userEvent from "@testing-library/user-event";
 import Toolbar from "../components/NotesToolbar";
 
 /* Note: button interactions will be tested in the tests for Note */
+customBeforeEach();
 
 test('render of the main toolbar', () => {
     render(

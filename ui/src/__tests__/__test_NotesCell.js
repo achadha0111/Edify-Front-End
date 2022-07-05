@@ -1,6 +1,8 @@
 import Note from "../pages/Note"
-import {render, screen} from "../setupTests";
+import {customBeforeEach, render, screen} from "../setupTests";
 import userEvent from "@testing-library/user-event";
+
+customBeforeEach();
 
 test("displaying startup page with initial block", () => {
     render(<Note/>);

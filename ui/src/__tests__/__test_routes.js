@@ -15,6 +15,7 @@ import {rest} from "msw";
 import uid from "../utils/uid";
 import Home from "../pages/Home";
 import blockTypes from "../utils/blockTypes";
+import {customBeforeEach} from "../setupTests";
 
 const render = (ui, {route = '/'} = {}) => {
     window.history.pushState({}, 'Home page', route);
@@ -52,8 +53,12 @@ const server = setupServer(
     }),
 );
 
+customBeforeEach();
+
 beforeAll(() => server.listen());
-afterAll(() => server.close())
+afterAll(() => server.close());
+
+
 
 test('navigating to new note page', () => {
     render(

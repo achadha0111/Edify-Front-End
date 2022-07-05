@@ -1,7 +1,9 @@
-import {render, screen} from "../setupTests";
+import {customBeforeEach, render, screen} from "../setupTests";
 import Note from "../pages/Note";
 import userEvent from "@testing-library/user-event";
 import {waitForElementToBeRemoved} from "@testing-library/react";
+
+customBeforeEach();
 
 test("add and edit flashcard", async () => {
     render(<Note/>);

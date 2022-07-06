@@ -96,7 +96,7 @@ test('add flashcard to new deck', async () => {
     await userEvent.click(screen.getByLabelText(/SaveFlashCard/i));
     // await waitForElementToBeRemoved(screen.queryByText(/QuestionLabel/));
 
-    await userEvent.click(screen.getByLabelText(/Add text block/i));
+    await userEvent.click(screen.getByLabelText(/Insert text block/i));
 
     await userEvent.click(screen.getByLabelText("Insert flashcard"));
 

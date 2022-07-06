@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Box, Button, ButtonGroup, Stack, TextField, Tooltip, Typography} from "@mui/material";
-import { Code, CreditCard } from '@mui/icons-material';
+import {Code, ContentCut, CreditCard} from '@mui/icons-material';
 import SaveIcon from "@mui/icons-material/Save";
 import ShortTextIcon from "@mui/icons-material/ShortText";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
@@ -33,7 +33,7 @@ function Toolbar(props) {
 
     return (
         <div className="Toolbar">
-            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
                 <Typography variant="h4" gutterBottom>
                     <TextField id="filled-basic" label="Title" variant="standard" value={noteName}
                                onChange={updateNoteName}/>
@@ -49,7 +49,7 @@ function Toolbar(props) {
                         </Button>
                     </Tooltip>
 
-                    <Tooltip title="Add text block">
+                    <Tooltip title="Insert text block">
                         <Button variant="text" className="InsertRichTextBlock" onClick={addTextBlock}>
                             <ShortTextIcon/>
                         </Button>
@@ -66,6 +66,8 @@ function Toolbar(props) {
                             <Code/>
                         </Button>
                     </Tooltip>
+
+
 
                 </Box>
 

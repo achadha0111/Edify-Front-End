@@ -3,6 +3,10 @@
     flex-direction: column;
 }
 
+.MuiSvgIcon-root {
+    color: black;
+}
+
 .Cardbox {
     display: flex;
     align-self: center;
@@ -19,13 +23,32 @@
     font-max-size: 0.5vh;
 }
 
+.CellWithOptions {
+    width: 100%;
+}
+
 .RichTextEditor {
-    box-shadow: 2px 2px #dddddd;
+    /*box-shadow: 2px 2px #dddddd;*/
+    min-width: 93%;
+}
+
+.CellOptions {
+    max-width: 8%;
+    background-color: lightcyan;
+    margin-right: 2vh;
+}
+
+.CodeCellOptions {
+    max-width: 8%;
+    background-color: lightcyan;
+    margin-top: 1vh;
 }
 
 .Code {
+    min-width: 92%;
     margin-top: 1vh;
     margin-bottom: 1vh;
+    height: auto;
 }
 
 .ͼ1.cm-editor.cm-focused {
@@ -47,17 +70,17 @@
     margin: auto;
 }
 
-
 .RichMediaBlock > .Cardbox:focus{
     border-left: thick cornflowerblue solid;
+    outline:none
 }
 
-.RichMediaBlock > .RichTextEditor :focus{
+.CellWithOptions > .RichTextEditor:focus{
     border-left: thick cornflowerblue solid;
 }
 
 .quill {
-    max-width: 140vw;
+    min-width: 92%;
     background-color: #fff;
 }
 

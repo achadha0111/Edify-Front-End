@@ -9,6 +9,8 @@ import '../styles/Blocks.css';
 import AddFlashCardForm from "../dialogs/AddFlashCardForm";
 import Code from "./Code";
 import blockTypes from "../../utils/blockTypes";
+import {Button, Stack, Tooltip} from "@mui/material";
+import {ContentCut, Delete, Start} from "@mui/icons-material";
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -67,7 +69,6 @@ class NotesBlock extends React.Component {
     }
 
     displayComponent(blockType, tabIndex) {
-        console.log(this.props.data)
         switch (blockType) {
             case blockTypes.FlashCard:
                 return <FlashCardBlock
@@ -78,13 +79,48 @@ class NotesBlock extends React.Component {
                     delete={this.delete}
                     innerRef={this.blockRef}/>;
             case blockTypes.Code:
-                return <Code onFocus={this.blockInFocus} deleteBlock={this.delete} innerRef={this.blockRef} tabIndex={tabIndex}/>
+                return (
+                    <div className="CellWithOptions">
+                    <Stack direction="row" >
+                       <Code onFocus={this.blockInFocus} deleteBlock={this.delete} innerRef={this.blockRef} tabIndex={tabIndex}/>
+                        <div aria-label="cellOptions" className="CodeCellOptions">
+                            <Stack direction="column">
+                                <Tooltip title="Delete cell">
+                                    <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={this.delete}>
+                                        <Delete/>
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip title="Run cell">
+                                    <Button variant="text" className="RunCell">
+                                        <Start/>
+                                    </Button>
+                                </Tooltip>
+                            </Stack>
+                        </div>
+                    </Stack>
+                </div>
+                )
             default:
-                return <RichText data={this.props.data}
-                          innerRef={this.blockRef}
-                          onFocus={this.blockInFocus}
-                          updateData={this.updateData}
-                          deleteBlock={this.delete}/>;
+                return (
+                    <div className="CellWithOptions">
+                        <Stack direction="row" >
+                            <RichText data={this.props.data}
+                                      innerRef={this.blockRef}
+                                      onFocus={this.blockInFocus}
+                                      updateData={this.updateData}
+                                      tabIndex={tabIndex}/>
+
+                            <div aria-label="cellOptions" className="CellOptions">
+                                <Tooltip title="Delete cell">
+                                    <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={this.delete}>
+                                        <Delete/>
+                                    </Button>
+                                </Tooltip>
+                            </div>
+                        </Stack>
+                    </div>
+
+            )
         }
     }
 
@@ -93,13 +129,14 @@ class NotesBlock extends React.Component {
             <div className="RichMediaBlock" role="cell" aria-label={this.blockType}>
                 {this.displayComponent(this.blockType, this.props.tabIndex)}
                 {/*TODO flashcard form, it creates too many instances
-                TODO in the wrong place*/}
+            TODO in the wrong place*/}
                 <AddFlashCardForm open={this.state.flashCardFormOpen}
                                   close={this.closeFlashCardForm}
                                   question={this.state.questionToEdit}
                                   answer={this.state.answerToEdit}
                                   saveFlashCard={this.updateData}/>
             </div>
+
         )
     }
 }

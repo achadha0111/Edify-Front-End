@@ -11,10 +11,8 @@ class RichText extends React.Component {
     constructor(props) {
         super(props);
         this.updateAndPropagateValue = this.updateAndPropagateValue.bind(this);
-        this.checkForDelete = this.checkForDelete.bind(this);
         this.state = {
             value: this.props.data,
-            previousKey: ''
         }
     }
 
@@ -25,19 +23,6 @@ class RichText extends React.Component {
     updateAndPropagateValue(value) {
         this.setState({value: value});
         this.props.updateData(value);
-    }
-
-    checkForDelete(event) {
-        event.preventDefault();
-        this.setState({previousKey: event.key});
-        let text = this.state.value;
-        text = text.replace(/<(.*?)>/g, "")
-        if (event.key === "Backspace"
-            && this.state.previousKey === "Shift"
-            && text === "") {
-            event.preventDefault();
-            this.props.deleteBlock({});
-        }
     }
 
     // TODO While we are able to do math rendering, the equation editor doesn't reopen to edit an equation

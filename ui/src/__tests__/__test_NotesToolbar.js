@@ -15,7 +15,7 @@ test('render of the main toolbar', () => {
 
     expect(screen.getByLabelText(/Save note/i)).toBeInTheDocument();
 
-    expect(screen.getByLabelText(/Add text Block/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Insert text Block/i)).toBeInTheDocument();
 
     expect(screen.getByLabelText(/Insert flashcard/i)).toBeInTheDocument();
 

@@ -1,11 +1,31 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, ButtonGroup, Stack, TextField, Tooltip, Typography} from "@mui/material";
+import {AppBar, Box, Button, ButtonGroup, Input, Stack, TextField, Tooltip, Typography} from "@mui/material";
 import {Code, ContentCut, CreditCard} from '@mui/icons-material';
 import SaveIcon from "@mui/icons-material/Save";
 import ShortTextIcon from "@mui/icons-material/ShortText";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import blockTypes from "../utils/blockTypes";
 import {fDateTime} from "../utils/formatTime";
+import {alpha, styled} from "@mui/material/styles";
+
+const TitleInput = ({value, onChange}) => {
+    return (<Typography variant="h4" gutterBottom>
+        <TextField key="noteTitle" id="filled-basic" label="Title" variant="standard" value={value}
+               onChange={onChange}/>
+    </Typography>)
+}
+
+const NoteBar = styled(AppBar)(({ theme }) => ({
+    boxShadow: 'none',
+    backdropFilter: 'blur(6px)',
+    WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
+    margin: "none",
+    backgroundColor: "#fff",
+    borderBottom: "grey solid 1px",
+    [theme.breakpoints.up('lg')]: {
+        width: `calc(100% - ${220 + 1}px)`,
+    },
+}));
 
 function Toolbar(props) {
     const [noteName, setNoteName] = useState(props.noteName);
@@ -32,47 +52,47 @@ function Toolbar(props) {
     }
 
     return (
-        <div className="Toolbar">
-            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
-                <Typography variant="h4" gutterBottom>
-                    <TextField id="filled-basic" label="Title" variant="standard" value={noteName}
-                               onChange={updateNoteName}/>
-                </Typography>
-                <Typography variant="p" className="lastSave">
-                    Last saved on: {props.lastSaved === "" ? "Not Saved" : fDateTime(props.lastSaved)}
-                </Typography>
-                <Box className="ToolBar Buttons">
+        <NoteBar className="Toolbar">
+                <Stack direction="row" alignItems="center" justifyContent="space-evenly">
 
-                    <Tooltip title="Save note">
-                        <Button variant="text" className="SaveNote" onClick={props.saveNote}>
-                            <SaveIcon/>
-                        </Button>
-                    </Tooltip>
+                    <TitleInput value={noteName} onChange={updateNoteName}/>
 
-                    <Tooltip title="Insert text block">
-                        <Button variant="text" className="InsertRichTextBlock" onClick={addTextBlock}>
-                            <ShortTextIcon/>
-                        </Button>
-                    </Tooltip>
+                    <Typography variant="p" className="lastSave">
+                        Last saved on: {props.lastSaved === "" ? "Not Saved" : fDateTime(props.lastSaved)}
+                    </Typography>
+                    <Box className="ToolBar Buttons">
 
-                    <Tooltip title="Insert flashcard">
-                        <Button variant="text" className="InsertFlashCardBlock" onClick={openFlashCardForm}>
-                            <SubtitlesIcon/>
-                        </Button>
-                    </Tooltip>
+                        <Tooltip title="Save note">
+                            <Button variant="text" className="SaveNote" onClick={props.saveNote}>
+                                <SaveIcon/>
+                            </Button>
+                        </Tooltip>
 
-                    <Tooltip title="Insert code block">
-                        <Button variant="text" className="InsertCodeBlock" onClick={addCodeBlock}>
-                            <Code/>
-                        </Button>
-                    </Tooltip>
+                        <Tooltip title="Insert text block">
+                            <Button variant="text" className="InsertRichTextBlock" onClick={addTextBlock}>
+                                <ShortTextIcon/>
+                            </Button>
+                        </Tooltip>
 
+                        <Tooltip title="Insert flashcard">
+                            <Button variant="text" className="InsertFlashCardBlock" onClick={openFlashCardForm}>
+                                <SubtitlesIcon/>
+                            </Button>
+                        </Tooltip>
+
+                        <Tooltip title="Insert code block">
+                            <Button variant="text" className="InsertCodeBlock" onClick={addCodeBlock}>
+                                <Code/>
+                            </Button>
+                        </Tooltip>
 
 
-                </Box>
 
-            </Stack>
-        </div>
+                    </Box>
+
+                </Stack>
+        </NoteBar>
+
 
     );
 

@@ -16,7 +16,7 @@ const navConfig = [
   {
     title: 'All Notes',
     path: '/home/app',
-    icon: getIcon('eva:file-text-fill'),
+    icon: getIcon('eva:book-fill'),
   },
   {
     title: 'Review',
@@ -24,10 +24,15 @@ const navConfig = [
     icon: getIcon('eva:credit-card-fill'),
   },
   {
-    title: 'New Note',
+    title: 'Note',
     path: '/home/note',
-    icon: getIcon('eva:plus-fill'),
+    icon: getIcon('eva:book-open-fill'),
   },
+  {
+    title: 'Profile & Settings',
+    path: '/profile',
+    icon: getIcon('eva:settings-fill')
+  }
   // {
   //   title: 'register',
   //   path: '/home/register',

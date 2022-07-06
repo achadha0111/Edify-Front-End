@@ -52,12 +52,15 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
-    const auth = getAuth(firebaseApp);
-    auth.signOut().then(() => {
-        sessionStorage.clear();
-        navigate("/login");
-    })
   };
+
+  const signOut = () => {
+      const auth = getAuth(firebaseApp);
+      auth.signOut().then(() => {
+          sessionStorage.clear();
+          navigate("/login");
+      });
+  }
 
   return (
     <>
@@ -117,7 +120,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={signOut} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>

@@ -1,6 +1,7 @@
 import Note from "../pages/Note"
 import {customBeforeEach, render, screen} from "../setupTests";
 import userEvent from "@testing-library/user-event";
+import blockTypes from "../utils/blockTypes";
 
 customBeforeEach();
 
@@ -41,17 +42,21 @@ test("click delete button on text cell removes text cell", async () => {
 
     const textBoxButton = screen.getByLabelText("Insert text block");
 
+    await userEvent.click(screen.getByLabelText("Insert code block"));
+
     await userEvent.click(textBoxButton);
 
-    let cells = screen.getAllByRole('cell', {name:/RichText/i});
+    await userEvent.click(screen.getByLabelText("Insert code block"));
+
+    let cells = screen.getAllByLabelText(blockTypes.RichText);
 
     expect(cells.length).toBe(2);
 
-    const deleteButton = screen.getAllByLabelText("DeleteCellButton")[1];
+    const deleteButton = screen.getAllByLabelText("DeleteCellButton")[2];
 
     await userEvent.click(deleteButton);
 
-    cells = screen.getAllByRole('cell', {name:/RichText/i});
+    cells = screen.getAllByLabelText(blockTypes.RichText);
 
     expect(cells.length).toBe(1);
 

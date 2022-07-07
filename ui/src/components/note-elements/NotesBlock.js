@@ -103,8 +103,8 @@ class NotesBlock extends React.Component {
                 )
             default:
                 return (
-                    <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex}>
-                        <Stack direction="row" className="CellControlStack">
+                    <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex} role="cell">
+                        <Stack direction="row" className="CellControlStack" tabIndex={tabIndex}>
                             <RichText data={this.props.data}
                                       innerRef={this.blockRef}
                                       onFocus={this.blockInFocus}

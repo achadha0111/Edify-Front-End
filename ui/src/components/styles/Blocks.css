@@ -87,7 +87,7 @@
 .quill {
     min-width: 92%;
     background-color: #fff;
-    height: auto;
+    outline: none;
 
 }
 

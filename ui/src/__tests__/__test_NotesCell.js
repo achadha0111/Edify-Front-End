@@ -37,6 +37,22 @@ test("clicking code button adds a code cell", async () => {
     expect(codeCell.length).toBe(1);
 });
 
+test("adding cells between cells", async () => {
+    render(<Note/>);
+
+    const textBoxButton = screen.getByLabelText("Insert text block");
+
+    await userEvent.click(screen.getByLabelText("Insert code block"));
+
+    await userEvent.click(textBoxButton);
+
+    await userEvent.click(screen.getByLabelText("Insert code block"));
+
+    const cells = screen.getAllByRole("cell");
+
+    expect(cells[1]).toContainHTML("quill RichTextEditor");
+});
+
 test("click delete button on text cell removes text cell", async () => {
     render(<Note/>);
 
@@ -65,9 +81,9 @@ test("click delete button on text cell removes text cell", async () => {
 test("click delete button on code cell removes code cell", async () => {
     render(<Note/>);
 
-    const textBoxButton = screen.getByLabelText("Insert code block");
+    const codeBlockButton = screen.getByLabelText("Insert code block");
 
-    await userEvent.click(textBoxButton);
+    await userEvent.click(codeBlockButton);
 
     let cells = screen.getAllByRole('cell', {name:/Code/i});
 
@@ -77,7 +93,7 @@ test("click delete button on code cell removes code cell", async () => {
 
     await userEvent.click(deleteButton);
 
-    cells = screen.getAllByRole('cell');
+    cells = screen.getAllByLabelText(blockTypes.RichText);
 
     expect(cells.length).toBe(1);
 

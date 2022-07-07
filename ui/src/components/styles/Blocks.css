@@ -42,6 +42,11 @@
     max-width: 8%;
     background-color: lightcyan;
     margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.CellWithOptions:focus {
+    outline: none;
 }
 
 .Code {
@@ -49,6 +54,10 @@
     margin-top: 1vh;
     margin-bottom: 1vh;
     height: auto;
+}
+
+.ͼ1.cm-editor {
+    min-height: 10vh;
 }
 
 .ͼ1.cm-editor.cm-focused {
@@ -75,13 +84,11 @@
     outline:none
 }
 
-.CellWithOptions > .RichTextEditor:focus{
-    border-left: thick cornflowerblue solid;
-}
-
 .quill {
     min-width: 92%;
     background-color: #fff;
+    height: auto;
+
 }
 
 .ql-tooltip {

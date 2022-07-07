@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ReactQuill from 'react-quill';
 import '../styles/EditorStyles.css';
 import 'katex/dist/katex.min.css';
@@ -6,41 +6,30 @@ import katex from 'katex';
 
 window.katex = katex;
 
-class RichText extends React.Component {
-    // const [value, setValue] = useState('');
-    constructor(props) {
-        super(props);
-        this.updateAndPropagateValue = this.updateAndPropagateValue.bind(this);
-        this.state = {
-            value: this.props.data,
-        }
-    }
+export default function RichText(props) {
+    const [value, setValue] = useState(props.data);
 
-    componentDidMount() {
-        this.props.innerRef.current.focus();
-    }
+    useEffect(() => {
+        props.innerRef.current.focus()
+    }, []);
 
-    updateAndPropagateValue(value) {
-        this.setState({value: value});
-        this.props.updateData(value);
+    function updateAndPropagateValue(value) {
+        setValue(value);
+        props.updateData(value);
     }
 
     // TODO While we are able to do math rendering, the equation editor doesn't reopen to edit an equation
     // TODO Save button doesn't work on the tooltip
-    render () {
-       return <ReactQuill
-            className="RichTextEditor"
-            theme="snow"
-            value={this.state.value}
-            onChange={this.updateAndPropagateValue}
-            modules={RichText.modules}
-            onFocus={this.props.onFocus}
-            ref={this.props.innerRef}
-            onKeyUp={this.checkForDelete}
-        >
-        </ReactQuill>
+    return <ReactQuill
+        className="RichTextEditor"
+        theme="snow"
+        value={value}
+        onChange={updateAndPropagateValue}
+        modules={RichText.modules}
+        onFocus={props.onFocus}
+        ref={props.innerRef}
+    />
     }
-}
 
 RichText.modules = {
     toolbar: [
@@ -62,6 +51,4 @@ RichText.modules = {
 RichText.defaultProps = {
     data: ''
 }
-
-export default RichText;
 

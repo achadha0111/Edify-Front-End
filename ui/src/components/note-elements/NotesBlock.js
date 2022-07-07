@@ -10,7 +10,7 @@ import AddFlashCardForm from "../dialogs/AddFlashCardForm";
 import Code from "./Code";
 import blockTypes from "../../utils/blockTypes";
 import {Button, Stack, Tooltip} from "@mui/material";
-import {ContentCut, Delete, Start} from "@mui/icons-material";
+import {ContentCut, Delete, PlayArrow, Start} from "@mui/icons-material";
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -78,11 +78,12 @@ class NotesBlock extends React.Component {
                     openEditForm={this.openFlashCardForm}
                     delete={this.delete}
                     innerRef={this.blockRef}/>;
+
             case blockTypes.Code:
                 return (
-                    <div className="CellWithOptions">
+                    <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex}>
                     <Stack direction="row" >
-                       <Code onFocus={this.blockInFocus} deleteBlock={this.delete} innerRef={this.blockRef} tabIndex={tabIndex}/>
+                       <Code deleteBlock={this.delete} innerRef={this.blockRef} />
                         <div aria-label="cellOptions" className="CodeCellOptions">
                             <Stack direction="column">
                                 <Tooltip title="Delete cell">
@@ -92,7 +93,7 @@ class NotesBlock extends React.Component {
                                 </Tooltip>
                                 <Tooltip title="Run cell">
                                     <Button variant="text" className="RunCell">
-                                        <Start/>
+                                        <PlayArrow/>
                                     </Button>
                                 </Tooltip>
                             </Stack>
@@ -102,14 +103,12 @@ class NotesBlock extends React.Component {
                 )
             default:
                 return (
-                    <div className="CellWithOptions">
-                        <Stack direction="row" >
+                    <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex}>
+                        <Stack direction="row" className="CellControlStack">
                             <RichText data={this.props.data}
                                       innerRef={this.blockRef}
                                       onFocus={this.blockInFocus}
-                                      updateData={this.updateData}
-                                      tabIndex={tabIndex}/>
-
+                                      updateData={this.updateData}/>
                             <div aria-label="cellOptions" className="CellOptions">
                                 <Tooltip title="Delete cell">
                                     <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={this.delete}>
@@ -118,9 +117,8 @@ class NotesBlock extends React.Component {
                                 </Tooltip>
                             </div>
                         </Stack>
-                    </div>
+                    </div>)
 
-            )
         }
     }
 

@@ -1,7 +1,7 @@
 const blockTypes = Object.freeze({
-    FlashCard: "flashcardBlock",
-    RichText: "richTextBlock",
-    Code: "codeBlock"
+    FlashCard: "FlashcardBlock",
+    RichText: "RichTextBlock",
+    Code: "CodeBlock"
 });
 
 export default blockTypes;

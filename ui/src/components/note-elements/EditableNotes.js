@@ -50,7 +50,7 @@ class EditableNotes extends React.Component {
     async saveNote(noteName) {
         console.log(noteName);
         let noteBody = {noteName: noteName,
-            blocks: this.state.blocks};
+            blocks: this.state.blocks.map(({id, ...props}) => {return props})};
 
         // Note exists so we provide an ID to update
         if (this.state.id) {

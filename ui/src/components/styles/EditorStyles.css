@@ -852,15 +852,13 @@
     box-sizing: border-box;
     font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     padding: 8px;
-    visibility: collapse;
-    display: none;
 }
 
 
-.quill:focus-within > .ql-toolbar.ql-snow {
-    visibility: visible;
-    display: block;
-}
+/*.CellWithOptions > .ql-toolbar .ql-snow {*/
+/*    visibility: collapse;*/
+/*    display: none;*/
+/*}*/
 
 .ql-toolbar.ql-snow .ql-formats {
     margin-right: 15px;

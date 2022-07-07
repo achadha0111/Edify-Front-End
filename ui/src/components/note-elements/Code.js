@@ -1,6 +1,6 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { python } from '@codemirror/lang-python';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function Code(props) {
 

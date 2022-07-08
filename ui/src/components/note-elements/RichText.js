@@ -6,30 +6,40 @@ import katex from 'katex';
 
 window.katex = katex;
 
-const SnowTheme = Quill.import("themes/snow");
+const SnowTheme = Quill.import('themes/snow');
 
 class ExtendSnowTheme extends SnowTheme {
     constructor(quill, options) {
         super(quill, options);
-
-        quill.on("selection-change", (range) => {
+        let tooltip = quill.tooltip;
+        quill.on('selection-change', (range)=> {
+            console.log(range)
             if (range) {
-                quill.theme.tooltip.show();
-                quill.theme.tooltip.position(quill.getBounds(range));
+                let preview = quill.getContents(range.index, range.length);
+                if (preview["ops"].length !== 0 && preview["ops"][0]["insert"]["formula"]) {
+                    tooltip.edit('formula',  preview["ops"][0]["insert"]["formula"]);
+                    quill.deleteText(range.index, range.length);
+                }
             }
+
         });
     }
 }
 
-// Quill.register("themes/snow", ExtendSnowTheme);
+Quill.register('themes/snow', ExtendSnowTheme);
 
 function handleFormula() {
     let tooltip = this.quill.theme.tooltip;
-    tooltip.edit('formula', 'myformula');
 
     let range = this.quill.getSelection();
     let preview = this.quill.getContents(range.index, range.length);
-    console.log(preview);
+    if (preview["ops"].length !== 0) {
+        tooltip.edit('formula', preview["ops"][0]["insert"]["formula"]);
+        this.quill.deleteText(range.index, range.length);
+    } else {
+        tooltip.edit('formula', "");
+    }
+
 }
 
 export default function RichText(props) {

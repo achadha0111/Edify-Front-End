@@ -3,34 +3,17 @@ import ReactQuill, {Quill} from 'react-quill';
 import '../styles/EditorStyles.css';
 import 'katex/dist/katex.min.css';
 import katex from 'katex';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import {Button, TextField} from "@mui/material";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 
 window.katex = katex;
 
-const SnowTheme = Quill.import('themes/snow');
-
-class ExtendSnowTheme extends SnowTheme {
-    constructor(quill, options) {
-        super(quill, options);
-        let tooltip = quill.tooltip;
-        quill.on('selection-change', (range)=> {
-            console.log(range)
-            if (range) {
-                let preview = quill.getContents(range.index, range.length);
-                if (preview["ops"].length !== 0 && preview["ops"][0]["insert"]["formula"]) {
-                    tooltip.edit('formula',  preview["ops"][0]["insert"]["formula"]);
-                    quill.deleteText(range.index, range.length);
-                }
-            }
-
-        });
-    }
-}
-
-Quill.register('themes/snow', ExtendSnowTheme);
-
 function handleFormula() {
     let tooltip = this.quill.theme.tooltip;
-
     let range = this.quill.getSelection();
     let preview = this.quill.getContents(range.index, range.length);
     if (preview["ops"].length !== 0) {
@@ -42,8 +25,62 @@ function handleFormula() {
 
 }
 
+function EquationEditor(props) {
+    const [equation, setEquation] = useState(props.data);
+    const [equationUpdate, setEquationUpdate] = useState(false);
+
+    useEffect(() => {
+        if (props.data !== equation && !equationUpdate) {
+            setEquation(props.data);
+        }
+    }, [props])
+
+    function handleClose() {
+        props.close(false);
+    }
+
+    function updateEquation(event) {
+       const updatedValue = event.target.value
+       setEquation(updatedValue);
+       setEquationUpdate(true);
+    }
+
+    function saveEquation() {
+        props.saveEquation(equation);
+        props.close(false);
+        setEquationUpdate(false);
+    }
+
+    return (
+        <div>
+            <Dialog open={props.open} onClose={handleClose}>
+                <DialogTitle>Edit Equation</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="equation-editor"
+                        label="Equation"
+                        fullWidth
+                        variant="standard"
+                        value={equation}
+                        onChange={updateEquation}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={saveEquation}>Save</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+}
+
 export default function RichText(props) {
     const [value, setValue] = useState(props.data);
+    const [equationEditorOpen, setEquationEditorOpen] = useState(false);
+    const [equationToEdit, setEquationToEdit] = useState("");
+    const [range, setRange] = useState({});
 
     useEffect(() => {
         props.innerRef.current.focus()
@@ -54,17 +91,44 @@ export default function RichText(props) {
         props.updateData(value);
     }
 
+    function handleSelectionChange(range, source, editor) {
+        if (range) {
+            let preview = editor.getContents(range.index, range.length);
+            if (preview["ops"].length !== 0 && preview["ops"][0]["insert"]["formula"]) {
+                let editEquation = preview["ops"][0]["insert"]["formula"];
+                setEquationToEdit(editEquation);
+                setEquationEditorOpen(true);
+                setRange(range);
+            }
+        }
+    }
+
+    function saveEquation(equation) {
+        let quillRef = props.innerRef.current.getEditor();
+        quillRef.editor.deleteText(range.index, range.length);
+        quillRef.editor.insertEmbed(range.index, 'formula', equation);
+    }
+
     // TODO While we are able to do math rendering, the equation editor doesn't reopen to edit an equation
     // TODO Save button doesn't work on the tooltip
-    return <ReactQuill
-        className="RichTextEditor"
-        theme="snow"
-        value={value}
-        onChange={updateAndPropagateValue}
-        modules={RichText.modules}
-        onFocus={props.onFocus}
-        ref={props.innerRef}
-    />
+    return (
+        <>
+            <ReactQuill
+                className="RichTextEditor"
+                theme="snow"
+                value={value}
+                onChange={updateAndPropagateValue}
+                modules={RichText.modules}
+                onFocus={props.onFocus}
+                ref={props.innerRef}
+                onChangeSelection={handleSelectionChange}
+            />
+            <EquationEditor data={equationToEdit}
+                            open={equationEditorOpen}
+                            close={()=> setEquationEditorOpen(false)}
+            saveEquation={saveEquation}/>
+        </>
+        )
     }
 
 // function formulaHandler() {

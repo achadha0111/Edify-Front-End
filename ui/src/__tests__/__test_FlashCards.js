@@ -68,7 +68,7 @@ test('add flashcard to same deck', async () => {
     await userEvent.type(screen.getByRole('textbox', {name:/Answer/}), "No");
 
     await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
-    await waitForElementToBeRemoved(screen.queryByRole('textbox', {name:/Question/}));
+    // await waitForElementToBeRemoved(screen.queryByRole('textbox', {name:/Question/}));
 
     const flashCardBlocks = screen.getAllByRole('cell', {name:/FlashCard/i});
     const flashcards = screen.getAllByRole('flashcard');

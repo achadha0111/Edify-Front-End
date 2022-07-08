@@ -68,9 +68,9 @@ test('add flashcard to same deck', async () => {
     await userEvent.type(screen.getByRole('textbox', {name:/Answer/}), "No");
 
     await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
-    // await waitForElementToBeRemoved(screen.queryByRole('textbox', {name:/Question/}));
+    await waitForElementToBeRemoved(screen.queryByRole('textbox', {name:/Question/}));
 
-    const flashCardBlocks = screen.getAllByRole('cell', {name:/FlashCard/i});
+    const flashCardBlocks = screen.getAllByRole('cell', {name:/Flashcard/i});
     const flashcards = screen.getAllByRole('flashcard');
 
     // Single deck
@@ -106,7 +106,7 @@ test('add flashcard to new deck', async () => {
     await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
     await waitForElementToBeRemoved(screen.queryByLabelText(/QuestionInput/));
 
-    const flashCardBlocks = screen.getAllByRole('cell', {name:/FlashCard/i});
+    const flashCardBlocks = screen.getAllByRole('cell', {name:/Flashcard/i});
     const flashcards = screen.getAllByRole('flashcard');
 
     // two decks
@@ -168,7 +168,7 @@ test('open flashcard deck delete confirmation dialog', async () => {
 
     await userEvent.click(screen.getByLabelText("ConfirmDelete"));
 
-    const flashcardDeck = screen.queryAllByRole('cell', {name: /FlashCard/});
+    const flashcardDeck = screen.queryAllByRole('cell', {name: /Flashcard/});
 
     expect(flashcardDeck.length).toBe(0);
 

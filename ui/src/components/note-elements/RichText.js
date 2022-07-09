@@ -8,7 +8,8 @@ import DialogActions from "@mui/material/DialogActions";
 import {Button, TextField} from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
+import uploadImage from "../../utils/uploadImage"
+
 
 window.katex = katex;
 
@@ -23,6 +24,34 @@ function handleFormula() {
         tooltip.edit('formula', "");
     }
 
+}
+
+function handleImage() {
+    const quillEditor = this.quill;
+    const input = document.createElement('input');
+
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.setAttribute('aria-label', 'UploadImage');
+    input.click();
+
+    input.onchange = function () {
+        if (this.files[0].size > 5e6) {
+            alert("File too big");
+        } else if (this.files.length > 1) {
+            alert("Upload one file at a time")
+        }
+
+        else {
+            uploadImage(this.files[0]).then((res) => {
+                let range = quillEditor.getSelection();
+                quillEditor.editor.insertEmbed(range.index, "image", res);
+            }).catch((err) => {
+                console.log(err)
+            });
+
+        }
+    }
 }
 
 function EquationEditor(props) {
@@ -109,8 +138,6 @@ export default function RichText(props) {
         quillRef.editor.insertEmbed(range.index, 'formula', equation);
     }
 
-    // TODO While we are able to do math rendering, the equation editor doesn't reopen to edit an equation
-    // TODO Save button doesn't work on the tooltip
     return (
         <>
             <ReactQuill
@@ -131,10 +158,6 @@ export default function RichText(props) {
         )
     }
 
-// function formulaHandler() {
-//    this.quill
-// }
-
 RichText.modules = {
     toolbar: {
         container: [[{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
@@ -146,7 +169,8 @@ RichText.modules = {
         ['clean'],
         ['formula']],
         handlers: {
-            formula: handleFormula
+            formula: handleFormula,
+            image: handleImage,
         }
     },
     clipboard: {

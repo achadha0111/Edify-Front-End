@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Container} from '@mui/material';
 
 import Page from '../components/Page';
-import AddFlashCardForm from "../components/dialogs/AddFlashCardForm";
 import Toolbar from "../components/NotesToolbar";
 import uid from "../utils/uid";
 import EditableNotes from "../components/note-elements/EditableNotes";
 import {useLocation, useNavigate} from "react-router-dom";
 import blockTypes from "../utils/blockTypes";
+import AddFlashCardFormQuill from "../components/dialogs/AddFlashCardFormQuill";
+
 
 function Note() {
     const [flashCardFormOpen, setFlashCardFormOpen] = useState(false);
@@ -84,7 +85,7 @@ function Note() {
                              saveNote={saveNote}
                              lastSaved={lastSaved}/>
                 </div>
-                <AddFlashCardForm open={flashCardFormOpen} close={closeFlashCardForm} saveFlashCard={addNoteElement}/>
+                <AddFlashCardFormQuill open={flashCardFormOpen} close={closeFlashCardForm} saveFlashCard={addNoteElement}/>
                 <EditableNotes
                     noteId={noteId}
                     blocks={blocks}

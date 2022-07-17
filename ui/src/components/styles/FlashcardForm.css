@@ -1,0 +1,4 @@
+.FlashCardQuestionEditor, .FlashCardAnswerEditor {
+    outline: 1px solid #dddddd;
+    margin-bottom: 2vh;
+}

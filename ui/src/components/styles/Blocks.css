@@ -29,7 +29,7 @@
 
 .RichTextEditor {
     /*box-shadow: 2px 2px #dddddd;*/
-    min-width: 93%;
+    min-width: 95%;
 }
 
 .CellOptions {
@@ -43,6 +43,10 @@
     background-color: lightcyan;
     margin-top: 1vh;
     margin-bottom: 1vh;
+}
+
+:focus {
+    outline: 0 !important;
 }
 
 .CellWithOptions:focus, .CellWithOptions:active {
@@ -85,7 +89,7 @@
 }
 
 .quill {
-    min-width: 92%;
+    min-width: 94.5%;
     background-color: #fff;
     outline: none;
 

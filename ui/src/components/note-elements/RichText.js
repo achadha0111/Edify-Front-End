@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import {Button, TextField} from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import uploadImage from "../../utils/uploadImage"
+import {handleImage} from "../../utils/uploadImage";
 
 
 window.katex = katex;
@@ -24,34 +24,6 @@ function handleFormula() {
         tooltip.edit('formula', "");
     }
 
-}
-
-function handleImage() {
-    const quillEditor = this.quill;
-    const input = document.createElement('input');
-
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-    input.setAttribute('aria-label', 'UploadImage');
-    input.click();
-
-    input.onchange = function () {
-        if (this.files[0].size > 5e6) {
-            alert("File too big");
-        } else if (this.files.length > 1) {
-            alert("Upload one file at a time")
-        }
-
-        else {
-            uploadImage(this.files[0]).then((res) => {
-                let range = quillEditor.getSelection();
-                quillEditor.editor.insertEmbed(range.index, "image", res);
-            }).catch((err) => {
-                console.log(err)
-            });
-
-        }
-    }
 }
 
 function EquationEditor(props) {
@@ -162,7 +134,7 @@ RichText.modules = {
     toolbar: {
         container: [[{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
         [{size: []}],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{'list': 'ordered'}, {'list': 'bullet'},
             {'indent': '-1'}, {'indent': '+1'}],
         ['link', 'image', 'video'],

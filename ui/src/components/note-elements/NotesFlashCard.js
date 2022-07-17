@@ -31,7 +31,7 @@ export default function NotesFlashCard(props) {
     }
 
     return (
-        <Card className = "FlashCard" sx={{ minWidth: 400, minHeight: 290}} role="flashcard" aria-label="flashcard">
+        <Card className = "FlashCard" sx={{ minWidth: 400, minHeight: 290, maxWidth:450}} role="flashcard" aria-label="flashcard">
             <CardContent sx={{minHeight: 110}}>
                 <Typography div color="text.primary">
                     <div dangerouslySetInnerHTML={{ __html: convertToMath(question) }} />

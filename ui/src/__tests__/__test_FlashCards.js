@@ -4,15 +4,22 @@ import userEvent from "@testing-library/user-event";
 import {waitForElementToBeRemoved} from "@testing-library/react";
 
 customBeforeEach();
+/* The tests here follow an anti-pattern not recommended by React
+* testing library (accessing directly by node), however, for the lack
+* of better ideas, this was essential. */
 
+function findElement(elementName) {
+    let field = screen.getByRole('textbox', {name: elementName});
+    return field.getElementsByClassName('ql-editor')[0];
+}
 test("add and edit flashcard", async () => {
     render(<Note/>);
     const flashCardButton = screen.getByLabelText("Insert flashcard");
 
     await userEvent.click(flashCardButton);
 
-    let questionField = screen.getByRole('textbox', {name:/Question/});
-    const answerField = screen.getByRole('textbox', {name:/Answer/});
+    let questionField = findElement("Question")
+    let answerField = findElement("Answer")
 
     await userEvent.type(questionField, "What is this website built in?");
     await userEvent.type(answerField, "React");
@@ -21,7 +28,7 @@ test("add and edit flashcard", async () => {
 
     await waitForElementToBeRemoved(questionField);
 
-    const flashCardCells = screen.getAllByRole('cell', {name:/FlashCard/i});
+    const flashCardCells = screen.getAllByRole('flashcard', {name:/flashcard/i});
 
     expect(flashCardCells.length).toBe(1);
     expect(screen.getByText(/What is this website built in?/i)).toBeInTheDocument();
@@ -35,7 +42,9 @@ test("add and edit flashcard", async () => {
     const editFlashCardButton = screen.getByLabelText(/Edit/);
 
     await userEvent.click(editFlashCardButton);
-    questionField = screen.getByRole('textbox', {name:/Question/});
+
+    questionField = findElement("Question")
+
     await userEvent.type(questionField, "Website?");
 
     await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
@@ -53,8 +62,8 @@ test('add flashcard to same deck', async () => {
 
     await userEvent.click(flashCardButton);
 
-    let questionField = screen.getByRole('textbox', {name:/Question/});
-    const answerField = screen.getByRole('textbox', {name:/Answer/});
+    let questionField = findElement("Question")
+    let answerField = findElement("Answer")
 
     await userEvent.type(questionField, "What is this website built in?");
     await userEvent.type(answerField, "React");
@@ -64,8 +73,11 @@ test('add flashcard to same deck', async () => {
 
     await userEvent.click(screen.getByLabelText("Insert flashcard"));
 
-    await userEvent.type(screen.getByRole('textbox', {name:/Question/}), "Do you like Javascript?");
-    await userEvent.type(screen.getByRole('textbox', {name:/Answer/}), "No");
+    questionField = findElement("Question")
+    answerField = findElement("Answer")
+
+    await userEvent.type(questionField, "Do you like Javascript?");
+    await userEvent.type(answerField, "No");
 
     await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
     await waitForElementToBeRemoved(screen.queryByRole('textbox', {name:/Question/}));
@@ -87,8 +99,8 @@ test('add flashcard to new deck', async () => {
 
     await userEvent.click(screen.getByLabelText("Insert flashcard"));
 
-    let questionField = screen.getByRole('textbox', {name:/Question/})
-    const answerField = screen.getByRole('textbox', {name:/Answer/})
+    let questionField = findElement("Question")
+    let answerField = findElement("Answer")
 
     await userEvent.type(questionField, "What is this website built in?");
     await userEvent.type(answerField, "React");
@@ -100,11 +112,14 @@ test('add flashcard to new deck', async () => {
 
     await userEvent.click(screen.getByLabelText("Insert flashcard"));
 
-    await userEvent.type(screen.getByRole('textbox', {name:/Question/}), "Do you like Javascript?");
-    await userEvent.type(screen.getByRole('textbox', {name:/Answer/}), "No");
+    questionField = findElement("Question")
+    answerField = findElement("Answer")
+
+    await userEvent.type(questionField, "Do you like Javascript?");
+    await userEvent.type(answerField, "No");
 
     await userEvent.click(screen.getByLabelText(/SaveFlashCard/));
-    await waitForElementToBeRemoved(screen.queryByLabelText(/QuestionInput/));
+    await waitForElementToBeRemoved(screen.queryByRole('textbox', {name:/Question/}));
 
     const flashCardBlocks = screen.getAllByRole('cell', {name:/Flashcard/i});
     const flashcards = screen.getAllByRole('flashcard');
@@ -125,8 +140,8 @@ test('open flashcard delete confirmation dialog', async () => {
 
     await userEvent.click(flashCardButton);
 
-    let questionField = screen.getByRole('textbox', {name:/Question/});
-    const answerField = screen.getByRole('textbox', {name:/Answer/});
+    let questionField = findElement("Question")
+    let answerField = findElement("Answer")
 
     await userEvent.type(questionField, "What is this website built in?");
     await userEvent.type(answerField, "React");
@@ -153,8 +168,8 @@ test('open flashcard deck delete confirmation dialog', async () => {
 
     await userEvent.click(flashCardButton);
 
-    let questionField = screen.getByRole('textbox', {name:/Question/});
-    const answerField = screen.getByRole('textbox', {name:/Answer/});
+    let questionField = findElement("Question")
+    let answerField = findElement("Answer")
 
     await userEvent.type(questionField, "What is this website built in?");
     await userEvent.type(answerField, "React");

@@ -11,6 +11,7 @@ import Code from "./Code";
 import blockTypes from "../../utils/blockTypes";
 import {Button, Stack, Tooltip} from "@mui/material";
 import {ContentCut, Delete, PlayArrow, Start} from "@mui/icons-material";
+import AddFlashCardFormQuill from "../dialogs/AddFlashCardFormQuill";
 
 class NotesBlock extends React.Component {
     constructor(props) {
@@ -91,11 +92,11 @@ class NotesBlock extends React.Component {
                                         <Delete/>
                                     </Button>
                                 </Tooltip>
-                                <Tooltip title="Run cell">
-                                    <Button variant="text" className="RunCell">
-                                        <PlayArrow/>
-                                    </Button>
-                                </Tooltip>
+                                {/*<Tooltip title="Run cell">*/}
+                                {/*    <Button variant="text" className="RunCell">*/}
+                                {/*        <PlayArrow/>*/}
+                                {/*    </Button>*/}
+                                {/*</Tooltip>*/}
                             </Stack>
                         </div>
                     </Stack>
@@ -128,7 +129,7 @@ class NotesBlock extends React.Component {
                 {this.displayComponent(this.blockType, this.props.tabIndex)}
                 {/*TODO flashcard form, it creates too many instances
             TODO in the wrong place*/}
-                <AddFlashCardForm open={this.state.flashCardFormOpen}
+                <AddFlashCardFormQuill open={this.state.flashCardFormOpen}
                                   close={this.closeFlashCardForm}
                                   question={this.state.questionToEdit}
                                   answer={this.state.answerToEdit}

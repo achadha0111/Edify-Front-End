@@ -25,6 +25,7 @@ export default function FlashCardBlock(props) {
         if (deleteEntity.cardIndex >= 0) {
             setEntity(deleteEntity.cardIndex);
         } else {
+            props.onFocus();
             setEntity("Deck");
         }
         setDeleteOpen(true);

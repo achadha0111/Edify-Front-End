@@ -98,7 +98,7 @@ class EditableNotes extends React.Component {
         if (updatedBlocks[index-1]) {
             updatedBlocks.splice(index, 1);
             updatedBlocks.forEach((block, index) => {
-                block.locationId = index;
+                block.locationIndex = index;
             });
             this.setState({ blocks: updatedBlocks, blockInFocusId: updatedBlocks[index-1].id })
         }
@@ -106,9 +106,8 @@ class EditableNotes extends React.Component {
 
     addBlock(currentBlock, newBlockType, data) {
         const blocks = this.state.blocks;
-        console.log(currentBlock.id);
         const index = blocks.map((b) => b.id).indexOf(currentBlock.id);
-        let newBlock = { id: uid(), type: newBlockType, data: data, locationId: index+1};
+        let newBlock = { id: uid(), type: newBlockType, data: data, locationIndex: index+1};
         const updatedBlocks = [...blocks];
         let blockAdded = false;
 

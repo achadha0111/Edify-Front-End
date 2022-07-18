@@ -62,7 +62,6 @@ NotesCard.propTypes = {
 
 export default function NotesCard({ note, index }) {
   const { noteName, lastSaved, id } = note;
-  console.log(note);
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 

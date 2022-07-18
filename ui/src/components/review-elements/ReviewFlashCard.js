@@ -8,20 +8,30 @@ import {Chip, Collapse, IconButton, Stack} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import convertToMath from "../../utils/inlineMathRender";
 import "../styles/Blocks.css";
+import {Link as RouterLink} from "react-router-dom";
 
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
+// const ExpandMore = styled((props) => {
+//     const { expand, ...other } = props;
+//     return <IconButton {...other} />;
+// })(({ theme, expand }) => ({
+//     marginLeft: 'auto',
+//     transition: theme.transitions.create('transform', {
+//         duration: theme.transitions.duration.shortest,
+//     }),
+// }));
+//
+// function ExpandMoreIcon() {
+//     return null;
+// }
 
-function ExpandMoreIcon() {
-    return null;
-}
+const TitleStyle = styled(RouterLink)({
+    height: 44,
+    overflow: 'hidden',
+    WebkitLineClamp: 2,
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    textDecoration: "none",
+});
 
 export default function ReviewFlashCard(props) {
     const question = props.question;
@@ -46,19 +56,26 @@ export default function ReviewFlashCard(props) {
               aria-label="review-flashcard">
             {showAnswer ? <CardContent sx={{maxHeight: 10}}>
                 <Stack direction="row" spacing={1}>
-                    <Chip label="Cool Question" color="primary" />
-                    <Chip label="Cool note" color="success" />
+                    <TitleStyle
+                        to={`/home/note/${props.noteId}`}
+                        color="inherit"
+                        underline="hover"
+                        component={RouterLink}>
+                        <Chip label={props.noteName} color="primary" onClick/>
+                    </TitleStyle>
+
+                    {/*<Chip label="Cool note" color="success" />*/}
                 </Stack>
             </CardContent> : null}
 
             <CardContent sx={{minHeight: 110}}>
                 <Typography div color="text.primary">
-                    <div dangerouslySetInnerHTML={{ __html: convertToMath(question) }} />
+                    <div dangerouslySetInnerHTML={{ __html: question }} />
                 </Typography>
             </CardContent>
             <CardContent sx={{minHeight: 110}}>
                 <Typography div>
-                    {showAnswer ? <div dangerouslySetInnerHTML={{ __html: convertToMath(answer) }} /> : null}
+                    {showAnswer ? <div dangerouslySetInnerHTML={{ __html: answer }} /> : null}
                 </Typography>
             </CardContent>
             <CardActions>

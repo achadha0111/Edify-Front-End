@@ -36,17 +36,32 @@ export default function Review() {
   const [answer, setAnswer] = useState("");
   const [flashCardId, setFlashCardId] = useState("");
   const [cardsLeft, setCardsLeft] = useState(false);
+  const [noteName, setNoteName] = useState("");
+  const [noteId, setNoteId] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (sessionStorage.getItem('Token')) {
-      startReviewSession(flashcards);
+      fetchReviewFlashcards().then((reviewCards) => {
+        console.log(reviewCards);
+        startReviewSession(reviewCards["flashcardInfoList"]);
+      });
     } else {
       navigate("/login");
     }
-  }, [flashcards]);
+  }, []);
+
+  async function fetchReviewFlashcards() {
+    const response = await fetch("/notes-api/getallflashcardinfo", {
+      method: "GET",
+      mode: 'cors',
+    })
+
+    return response.json();
+  }
 
   const startReviewSession = (cards) => {
+    console.log(cards);
     const reviewFlashcards = [...cards];
     let currentCard = reviewFlashcards.pop();
     if (cards.length !== 0) {
@@ -60,6 +75,8 @@ export default function Review() {
     setQuestion(cardToShow.question);
     setAnswer(cardToShow.answer);
     setFlashCardId(cardToShow.id);
+    setNoteName(cardToShow.noteNoteName);
+    setNoteId(cardToShow.noteId);
   }
 
   const setCardInteraction = (cardData) => {
@@ -81,11 +98,14 @@ export default function Review() {
           </Typography>
         </Stack>
         {cardsLeft ?
-            <ReviewFlashCard id= {flashCardId} question={question} answer={answer} cardInteraction={setCardInteraction}/> :
+            <ReviewFlashCard id= {flashCardId}
+                             noteName={noteName}
+                             noteId={noteId}
+                             question={question}
+                             answer={answer} cardInteraction={setCardInteraction}/> :
             <Typography variant="p" gutterBottom aria-label="NoCardLeftMessage" className="NoCardLeftMessage">
               No more cards left for today, check back in tomorrow!
             </Typography>}
-
       </Container>
     </Page>
   );

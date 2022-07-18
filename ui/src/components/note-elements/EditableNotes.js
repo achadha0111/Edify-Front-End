@@ -38,8 +38,13 @@ class EditableNotes extends React.Component {
             const noteTitle = this.props.noteName;
             this.saveNote(noteTitle).then(r => {
                 if (!this.state.id) {
-                    this.setState({id: r["noteId"]})
+                    this.setState({id: r["noteDTO"]["id"]})
                 }
+                // In all cases, the id returned from db should be used,
+                // so we replace them
+                let updatedBlocks = r["noteDTO"]["blocks"];
+                console.log(r);
+                this.setState({blocks: updatedBlocks});
             });
         } else if (prevProps.blocks !== this.props.blocks) {
             this.setState({blocks: this.props.blocks, id: this.props.noteId})
@@ -48,14 +53,18 @@ class EditableNotes extends React.Component {
     }
 
     async saveNote(noteName) {
-        console.log(noteName);
-        let noteBody = {noteName: noteName,
-            blocks: this.state.blocks.map(({id, ...props}) => {return props})};
 
+        let noteBody = {noteName: noteName,
+            blocks: this.state.blocks};
+        console.log(noteBody);
         // Note exists so we provide an ID to update
         if (this.state.id) {
             noteBody["id"] = this.state.id;
+        } else {
+            noteBody = {noteName: noteName, blocks: this.state.blocks.map(({id, ...props}) => {return props})};
         }
+
+        console.log(noteBody)
 
         const response = await fetch('/notes-api/savenote', {
             method: 'POST',
@@ -109,14 +118,12 @@ class EditableNotes extends React.Component {
         const index = blocks.map((b) => b.id).indexOf(currentBlock.id);
         let newBlock = { id: uid(), type: newBlockType, data: data, locationIndex: index+1};
         const updatedBlocks = [...blocks];
-        let blockAdded = false;
 
         if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type !== blockTypes.FlashCard) {
             // Current block in focus is not a flashcard block and we have received a flashcard block
             // we update the new block data field to be a list containing block data received
             newBlock.data = [data]
             updatedBlocks.splice(index + 1, 0, newBlock);
-            blockAdded = true;
         } else if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type === blockTypes.FlashCard) {
             // Current block in focus is a flashcard block and we have received a flashcard block so we
             // append data to its data array of cards
@@ -124,14 +131,13 @@ class EditableNotes extends React.Component {
         } else {
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
-            blockAdded = true;
         }
 
         updatedBlocks.forEach((block, index) => {
-            block.locationId = index;
+            block.locationIndex = index;
         });
 
-        this.setState({ blocks: updatedBlocks, blockInFocusId: blockAdded ? newBlock.id : currentBlock.id});
+        this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.id});
     }
 
     deleteCard(cardData) {

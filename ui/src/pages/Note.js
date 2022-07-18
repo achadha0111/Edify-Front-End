@@ -15,7 +15,7 @@ function Note() {
     const [newElement, setNewElement] = useState({});
     const [noteName, setNoteName] = useState("Untitled");
     const [lastSaved, setLastSaved] = useState("");
-    const [blocks, setBlocks] = useState([{id: uid(), type: blockTypes.RichText, data: "", locationId: 0}])
+    const [blocks, setBlocks] = useState([{id: uid(), type: blockTypes.RichText, data: "", locationIndex: 0}])
     const [noteId, setNoteId] = useState(null)
     const location = useLocation();
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ function Note() {
             if (noteId) {
                 fetchNoteBlocks(noteId).then(r => {
                     const note= r["note"]
-                    note["blocks"][0]["id"] = uid();
+                    console.log(note);
                     setNoteId(noteId);
                     setBlocks([...note["blocks"]]);
                     setNoteName(note["noteName"])

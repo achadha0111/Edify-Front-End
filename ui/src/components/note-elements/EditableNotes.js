@@ -57,8 +57,6 @@ class EditableNotes extends React.Component {
             noteBody["id"] = this.state.id;
         }
 
-        console.log(noteBody);
-
         const response = await fetch('/notes-api/savenote', {
             method: 'POST',
             mode: 'cors',
@@ -99,14 +97,17 @@ class EditableNotes extends React.Component {
         const updatedBlocks = [...blocks];
         if (updatedBlocks[index-1]) {
             updatedBlocks.splice(index, 1);
+            updatedBlocks.forEach((block, index) => {
+                block.locationId = index;
+            });
             this.setState({ blocks: updatedBlocks, blockInFocusId: updatedBlocks[index-1].id })
         }
     }
 
     addBlock(currentBlock, newBlockType, data) {
-        let newBlock = { id: uid(), type: newBlockType, data: data};
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(currentBlock.id);
+        let newBlock = { id: uid(), type: newBlockType, data: data, locationId: index+1};
         const updatedBlocks = [...blocks];
 
         if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type !== blockTypes.FlashCard) {
@@ -122,6 +123,10 @@ class EditableNotes extends React.Component {
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
+
+        updatedBlocks.forEach((block, index) => {
+            block.locationId = index;
+        });
 
         this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.id});
     }

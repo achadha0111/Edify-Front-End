@@ -106,15 +106,18 @@ class EditableNotes extends React.Component {
 
     addBlock(currentBlock, newBlockType, data) {
         const blocks = this.state.blocks;
+        console.log(currentBlock.id);
         const index = blocks.map((b) => b.id).indexOf(currentBlock.id);
         let newBlock = { id: uid(), type: newBlockType, data: data, locationId: index+1};
         const updatedBlocks = [...blocks];
+        let blockAdded = false;
 
         if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type !== blockTypes.FlashCard) {
             // Current block in focus is not a flashcard block and we have received a flashcard block
             // we update the new block data field to be a list containing block data received
             newBlock.data = [data]
             updatedBlocks.splice(index + 1, 0, newBlock);
+            blockAdded = true;
         } else if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type === blockTypes.FlashCard) {
             // Current block in focus is a flashcard block and we have received a flashcard block so we
             // append data to its data array of cards
@@ -122,13 +125,14 @@ class EditableNotes extends React.Component {
         } else {
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
+            blockAdded = true;
         }
 
         updatedBlocks.forEach((block, index) => {
             block.locationId = index;
         });
 
-        this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.id});
+        this.setState({ blocks: updatedBlocks, blockInFocusId: blockAdded ? newBlock.id : currentBlock.id});
     }
 
     deleteCard(cardData) {

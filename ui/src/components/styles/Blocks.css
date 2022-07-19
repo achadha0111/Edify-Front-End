@@ -1,10 +1,10 @@
-.Note {
-    display: flex;
-    flex-direction: column;
+.ͼ1.cm-editor {
+    min-height: 10vh;
 }
 
-.MuiSvgIcon-root {
-    color: black;
+.ͼ1.cm-editor.cm-focused {
+    outline-style: none;
+    border-left: thick cornflowerblue solid;
 }
 
 .Cardbox {
@@ -15,27 +15,24 @@
     margin-bottom: 1vh;
     background: #f5f4e8;
     z-index: 0;
-    max-width: 140vw;
+    max-width: 143vw;
 }
 
-.lastSave {
-    color: darkgray;
-    font-max-size: 0.5vh;
+.CellOptions {
+    max-width: 8%;
+    background-color: lightcyan;
+    margin-right: 2vw;
 }
 
 .CellWithOptions {
     width: 100%;
 }
 
-.RichTextEditor {
-    /*box-shadow: 2px 2px #dddddd;*/
-    min-width: 95%;
-}
-
-.CellOptions {
-    max-width: 8%;
-    background-color: lightcyan;
-    margin-right: 2vh;
+.Code {
+    min-width: 94.5%;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    height: auto;
 }
 
 .CodeCellOptions {
@@ -45,28 +42,8 @@
     margin-bottom: 1vh;
 }
 
-:focus {
-    outline: 0 !important;
-}
-
 .CellWithOptions:focus, .CellWithOptions:active {
     outline: none;
-}
-
-.Code {
-    min-width: 92%;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-    height: auto;
-}
-
-.ͼ1.cm-editor {
-    min-height: 10vh;
-}
-
-.ͼ1.cm-editor.cm-focused {
-    outline-style: none;
-    border-left: thick cornflowerblue solid;
 }
 
 .FlashCard {
@@ -75,24 +52,44 @@
     margin-bottom: 1vh;
 }
 
-.ReviewFlashCard {
-    margin: auto;
+:focus {
+    outline: 0 !important;
 }
 
 .FocusIndicator {
     margin: auto;
 }
 
+.lastSave {
+    color: darkgray;
+    font-max-size: 0.5vh;
+}
+
+.MuiSvgIcon-root {
+    color: black;
+}
+
+.Note {
+    display: flex;
+    flex-direction: column;
+}
+
+.MuiSvgIcon-root {
+    color: black;
+}
+
+.ReviewFlashCard {
+    margin: auto;
+}
+
+.RichTextEditor {
+    /*box-shadow: 2px 2px #dddddd;*/
+    min-width: 95%;
+}
+
 .RichMediaBlock > .Cardbox:focus{
     border-left: thick cornflowerblue solid;
     outline:none
-}
-
-.quill {
-    min-width: 94.5%;
-    background-color: #fff;
-    outline: none;
-
 }
 
 .ql-tooltip {
@@ -102,5 +99,12 @@
 
 .ql-picker {
     z-index: 10;
+}
+
+.quill {
+    min-width: 94.5%;
+    background-color: #fff;
+    outline: none;
+
 }
 

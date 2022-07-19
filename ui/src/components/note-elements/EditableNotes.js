@@ -1,11 +1,17 @@
-/* This component is the parent level Notes component that manages state for a note
-*  All async requests to the server for notes data will be made through here and rendering
-*  will be handled through its children. */
+
 
 import React from 'react';
 import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 import blockTypes from "../../utils/blockTypes";
+import PropTypes from "prop-types";
+
+/**
+ * This component is the parent level Notes component that manages state for a note
+ * All async requests to the server for notes data will be made through here and rendering
+ * will be handled through its children.
+ *
+ * */
 
 class EditableNotes extends React.Component {
     constructor(props) {
@@ -52,6 +58,10 @@ class EditableNotes extends React.Component {
         return null
     }
 
+    /** Save note in the database
+     * @param{string} noteName
+     * @return{Object}
+     * @public */
     async saveNote(noteName) {
 
         let noteBody = {noteName: noteName,
@@ -78,10 +88,17 @@ class EditableNotes extends React.Component {
         return response.json();
     }
 
+    /** Updates state block focus variable
+     * @param{Object} blockRef
+     * @public */
     updateCurrentBlockInFocus(blockRef) {
         this.setState({blockInFocusId: blockRef.id, blockInFocusRef: blockRef.ref});
     }
 
+    /** Update block in the note
+     * @param{Object} updatedBlock
+     * @param{Object | string} value
+     * @public */
     updateBlock(updatedBlock, value) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(updatedBlock.id);
@@ -100,6 +117,8 @@ class EditableNotes extends React.Component {
         this.setState({ blocks: updatedBlocks });
     }
 
+    /** Delete block from the note
+     * @public */
     deleteBlock() {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(this.state.blockInFocusId);
@@ -113,6 +132,11 @@ class EditableNotes extends React.Component {
         }
     }
 
+    /** Add block to the note
+     * @param{object} currentBlock - block that is currently in focus
+     * @param{string} newBlockType - type of the new block
+     * @param{object | string} data - data for the new block, for flashcards, this is a list
+     * @public */
     addBlock(currentBlock, newBlockType, data) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(currentBlock.id);
@@ -140,6 +164,9 @@ class EditableNotes extends React.Component {
         this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.id});
     }
 
+    /** Delete card from a flashcard block
+     * @param{object} cardData
+     * @public */
     deleteCard(cardData) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.id).indexOf(cardData.id);
@@ -172,4 +199,23 @@ class EditableNotes extends React.Component {
     }
 }
 
+EditableNotes.propTypes = {
+    /** Identifier for the note on the database */
+    noteId: PropTypes.string,
+    /** An array of blocks, initialised with a single element
+     * but for notes fetched from the database, contains multiple
+     * blocks
+     */
+    blocks: PropTypes.array.isRequired,
+    /** An object containing data for a new block */
+    newElement: PropTypes.object,
+    /** The date when the note was last saved */
+    lastSaved: PropTypes.string,
+    /** Name of the note */
+    noteName: PropTypes.string
+
+
+
+
+}
 export default EditableNotes;

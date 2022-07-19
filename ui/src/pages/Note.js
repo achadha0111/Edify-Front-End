@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Container} from '@mui/material';
+import {CircularProgress, Container, Grid} from '@mui/material';
 
 import Page from '../components/Page';
 import Toolbar from "../components/NotesToolbar";
@@ -8,12 +8,18 @@ import EditableNotes from "../components/note-elements/EditableNotes";
 import {useLocation, useNavigate} from "react-router-dom";
 import blockTypes from "../utils/blockTypes";
 import AddFlashCardFormQuill from "../components/dialogs/AddFlashCardFormQuill";
+import {styled} from "@mui/material/styles";
 
+const Progress = styled('div')({
+    margin: "auto",
+    marginTop: "auto"
+});
 
 function Note() {
     const [flashCardFormOpen, setFlashCardFormOpen] = useState(false);
     const [newElement, setNewElement] = useState({});
     const [noteName, setNoteName] = useState("Untitled");
+    const [dataFetched, setDataFetched] = useState(false);
     const [lastSaved, setLastSaved] = useState("");
     const [blocks, setBlocks] = useState([{id: uid(), type: blockTypes.RichText, data: "", locationIndex: 0}])
     const [noteId, setNoteId] = useState(null)
@@ -33,6 +39,7 @@ function Note() {
                     setLastSaved(note["lastSaved"])
                 });
             }
+            setDataFetched(true);
         } else {
             navigate("/login");
         }
@@ -40,6 +47,7 @@ function Note() {
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id
+
         const response = await fetch(endpoint, {
             method: "GET",
             mode: 'cors',
@@ -86,12 +94,20 @@ function Note() {
                              lastSaved={lastSaved}/>
                 </div>
                 <AddFlashCardFormQuill open={flashCardFormOpen} close={closeFlashCardForm} saveFlashCard={addNoteElement}/>
-                <EditableNotes
+                {dataFetched?
+                    <EditableNotes
                     noteId={noteId}
                     blocks={blocks}
                     newElement={newElement}
                     lastSaved={lastSaved}
-                    noteName={noteName}/>
+                    noteName={noteName}/>:
+                    <Grid container>
+                        <Progress className="DataFetchPreloader">
+                            <CircularProgress />
+                        </Progress >
+                    </Grid>}
+
+
             </Container>
         </Page>
     )

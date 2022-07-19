@@ -1,6 +1,6 @@
 import {Link as RouterLink, Route, Switch, useNavigate} from 'react-router-dom';
 // material
-import { Grid, Button, Container, Stack, Typography } from '@mui/material';
+import {Grid, Button, Container, Stack, Typography, CircularProgress} from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import Note from "./Note";
 import firebaseApp from "../firebase";
+import {styled} from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
@@ -21,16 +22,27 @@ const SORT_OPTIONS = [
 ];
 
 // ----------------------------------------------------------------------
+const Progress = styled('div')({
+  margin: "auto",
+  marginTop: "auto"
+});
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
+  const [preloaderVisible, setPreloaderVisible] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (sessionStorage.getItem('Token')) {
       fetchLatestNotes().then(r =>
           setNotes(r["noteInfoList"])
-      );
+      ).catch(err => {
+        console.log(err);
+        // setPreloaderVisible(false);
+      }).finally(() => {
+            setPreloaderVisible(false)
+      });
+
     } else {
       navigate("/login");
     }
@@ -40,8 +52,7 @@ export default function Home() {
     const response = await fetch("/notes-api/getallnoteinfo", {
       method: "GET",
       mode: 'cors',
-    })
-
+    });
     return response.json();
   }
 
@@ -62,10 +73,15 @@ export default function Home() {
           <NotesSort options={SORT_OPTIONS} />
         </Stack>
 
-        <Grid container spacing={3}>
-          {notes.map((note, index) => (
-            <NotesCard key={note.id} note={note} index={index} />
-          ))}
+        <Grid container spacing={3} alignItems="center">
+
+          {preloaderVisible?
+              <Progress className="DataFetchPreloader">
+                <CircularProgress />
+              </Progress > :
+              notes.map((note, index) => (
+                <NotesCard key={note.id} note={note} index={index} />
+              ))}
         </Grid>
       </Container>
     </Page>

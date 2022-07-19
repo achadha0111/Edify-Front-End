@@ -91,6 +91,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "msw": "^0.42.3",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "react-styleguidist": "^11.2.0"
   }
 }

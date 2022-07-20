@@ -32,7 +32,7 @@
 .ql-editor {
     box-sizing: border-box;
     line-height: 1.42;
-    height: 100%;
+    height: auto;
     outline: none;
     overflow-y: hidden;
     padding: 12px 15px;
@@ -41,6 +41,10 @@
     text-align: left;
     white-space: pre-wrap;
     word-wrap: break-word;
+}
+
+.ql-editor:focus {
+    border-left: thick solid cornflowerblue;
 }
 .ql-editor > * {
     cursor: text;

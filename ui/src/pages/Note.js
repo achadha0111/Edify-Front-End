@@ -21,7 +21,7 @@ function Note() {
     const [noteName, setNoteName] = useState("Untitled");
     const [dataFetched, setDataFetched] = useState(false);
     const [lastSaved, setLastSaved] = useState("");
-    const [blocks, setBlocks] = useState([{id: uid(), type: blockTypes.RichText, data: "", locationIndex: 0}])
+    const [blocks, setBlocks] = useState([{fid: uid(), type: blockTypes.RichText, data: "", locationIndex: 0}])
     const [noteId, setNoteId] = useState(null)
     const location = useLocation();
     const navigate = useNavigate();
@@ -74,7 +74,7 @@ function Note() {
 
     function addNoteElement (data, source) {
         setNewElement({
-                        id: uid(),
+                        fid: uid(),
                         noteName: noteName,
                         type: source,
                         data: data

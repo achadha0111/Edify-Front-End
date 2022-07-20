@@ -59,6 +59,8 @@ function EquationEditor(props) {
                 <DialogContent>
                     <TextField
                         autoFocus
+                        multiline
+                        minRows={3}
                         margin="dense"
                         id="equation-editor"
                         label="Equation"

@@ -1,5 +1,7 @@
 .ͼ1.cm-editor {
-    min-height: 10vh;
+    min-height: 0.875rem;
+    font-size: 15px;
+    padding-bottom: 5px;
 }
 
 .ͼ1.cm-editor.cm-focused {
@@ -29,10 +31,10 @@
 }
 
 .Code {
-    min-width: 92%;
+    min-width: 94.5%;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    height: auto;
+    min-height: 0.8rem;
 }
 
 .CodeCellOptions {
@@ -105,7 +107,6 @@
     min-width: 94.5%;
     background-color: #fff;
     outline: none;
-
 }
 
 

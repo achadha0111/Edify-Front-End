@@ -29,13 +29,13 @@ class EditableNotes extends React.Component {
             id: null,
             blocks: props.blocks,
             blockInFocusRef: '',
-            blockInFocusId: props.blocks[0].id,
+            blockInFocusId: props.blocks[0]["fid"],
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.newElement.id !== this.props.newElement.id) {
-            console.log(this.props.newElement.type);
+        if (prevProps.newElement.fid !== this.props.newElement.fid) {
+            console.log(this.state.blockInFocusId);
             let currentBlockRef = this.state.blockInFocusRef;
             let currentBlockId = this.state.blockInFocusId;
             let currentBlock = {id: currentBlockId, ref: currentBlockRef};
@@ -51,6 +51,8 @@ class EditableNotes extends React.Component {
                 let updatedBlocks = r["noteDTO"]["blocks"];
                 console.log(r);
                 this.setState({blocks: updatedBlocks});
+            }).catch(err => {
+                console.log(err);
             });
         } else if (prevProps.blocks !== this.props.blocks) {
             this.setState({blocks: this.props.blocks, id: this.props.noteId})
@@ -70,12 +72,10 @@ class EditableNotes extends React.Component {
         // Note exists so we provide an ID to update
         if (this.state.id) {
             noteBody["id"] = this.state.id;
-        } else {
-            noteBody = {noteName: noteName, blocks: this.state.blocks.map(({id, ...props}) => {return props})};
         }
-
-        console.log(noteBody)
-
+        // } else {
+        //     noteBody = {noteName: noteName, blocks: this.state.blocks.map(({id, ...props}) => {return props})};
+        // }
         const response = await fetch('/notes-api/savenote', {
             method: 'POST',
             mode: 'cors',
@@ -93,6 +93,7 @@ class EditableNotes extends React.Component {
      * @public */
     updateCurrentBlockInFocus(blockRef) {
         this.setState({blockInFocusId: blockRef.id, blockInFocusRef: blockRef.ref});
+        console.log("Block in focus:", this.state.blockInFocusId)
     }
 
     /** Update block in the note
@@ -101,7 +102,7 @@ class EditableNotes extends React.Component {
      * @public */
     updateBlock(updatedBlock, value) {
         const blocks = this.state.blocks;
-        const index = blocks.map((b) => b.id).indexOf(updatedBlock.id);
+        const index = blocks.map((b) => b.fid).indexOf(updatedBlock.id);
         const updatedBlocks = [...blocks];
         if (updatedBlocks[index].type === blockTypes.FlashCard) {
             // For flashcard type blocks, the data field is an array of values
@@ -121,14 +122,14 @@ class EditableNotes extends React.Component {
      * @public */
     deleteBlock() {
         const blocks = this.state.blocks;
-        const index = blocks.map((b) => b.id).indexOf(this.state.blockInFocusId);
+        const index = blocks.map((b) => b.fid).indexOf(this.state.blockInFocusId);
         const updatedBlocks = [...blocks];
         if (updatedBlocks[index-1]) {
             updatedBlocks.splice(index, 1);
             updatedBlocks.forEach((block, index) => {
                 block.locationIndex = index;
             });
-            this.setState({ blocks: updatedBlocks, blockInFocusId: updatedBlocks[index-1].id })
+            this.setState({ blocks: updatedBlocks, blockInFocusId: updatedBlocks[index-1].fid })
         }
     }
 
@@ -139,8 +140,9 @@ class EditableNotes extends React.Component {
      * @public */
     addBlock(currentBlock, newBlockType, data) {
         const blocks = this.state.blocks;
-        const index = blocks.map((b) => b.id).indexOf(currentBlock.id);
-        let newBlock = { id: uid(), type: newBlockType, data: data, locationIndex: index+1};
+        const index = blocks.map((b) => b.fid).indexOf(currentBlock.id);
+        console.log(index)
+        let newBlock = { fid: uid(), type: newBlockType, data: data, locationIndex: index+1};
         const updatedBlocks = [...blocks];
 
         if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type !== blockTypes.FlashCard) {
@@ -161,7 +163,7 @@ class EditableNotes extends React.Component {
             block.locationIndex = index;
         });
 
-        this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.id});
+        this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.fid});
     }
 
     /** Delete card from a flashcard block
@@ -169,7 +171,7 @@ class EditableNotes extends React.Component {
      * @public */
     deleteCard(cardData) {
         const blocks = this.state.blocks;
-        const index = blocks.map((b) => b.id).indexOf(cardData.id);
+        const index = blocks.map((b) => b.fid).indexOf(cardData.id);
         const updatedBlocks = [...blocks];
         updatedBlocks[index].data.splice(cardData.cardIndex, 1);
         this.setState({blocks: updatedBlocks})
@@ -182,8 +184,8 @@ class EditableNotes extends React.Component {
                     return (
                         <NotesBlock
                             tabIndex={index}
-                            key={block.id}
-                            id={block.id}
+                            key={block.fid}
+                            id={block.fid}
                             noteType={block.type}
                             data={block.data}
                             onFocusEnter={this.updateCurrentBlockInFocus}
@@ -213,9 +215,5 @@ EditableNotes.propTypes = {
     lastSaved: PropTypes.string,
     /** Name of the note */
     noteName: PropTypes.string
-
-
-
-
 }
 export default EditableNotes;

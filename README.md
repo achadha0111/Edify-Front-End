@@ -1,3 +1,3 @@
-# Super Cool Notebook App 
+# Edify
 
-This is for Aayush
+Front end

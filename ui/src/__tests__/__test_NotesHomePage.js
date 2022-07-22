@@ -12,9 +12,7 @@ const notesInfo = {"noteInfoList": [
         {id: 3, lastSaved: Date.now(), noteName: "TestNote3"}]};
 
 const server = setupServer(
-    // capture "GET /greeting" requests
     rest.get('/notes-api/getallnoteinfo', (req, res, ctx) => {
-        // respond using a mocked JSON body
         return res(ctx.json(notesInfo))
     }),
 );

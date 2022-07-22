@@ -43,7 +43,6 @@ export default function Review() {
   useEffect(() => {
     if (sessionStorage.getItem('Token')) {
       fetchReviewFlashcards().then((reviewCards) => {
-        console.log(reviewCards);
         startReviewSession(reviewCards["flashcardInfoList"]);
       });
     } else {
@@ -61,7 +60,6 @@ export default function Review() {
   }
 
   const startReviewSession = (cards) => {
-    console.log(cards);
     const reviewFlashcards = [...cards];
     let currentCard = reviewFlashcards.pop();
     if (cards.length !== 0) {

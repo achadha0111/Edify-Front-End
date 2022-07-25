@@ -2,7 +2,6 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
-//
 import Home from './pages/Home';
 import Review from './pages/Review';
 import Login from './pages/Login';

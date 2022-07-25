@@ -20,8 +20,7 @@ const NoteBar = styled(AppBar)(({ theme }) => ({
     backdropFilter: 'blur(6px)',
     WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
     margin: "none",
-    backgroundColor: "#fff",
-    borderBottom: "grey solid 1px",
+    backgroundColor: "#FFF",
     [theme.breakpoints.up('lg')]: {
         width: `calc(100% - ${220 + 1}px)`,
     },

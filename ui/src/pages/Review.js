@@ -79,11 +79,12 @@ export default function Review() {
 
   const setCardInteraction = (cardData) => {
     let cardsRemaining = [...cardsToReview];
-    let currentCard = cardsRemaining.pop();
-    updateDisplayCard(currentCard);
-    setCardsToReview(cardsRemaining);
     if (cardsRemaining.length === 0) {
       setCardsLeft(false);
+    } else {
+      let currentCard = cardsRemaining.pop();
+      updateDisplayCard(currentCard);
+      setCardsToReview(cardsRemaining);
     }
   };
 

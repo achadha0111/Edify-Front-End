@@ -56,7 +56,6 @@ export default function FlashCardBlock(props) {
                     <ListSubheader component="div" className="DeckControls">
                         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                             <Typography variant="h4" gutterBottom>
-                                {/* TODO This must be editable*/}
                                 <TextField id="filled-basic" label="Deck Title" variant="standard" value={deckName}
                                            onChange={updateDeckName} />
                             </Typography>

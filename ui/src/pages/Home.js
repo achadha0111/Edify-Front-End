@@ -1,11 +1,8 @@
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
-// material
 import {Grid, Button, Container, Stack, Typography, CircularProgress} from '@mui/material';
-// components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
 import { NotesCard, NotesSort } from '../sections/@dashboard/notes';
-// mock
 import {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
 
@@ -34,7 +31,6 @@ export default function Home() {
           setNotes(r["noteInfoList"])
       ).catch(err => {
         // TODO Add proper error handling
-        // setPreloaderVisible(false);
       }).finally(() => {
             setPreloaderVisible(false)
       });

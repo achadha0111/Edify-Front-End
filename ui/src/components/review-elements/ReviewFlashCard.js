@@ -62,8 +62,6 @@ export default function ReviewFlashCard(props) {
                         component={RouterLink}>
                         <Chip label={props.noteName} color="primary" onClick/>
                     </TitleStyle>
-
-                    {/*<Chip label="Cool note" color="success" />*/}
                 </Stack>
             </CardContent> : null}
 

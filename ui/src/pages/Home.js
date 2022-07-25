@@ -48,6 +48,20 @@ export default function Home() {
     return response.json();
   }
 
+  async function deleteNote(id) {
+    const response = await fetch("/notes-api/deletenote?id="+id, {
+      method: "POST",
+      mode: 'cors',
+    }).then(_ => {
+      const remainingNotes = [...notes];
+      const index = remainingNotes.map(notes => notes.id).indexOf(id);
+      remainingNotes.splice(index, 1);
+      setNotes(remainingNotes);
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   return (
     <Page title="Notes | Home">
       <Container>
@@ -72,7 +86,7 @@ export default function Home() {
                 <CircularProgress />
               </Progress > :
               notes.map((note, index) => (
-                <NotesCard key={note.id} note={note} index={index} />
+                <NotesCard key={note.id} note={note} index={index} deleteNote={deleteNote}/>
               ))}
         </Grid>
       </Container>

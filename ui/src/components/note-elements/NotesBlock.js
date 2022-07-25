@@ -6,11 +6,10 @@ import React from "react";
 import FlashCardBlock from "./FlashCardBlock";
 import RichText from './RichText';
 import '../styles/Blocks.css';
-import AddFlashCardForm from "../dialogs/AddFlashCardForm";
 import Code from "./Code";
 import blockTypes from "../../utils/blockTypes";
 import {Button, Stack, Tooltip} from "@mui/material";
-import {ContentCut, Delete, PlayArrow, Start} from "@mui/icons-material";
+import {Delete} from "@mui/icons-material";
 import AddFlashCardFormQuill from "../dialogs/AddFlashCardFormQuill";
 
 class NotesBlock extends React.Component {

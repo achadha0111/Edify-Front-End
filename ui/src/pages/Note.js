@@ -32,7 +32,6 @@ function Note() {
             if (noteId) {
                 fetchNoteBlocks(noteId).then(r => {
                     const note= r["note"]
-                    console.log(note);
                     setNoteId(noteId);
                     setBlocks([...note["blocks"]]);
                     setNoteName(note["noteName"])
@@ -43,7 +42,7 @@ function Note() {
         } else {
             navigate("/login");
         }
-    }, [location]);
+    }, [location, navigate]);
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id

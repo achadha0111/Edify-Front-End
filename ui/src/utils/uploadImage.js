@@ -28,9 +28,8 @@ export function handleImage() {
                     throw Error(res["message"])
                 }
             }).catch((err) => {
-                console.log(err)
+                // TODO Add proper error handling
             });
-
         }
     }
 }
@@ -40,7 +39,7 @@ export const uploadImage = async (imageFile) => {
     try {
         const fileRef = ref(storage, "images/"+imageFile.name);
 
-        const fileUpload = await uploadBytes(fileRef, imageFile);
+        await uploadBytes(fileRef, imageFile);
 
         const downloadUrl = await getDownloadURL(fileRef);
 

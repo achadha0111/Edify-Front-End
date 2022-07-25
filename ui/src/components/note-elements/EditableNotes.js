@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
@@ -16,14 +14,12 @@ import PropTypes from "prop-types";
 class EditableNotes extends React.Component {
     constructor(props) {
         super(props);
-        // Function declarations
         this.addBlock = this.addBlock.bind(this);
         this.updateCurrentBlockInFocus = this.updateCurrentBlockInFocus.bind(this);
         this.updateBlock = this.updateBlock.bind(this);
         this.deleteBlock = this.deleteBlock.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
         this.saveNote = this.saveNote.bind(this);
-        // State
         this.state = {
             // Updated on first save
             id: null,
@@ -35,7 +31,6 @@ class EditableNotes extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.newElement.fid !== this.props.newElement.fid) {
-            console.log(this.state.blockInFocusId);
             let currentBlockRef = this.state.blockInFocusRef;
             let currentBlockId = this.state.blockInFocusId;
             let currentBlock = {id: currentBlockId, ref: currentBlockRef};
@@ -46,13 +41,10 @@ class EditableNotes extends React.Component {
                 if (!this.state.id) {
                     this.setState({id: r["noteDTO"]["id"]})
                 }
-                // In all cases, the id returned from db should be used,
-                // so we replace them
                 let updatedBlocks = r["noteDTO"]["blocks"];
-                console.log(r);
                 this.setState({blocks: updatedBlocks});
             }).catch(err => {
-                console.log(err);
+                // TODO Add proper error handling
             });
         } else if (prevProps.blocks !== this.props.blocks) {
             this.setState({blocks: this.props.blocks, id: this.props.noteId})
@@ -68,14 +60,10 @@ class EditableNotes extends React.Component {
 
         let noteBody = {noteName: noteName,
             blocks: this.state.blocks};
-        console.log(noteBody);
-        // Note exists so we provide an ID to update
+
         if (this.state.id) {
             noteBody["id"] = this.state.id;
         }
-        // } else {
-        //     noteBody = {noteName: noteName, blocks: this.state.blocks.map(({id, ...props}) => {return props})};
-        // }
         const response = await fetch('/notes-api/savenote', {
             method: 'POST',
             mode: 'cors',
@@ -93,7 +81,6 @@ class EditableNotes extends React.Component {
      * @public */
     updateCurrentBlockInFocus(blockRef) {
         this.setState({blockInFocusId: blockRef.id, blockInFocusRef: blockRef.ref});
-        console.log("Block in focus:", this.state.blockInFocusId)
     }
 
     /** Update block in the note
@@ -141,7 +128,6 @@ class EditableNotes extends React.Component {
     addBlock(currentBlock, newBlockType, data) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.fid).indexOf(currentBlock.id);
-        console.log(index)
         let newBlock = { fid: uid(), type: newBlockType, data: data, locationIndex: index+1};
         const updatedBlocks = [...blocks];
 
@@ -212,7 +198,7 @@ EditableNotes.propTypes = {
     /** An object containing data for a new block */
     newElement: PropTypes.object,
     /** The date when the note was last saved */
-    lastSaved: PropTypes.string,
+    lastSaved: PropTypes.number,
     /** Name of the note */
     noteName: PropTypes.string
 }

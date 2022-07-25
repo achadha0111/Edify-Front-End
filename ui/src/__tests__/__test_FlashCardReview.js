@@ -41,7 +41,7 @@ test('displaying end of review message', async () => {
 
     await waitFor(() => screen.findAllByLabelText("DisplayAnswer"));
 
-    for (let cardIndex = 0; cardIndex <2; cardIndex++) {
+    for (let cardIndex = 0; cardIndex <=2; cardIndex++) {
         let showAnswerButton = screen.getByLabelText("DisplayAnswer");
         await userEvent.click(showAnswerButton);
         let recordRecallButton = screen.getByLabelText("RecordRemember");

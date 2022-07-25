@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {AppBar, Box, Button, ButtonGroup, Input, Stack, TextField, Tooltip, Typography} from "@mui/material";
-import {Code, ContentCut, CreditCard} from '@mui/icons-material';
+import {AppBar, Box, Button, Stack, TextField, Tooltip, Typography} from "@mui/material";
+import {Code} from '@mui/icons-material';
 import SaveIcon from "@mui/icons-material/Save";
 import ShortTextIcon from "@mui/icons-material/ShortText";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import blockTypes from "../utils/blockTypes";
 import {fDateTime} from "../utils/formatTime";
-import {alpha, styled} from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 
 const TitleInput = ({value, onChange}) => {
     return (<Typography variant="h4" gutterBottom>
@@ -32,7 +32,7 @@ function Toolbar(props) {
 
     useEffect(() => {
         setNoteName(props.noteName);
-    });
+    }, [props.noteName]);
 
     function openFlashCardForm() {
         props.openFlashCardForm();

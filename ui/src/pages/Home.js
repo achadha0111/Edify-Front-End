@@ -1,16 +1,12 @@
-import {Link as RouterLink, Route, Switch, useNavigate} from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // material
 import {Grid, Button, Container, Stack, Typography, CircularProgress} from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import { NotesCard, NotesSort, NotesSearch } from '../sections/@dashboard/notes';
+import { NotesCard, NotesSort } from '../sections/@dashboard/notes';
 // mock
-import POSTS from '../_mock/blog';
 import {useEffect, useState} from "react";
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import Note from "./Note";
-import firebaseApp from "../firebase";
 import {styled} from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
@@ -37,7 +33,7 @@ export default function Home() {
       fetchLatestNotes().then(r =>
           setNotes(r["noteInfoList"])
       ).catch(err => {
-        console.log(err);
+        // TODO Add proper error handling
         // setPreloaderVisible(false);
       }).finally(() => {
             setPreloaderVisible(false)
@@ -46,7 +42,7 @@ export default function Home() {
     } else {
       navigate("/login");
     }
-  }, []);
+  });
 
   async function fetchLatestNotes() {
     const response = await fetch("/notes-api/getallnoteinfo", {
@@ -69,7 +65,7 @@ export default function Home() {
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <NotesSearch posts={POSTS} />
+          {/*<NotesSearch posts={POSTS} />*/}
           <NotesSort options={SORT_OPTIONS} />
         </Stack>
 

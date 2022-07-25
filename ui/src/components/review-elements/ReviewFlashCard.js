@@ -4,9 +4,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {Chip, Collapse, IconButton, Stack} from "@mui/material";
+import {Chip, Stack} from "@mui/material";
 import { styled } from '@mui/material/styles';
-import convertToMath from "../../utils/inlineMathRender";
 import "../styles/Blocks.css";
 import {Link as RouterLink} from "react-router-dom";
 

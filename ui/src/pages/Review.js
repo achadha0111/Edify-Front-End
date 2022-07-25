@@ -1,32 +1,14 @@
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import {useEffect, useState} from 'react';
-import {Link as RouterLink, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 // material
 import {
-  Card,
-  Table,
   Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
   Typography,
-  TableContainer,
-  TablePagination,
+
 } from '@mui/material';
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
-
-// mock
-import flashcards from '../_mock/flashcard';
 import ReviewFlashCard from "../components/review-elements/ReviewFlashCard";
 
 export default function Review() {
@@ -48,7 +30,7 @@ export default function Review() {
     } else {
       navigate("/login");
     }
-  }, []);
+  });
 
   async function fetchReviewFlashcards() {
     const response = await fetch("/notes-api/getallflashcardinfo", {

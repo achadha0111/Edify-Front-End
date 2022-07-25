@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import ReactQuill, {Quill} from 'react-quill';
+import ReactQuill from 'react-quill';
 import '../styles/EditorStyles.css';
 import 'katex/dist/katex.min.css';
 import katex from 'katex';

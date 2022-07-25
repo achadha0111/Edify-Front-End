@@ -1,23 +1,12 @@
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import {styled } from '@mui/material/styles';
+import { Card, Grid, Typography, CardContent } from '@mui/material';
 // utils
 import { fDate } from '../../../utils/formatTime';
-import { fShortenNumber } from '../../../utils/formatNumber';
-//
-import SvgIconStyle from '../../../components/SvgIconStyle';
-import Iconify from '../../../components/Iconify';
-import Note from "../../../pages/Note";
-import convertToMath from "../../../utils/inlineMathRender";
 
 // ----------------------------------------------------------------------
-
-const CardMediaStyle = styled('div')({
-  position: 'relative',
-  paddingTop: 'calc(100% * 3 / 4)',
-});
 
 const TitleStyle = styled(RouterLink)({
   height: 44,
@@ -26,31 +15,6 @@ const TitleStyle = styled(RouterLink)({
   display: '-webkit-box',
   WebkitBoxOrient: 'vertical',
   textDecoration: "none",
-});
-
-const AvatarStyle = styled(Avatar)(({ theme }) => ({
-  zIndex: 9,
-  width: 32,
-  height: 32,
-  position: 'absolute',
-  left: theme.spacing(3),
-  bottom: theme.spacing(-2),
-}));
-
-const InfoStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'flex-end',
-  marginTop: theme.spacing(3),
-  color: theme.palette.text.disabled,
-}));
-
-const CoverImgStyle = styled('img')({
-  top: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute',
 });
 
 // ----------------------------------------------------------------------

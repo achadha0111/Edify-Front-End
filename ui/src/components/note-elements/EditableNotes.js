@@ -197,8 +197,6 @@ EditableNotes.propTypes = {
     blocks: PropTypes.array.isRequired,
     /** An object containing data for a new block */
     newElement: PropTypes.object,
-    /** The date when the note was last saved */
-    lastSaved: PropTypes.number,
     /** Name of the note */
     noteName: PropTypes.string
 }

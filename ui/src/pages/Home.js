@@ -80,7 +80,6 @@ export default function Home() {
         </Stack>
 
         <Grid container spacing={3} alignItems="center">
-
           {preloaderVisible?
               <Progress className="DataFetchPreloader">
                 <CircularProgress />

@@ -83,7 +83,7 @@ class NotesBlock extends React.Component {
                 return (
                     <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex}>
                     <Stack direction="row" >
-                       <Code data={this.props.data} deleteBlock={this.delete} innerRef={this.blockRef} />
+                       <Code data={this.props.data} innerRef={this.blockRef} />
                         <div aria-label="cellOptions" className="CodeCellOptions">
                             <Stack direction="column">
                                 <Tooltip title="Delete cell">

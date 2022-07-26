@@ -9,10 +9,13 @@ import {Button, TextField} from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import {handleImage} from "../../utils/uploadImage";
+import PropTypes from "prop-types";
 
 
 window.katex = katex;
 
+/** Function to override Quill's default formula editor
+ * @public */
 function handleFormula() {
     let tooltip = this.quill.theme.tooltip;
     let range = this.quill.getSelection();
@@ -26,6 +29,9 @@ function handleFormula() {
 
 }
 
+/** A Dialog component to handle equation editing after an equation has been entered
+ * @param{object} props
+ * @public */
 function EquationEditor(props) {
     const [equation, setEquation] = useState(props.data);
     const [equationUpdate, setEquationUpdate] = useState(false);
@@ -79,6 +85,7 @@ function EquationEditor(props) {
     );
 }
 
+/** A wrapper component on React-Quill to allow for RichText editing */
 export default function RichText(props) {
     const [value, setValue] = useState(props.data);
     const [equationEditorOpen, setEquationEditorOpen] = useState(false);
@@ -89,11 +96,22 @@ export default function RichText(props) {
         props.innerRef.current.focus()
     }, []);
 
+    /** Update the displayed value and update state array
+     * The updated value is an HTML string
+     * @param{string} value
+     * @public */
     function updateAndPropagateValue(value) {
         setValue(value);
         props.updateData(value);
     }
 
+    /** A handler to detect when the selected text is an equation
+     * and to trigger an equation editor with the
+     * selected equation to open
+     * @param{object} range
+     * @param source
+     * @param editor
+     * @public */
     function handleSelectionChange(range, source, editor) {
         if (range) {
             let preview = editor.getContents(range.index, range.length);
@@ -106,6 +124,9 @@ export default function RichText(props) {
         }
     }
 
+    /** A handler to save updated equation
+     * @param{string} equation
+     * @public */
     function saveEquation(equation) {
         let quillRef = props.innerRef.current.getEditor();
         quillRef.editor.deleteText(range.index, range.length);
@@ -154,5 +175,12 @@ RichText.modules = {
 
 RichText.defaultProps = {
     data: ''
+}
+
+RichText.propTypes = {
+    /** Function to update data in the editor and pass it on to state */
+    updateData: PropTypes.func,
+    /** A string containing html data for the block **/
+    data: PropTypes.string
 }
 

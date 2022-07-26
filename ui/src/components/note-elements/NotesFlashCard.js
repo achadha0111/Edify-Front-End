@@ -5,13 +5,17 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import convertToMath from "../../utils/inlineMathRender";
+import PropTypes from "prop-types";
 
+/** A material-UI card components for flashcards within a Note */
 export default function NotesFlashCard(props) {
     const question = props.data.question;
     const answer = props.data.answer;
 
     const [showAnswer, setShowAnswer] = React.useState(false);
 
+    /** Open flashcard form with data existing in the flashcard
+     * @public **/
     const editFlashCard = () => {
         props.openFlashCardForm({
             question: question,
@@ -20,10 +24,14 @@ export default function NotesFlashCard(props) {
         })
     }
 
+    /** Delete a flashcard
+     * @public **/
     const deleteCard = () => {
         props.deleteCard({cardIndex: props.index})
     }
 
+    /** Toggle flashcard answer
+     * @public */
     const displayAnswer = () => {
         setShowAnswer(!showAnswer);
     }
@@ -49,4 +57,13 @@ export default function NotesFlashCard(props) {
             </CardActions>
         </Card>
     );
+}
+
+NotesFlashCard.propTypes = {
+    /** A function to delete card from the current deck */
+    deleteCard: PropTypes.func,
+    /** Function to trigger opening a flashcard edit form with existing data */
+    openFlashCardForm: PropTypes.func,
+    /** Object containing data for flashcard */
+    data: PropTypes.object
 }

@@ -3,18 +3,30 @@ import {waitFor} from "@testing-library/react";
 import Home from "../pages/Home";
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
+import userEvent from "@testing-library/user-event";
 
 customBeforeEach();
 
-const notesInfo = {"noteInfoList": [
+let notesInfo = {"noteInfoList": [
         {id: 1, lastSaved: Date.now(), noteName: "TestNote1"},
         {id: 2, lastSaved: Date.now(), noteName: "TestNote2"},
         {id: 3, lastSaved: Date.now(), noteName: "TestNote3"}]};
+
+const deleteConfirm = {
+    "message": "1",
+    "success": true
+}
 
 const server = setupServer(
     rest.get('/notes-api/getallnoteinfo', (req, res, ctx) => {
         return res(ctx.json(notesInfo))
     }),
+    rest.post('/notes-api/deletenote', (req, res, ctx) => {
+        notesInfo = {"noteInfoList": [
+                {id: 2, lastSaved: Date.now(), noteName: "TestNote2"},
+                {id: 3, lastSaved: Date.now(), noteName: "TestNote3"}]};
+        return (res(ctx.json(deleteConfirm)))
+    })
 );
 
 beforeAll(() => server.listen());
@@ -35,6 +47,21 @@ test('it should display cards with a title and date of last update', async () =>
 
 });
 
+test('clicking delete icon should remove note from homepage', async() => {
+    render(<Home/>)
+
+    await waitFor(() => screen.findAllByLabelText("NoteTitle"));
+
+    const deleteNoteButton = screen.getAllByLabelText("DeleteNote");
+
+    await userEvent.click(deleteNoteButton[0]);
+
+    const remainingNotes = screen.getAllByLabelText("NoteTitle");
+
+    expect(remainingNotes.length).toBe(2);
+    expect(screen.getByText(/TestNote2/)).toBeInTheDocument();
+    expect(screen.getByText(/TestNote3/)).toBeInTheDocument();
+});
 
 
 afterEach(() => {

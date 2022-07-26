@@ -8,19 +8,28 @@ import {Box, Button, Stack, TextField, Tooltip, Typography} from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useState} from "react";
 import DeleteDialog from "../dialogs/ConfirmDelete";
+import PropTypes from "prop-types";
 
 // TODO This probably won't be implemented here but the flashcard block must have a relation to the most recent text block
 // TODO preceding it
+
+/** Parent component for holding and displaying flashcards **/
 export default function FlashCardBlock(props) {
     let flashCardList = props.data;
     const [deckName, setDeckname] = useState("Untitled")
     const [deleteOpen, setDeleteOpen] = useState(false);
     const [entity, setEntity] = useState("")
 
+    /** Update flashcard deckname
+     * @param{HTMLElementEventMap} event
+     * @public **/
     const updateDeckName = (event) => {
         setDeckname(event.target.value);
     }
 
+    /** Opens delete confirmation dialog
+     * @param{object} deleteEntity
+     * @public **/
     const openDeleteConfirm = (deleteEntity) => {
         if (deleteEntity.cardIndex >= 0) {
             setEntity(deleteEntity.cardIndex);
@@ -31,10 +40,18 @@ export default function FlashCardBlock(props) {
         setDeleteOpen(true);
     }
 
+    /** Close delete dialog
+     * @public
+     */
     const closeDeleteDialog = () => {
         setDeleteOpen(false)
     }
 
+    /** Carry out delete
+     *
+     * @param{object} deleteEntity
+     * @public
+     */
     const executeDelete = (deleteEntity) => {
         if (deleteEntity !== "Deck") {
             props.delete({cardKey: deleteEntity});
@@ -80,4 +97,15 @@ export default function FlashCardBlock(props) {
         </div>
 
     );
+}
+
+FlashCardBlock.propTypes = {
+    /** Function to update state's blockInFocusId */
+    onFocus: PropTypes.func,
+    /** Number to enable focus on Safari */
+    tabIndex: PropTypes.number,
+    /** Function to execute delete of card or flashcard */
+    delete: PropTypes.func,
+    /** An array containing list of flashcard objects **/
+    data: PropTypes.array
 }

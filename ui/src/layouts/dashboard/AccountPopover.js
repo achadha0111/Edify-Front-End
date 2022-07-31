@@ -6,7 +6,6 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 // components
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
-import account from '../../_mock/account';
 import {getAuth} from "firebase/auth";
 import firebaseApp from "../../firebase";
 
@@ -82,7 +81,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        {/*<Avatar src={account.photoURL} alt="photoURL" />*/}
       </IconButton>
 
       <MenuPopover
@@ -103,9 +102,9 @@ export default function AccountPopover() {
           <Typography variant="subtitle2" noWrap>
             {userName}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
-          </Typography>
+          {/*<Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>*/}
+          {/*  {account.email}*/}
+          {/*</Typography>*/}
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />

@@ -1,5 +1,5 @@
 import {customBeforeEach, render, screen} from "../setupTests";
-import {waitFor} from "@testing-library/react";
+import {waitFor, waitForElementToBeRemoved} from "@testing-library/react";
 import Home from "../pages/Home";
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
@@ -57,7 +57,7 @@ test('clicking delete icon should remove note from homepage', async() => {
 
     await userEvent.click(deleteNoteButton[0]);
 
-    await waitFor(() => setTimeout(() => {}, 1000));
+    await waitForElementToBeRemoved(screen.queryByText('TestNote1'));
 
     const remainingNotes = screen.getAllByLabelText("NoteTitle");
 

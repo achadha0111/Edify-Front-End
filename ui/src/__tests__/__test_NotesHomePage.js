@@ -21,6 +21,7 @@ const server = setupServer(
     rest.get('/notes-api/getallnoteinfo', (req, res, ctx) => {
         return res(ctx.json(notesInfo))
     }),
+
     rest.post('/notes-api/deletenote', (req, res, ctx) => {
         notesInfo = {"noteInfoList": [
                 {id: 2, lastSaved: Date.now(), noteName: "TestNote2"},
@@ -55,6 +56,8 @@ test('clicking delete icon should remove note from homepage', async() => {
     const deleteNoteButton = screen.getAllByLabelText("DeleteNote");
 
     await userEvent.click(deleteNoteButton[0]);
+
+    await waitFor(() => setTimeout(() => {}, 1000));
 
     const remainingNotes = screen.getAllByLabelText("NoteTitle");
 

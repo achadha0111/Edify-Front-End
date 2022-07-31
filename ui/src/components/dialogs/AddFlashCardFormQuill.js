@@ -31,6 +31,18 @@ import "../styles/FlashcardForm.css";
 * 3. addFlashCard: function - a function that passes form entries to the parent component.
 *
 *   */
+function handleFormula() {
+    let tooltip = this.quill.theme.tooltip;
+    let range = this.quill.getSelection();
+    let preview = this.quill.getContents(range.index, range.length);
+    if (preview["ops"].length !== 0) {
+        tooltip.edit('formula', preview["ops"][0]["insert"]["formula"]);
+        this.quill.deleteText(range.index, range.length);
+    } else {
+        tooltip.edit('formula', "");
+    }
+
+}
 
 export default function AddFlashCardFormQuill(props) {
     const [question, setQuestion] = useState(props.question);
@@ -132,8 +144,8 @@ AddFlashCardFormQuill.modules = {
             ['formula']],
         handlers: {
             image: handleImage,
+            formula: handleFormula
         }
-
     },
     clipboard: {
         // toggle to add extra line breaks when pasting HTML:

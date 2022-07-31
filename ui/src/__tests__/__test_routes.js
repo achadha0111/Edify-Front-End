@@ -16,6 +16,7 @@ import uid from "../utils/uid";
 import Home from "../pages/Home";
 import blockTypes from "../utils/blockTypes";
 import {customBeforeEach} from "../setupTests";
+import Login from "../pages/Login";
 
 const render = (ui, {route = '/'} = {}) => {
     window.history.pushState({}, 'Home page', route);

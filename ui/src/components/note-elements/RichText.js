@@ -14,21 +14,6 @@ import PropTypes from "prop-types";
 
 window.katex = katex;
 
-/** Function to override Quill's default formula editor
- * @public */
-function handleFormula() {
-    let tooltip = this.quill.theme.tooltip;
-    let range = this.quill.getSelection();
-    let preview = this.quill.getContents(range.index, range.length);
-    if (preview["ops"].length !== 0) {
-        tooltip.edit('formula', preview["ops"][0]["insert"]["formula"]);
-        this.quill.deleteText(range.index, range.length);
-    } else {
-        tooltip.edit('formula', "");
-    }
-
-}
-
 /** A Dialog component to handle equation editing after an equation has been entered
  * @param{object} props
  * @public */
@@ -157,14 +142,13 @@ RichText.modules = {
     toolbar: {
         container: [[{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
         [{size: []}],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code'],
         [{'list': 'ordered'}, {'list': 'bullet'},
             {'indent': '-1'}, {'indent': '+1'}],
         ['link', 'image', 'video'],
         ['clean'],
         ['formula']],
         handlers: {
-            formula: handleFormula,
             image: handleImage,
         }
     },

@@ -60,7 +60,7 @@ export default function ReviewFlashCard(props) {
                         color="inherit"
                         underline="hover"
                         component={RouterLink}>
-                        <Chip label={props.noteName} color="primary" onClick/>
+                        <Chip label={props.noteName} color="primary" onClick={() => console.log("Access note")}/>
                     </TitleStyle>
                 </Stack>
             </CardContent> : null}

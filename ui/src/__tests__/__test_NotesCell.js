@@ -5,6 +5,11 @@ import blockTypes from "../utils/blockTypes";
 
 customBeforeEach();
 
+function findElement(blockType, className) {
+    let field = screen.getByLabelText(blockType);
+    return field.getElementsByClassName(className)[0];
+}
+
 test("displaying startup page with initial block", () => {
     render(<Note/>);
 
@@ -24,6 +29,43 @@ test("clicking text button adds a text block", async () => {
 
     expect(cells.length).toBe(2);
 });
+
+test("adding text to text cell updates displayed text", async () => {
+    render(<Note/>);
+
+    const textBlock = findElement(blockTypes.RichText, 'ql-editor');
+
+    await (userEvent.type(textBlock, "This value should persist in the cell"));
+
+    const textBoxButton = screen.getByLabelText("Insert text block");
+
+    await userEvent.click(textBoxButton);
+
+    expect(screen.getByText("This value should persist in the cell")).toBeInTheDocument();
+
+});
+
+/** This test is not straight forward to implement. CodeMirror selectors don't
+ * seem to work like Quill's TODO*/
+// test("adding text to code cell updates displayed text", async () => {
+//
+//     render(<Note/>);
+//
+//     const codeBoxButton = screen.getByLabelText("Insert code block");
+//
+//     await userEvent.click(codeBoxButton);
+//
+//     const codeBlock = findElement(blockTypes.Code, 'cm-content');
+//
+//     await userEvent.type(codeBlock, "print ('Hello world')");
+//
+//     const textBoxButton = screen.getByLabelText("Insert text block");
+//
+//     await userEvent.click(textBoxButton);
+//
+//     expect(screen.getByText("Hello world")).toBeInTheDocument();
+//
+// });
 
 test("clicking code button adds a code cell", async () => {
     render(<Note/>);

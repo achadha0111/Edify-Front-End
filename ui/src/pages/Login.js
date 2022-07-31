@@ -83,7 +83,7 @@ export default function Login() {
           </SectionStyle>
         )}
 
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" aria-label="SocialLoginContainer">
           <ContentStyle>
             <Typography variant="h4" gutterBottom>
               Sign in

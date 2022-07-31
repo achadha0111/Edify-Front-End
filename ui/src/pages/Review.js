@@ -30,7 +30,7 @@ export default function Review() {
     } else {
       navigate("/login");
     }
-  });
+  }, []);
 
   async function fetchReviewFlashcards() {
     const response = await fetch("/notes-api/getallflashcardinfo", {
@@ -59,7 +59,7 @@ export default function Review() {
     setNoteId(cardToShow.noteId);
   }
 
-  const setCardInteraction = (cardData) => {
+  const recordInteraction = (cardData) => {
     let cardsRemaining = [...cardsToReview];
     if (cardsRemaining.length === 0) {
       setCardsLeft(false);
@@ -83,7 +83,7 @@ export default function Review() {
                              noteName={noteName}
                              noteId={noteId}
                              question={question}
-                             answer={answer} cardInteraction={setCardInteraction}/> :
+                             answer={answer} cardInteraction={recordInteraction}/> :
             <Typography variant="p" gutterBottom aria-label="NoCardLeftMessage" className="NoCardLeftMessage">
               No more cards left for today, check back in tomorrow!
             </Typography>}

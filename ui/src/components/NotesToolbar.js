@@ -10,7 +10,7 @@ import {styled} from "@mui/material/styles";
 
 const TitleInput = ({value, onChange}) => {
     return (<Typography variant="h4" gutterBottom>
-        <TextField key="noteTitle" id="filled-basic" label="Title" variant="standard" value={value}
+        <TextField key="noteTitle" id="filled-basic" aria-label="Title" variant="standard" value={value}
                onChange={onChange}/>
     </Typography>)
 }
@@ -21,7 +21,6 @@ const NoteBar = styled(AppBar)(({ theme }) => ({
     WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
     margin: "none",
     backgroundColor: "#fff",
-    borderBottom: "grey solid 1px",
     [theme.breakpoints.up('lg')]: {
         width: `calc(100% - ${220 + 1}px)`,
     },
@@ -57,7 +56,7 @@ function Toolbar(props) {
 
                     <TitleInput value={noteName} onChange={updateNoteName}/>
 
-                    <Typography variant="p" className="lastSave">
+                    <Typography variant="p" className="lastSave" aria-label="LastSavedDateTime">
                         Last saved on: {props.lastSaved === "" ? "Not Saved" : fDateTime(props.lastSaved)}
                     </Typography>
                     <Box className="ToolBar Buttons">

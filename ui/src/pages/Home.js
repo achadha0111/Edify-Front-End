@@ -23,21 +23,15 @@ const Progress = styled('div')({
 export default function Home() {
   const [notes, setNotes] = useState([]);
   const [preloaderVisible, setPreloaderVisible] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.getItem('Token')) {
-      fetchLatestNotes().then(r =>
-          setNotes(r["noteInfoList"])
-      ).catch(err => {
-        // TODO Add proper error handling
-      }).finally(() => {
-            setPreloaderVisible(false)
-      });
-
-    } else {
-      navigate("/login");
-    }
+    fetchLatestNotes().then(r =>
+        setNotes(r["noteInfoList"])
+    ).catch(err => {
+      // TODO Add proper error handling
+    }).finally(() => {
+      setPreloaderVisible(false)
+    });
   });
 
   async function fetchLatestNotes() {

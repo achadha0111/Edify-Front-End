@@ -27,21 +27,17 @@ function Note() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (sessionStorage.getItem('Token')) {
-            const noteId = location["pathname"].split("/")[3]
-            if (noteId) {
-                fetchNoteBlocks(noteId).then(r => {
-                    const note= r["note"]
-                    setNoteId(noteId);
-                    setBlocks([...note["blocks"]]);
-                    setNoteName(note["noteName"])
-                    setLastSaved(note["lastSaved"])
-                });
-            }
-            setDataFetched(true);
-        } else {
-            navigate("/login");
+        const noteId = location["pathname"].split("/")[3]
+        if (noteId) {
+            fetchNoteBlocks(noteId).then(r => {
+                const note= r["note"]
+                setNoteId(noteId);
+                setBlocks([...note["blocks"]]);
+                setNoteName(note["noteName"])
+                setLastSaved(note["lastSaved"])
+            });
         }
+        setDataFetched(true);
     }, [location, navigate]);
 
     async function fetchNoteBlocks(id) {

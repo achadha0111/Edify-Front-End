@@ -20,16 +20,11 @@ export default function Review() {
   const [cardsLeft, setCardsLeft] = useState(false);
   const [noteName, setNoteName] = useState("");
   const [noteId, setNoteId] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.getItem('Token')) {
-      fetchReviewFlashcards().then((reviewCards) => {
-        startReviewSession(reviewCards["flashcardInfoList"]);
-      });
-    } else {
-      navigate("/login");
-    }
+    fetchReviewFlashcards().then((reviewCards) => {
+      startReviewSession(reviewCards["flashcardInfoList"]);
+    });
   }, []);
 
   async function fetchReviewFlashcards() {

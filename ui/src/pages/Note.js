@@ -29,9 +29,9 @@ function Note() {
     const auth = UseAuth();
 
     useEffect(() => {
-        console.log(auth.user)
         if (auth.user) {
             const noteId = location["pathname"].split("/")[2]
+            console.log(noteId);
             if (noteId) {
                 fetchNoteBlocks(noteId).then(r => {
                     const note= r["note"]

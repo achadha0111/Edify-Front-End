@@ -12,10 +12,8 @@ export default function AuthSocial(props) {
     const navigate = useNavigate();
     const location = useLocation();
     // const from = location.state.from.pathName ? location.state.from.pathName : "/";
-    const handleAuth = () => {
-        auth.signIn().then(() => {
-            navigate("/home", {replace: true});
-        });
+    const handleAuth = async () => {
+        await auth.signIn();
     }
 
   return (

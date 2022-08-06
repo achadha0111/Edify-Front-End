@@ -19,19 +19,22 @@ function AuthProvider({children}) {
     const firebaseAuth = getAuth(firebaseApp);
     const location = useLocation();
     const navigate = useNavigate();
-
+    console.log(location)
+    const from = location.state ? location.state.from.pathname : "/"
     const signIn = async () => {
         try {
             await setPersistence(firebaseAuth, indexedDBLocalPersistence);
             const result = await signInWithPopup(firebaseAuth, provider);
             setUser(result.user);
+            navigate(from, {replace: true})
         } catch (e) {
             const errorCode = e.code;
             const errorMessage = e.message;
+            console.log(e)
             // The email of the user's account used.
-            const email = e.customData.email;
+            // const email = e.customData.email;
             // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(e);
+            // const credential = GoogleAuthProvider.credentialFromError(e);
         }
     }
 
@@ -46,7 +49,6 @@ function AuthProvider({children}) {
     const checkLogin = async () => {
          return new Promise(function (resolve, reject) {
              onAuthStateChanged(firebaseAuth, (user) => {
-                 console.log("Check auth state");
                  setPreloaderVisible(false);
                  if (user) {
                      setUser(user);
@@ -77,7 +79,7 @@ function RequireAuth({children}) {
         auth.checkLogin().then(r => {
             setPreloaderVisible(false);
         }).catch(rejection => {
-            navigate("/login");
+            navigate("/login", {state: {from: location}});
         })
     }, []);
 

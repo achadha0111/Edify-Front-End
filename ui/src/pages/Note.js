@@ -27,7 +27,7 @@ function Note() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const noteId = location["pathname"].split("/")[3]
+        const noteId = location["pathname"].split("/")[2]
         if (noteId) {
             fetchNoteBlocks(noteId).then(r => {
                 const note= r["note"]

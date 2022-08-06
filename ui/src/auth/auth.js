@@ -1,4 +1,4 @@
-import {createContext, useContext, useState} from 'react';
+import {createContext, useContext, useEffect, useRef, useState} from 'react';
 import {
     getAuth,
     GoogleAuthProvider,
@@ -8,7 +8,8 @@ import {
     onAuthStateChanged
 } from "firebase/auth";
 import firebaseApp from "../firebase";
-import {useLocation, Navigate} from "react-router-dom";
+import {useLocation, Navigate, useNavigate} from "react-router-dom";
+import {Skeleton, Stack} from "@mui/material";
 
 let authContext = createContext(null);
 const provider = new GoogleAuthProvider();
@@ -18,6 +19,7 @@ function AuthProvider({children}) {
     let [preloaderVisible, setPreloaderVisible] = useState(true);
     const firebaseAuth = getAuth(firebaseApp);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const signIn = async () => {
         try {
@@ -37,20 +39,27 @@ function AuthProvider({children}) {
     const signOut = async () => {
         const auth = getAuth(firebaseApp);
         await auth.signOut();
+        navigate("/login");
     }
 
-    let value = {user, signIn, signOut, preloaderVisible};
 
-    onAuthStateChanged(firebaseAuth, (user) => {
 
-        if (user) {
-            setPreloaderVisible(false);
-            setUser(user);
-        } else {
-            return <Navigate to = "/login" state={{from: location}} replace />
-        }
+    const checkLogin = async () => {
+         return new Promise(function (resolve, reject) {
+             onAuthStateChanged(firebaseAuth, (user) => {
+                 console.log("Check auth state");
+                 setPreloaderVisible(false);
+                 if (user) {
+                     setUser(user);
+                     resolve(user);
+                 } else {
+                     reject("User not logged in");
+                 }
+             });
+        })
+    }
 
-    });
+    let value = {user, signIn, signOut, checkLogin, preloaderVisible};
 
     return <authContext.Provider value={value}> {children} </authContext.Provider>
 }
@@ -61,12 +70,30 @@ function UseAuth() {
 
 function RequireAuth({children}) {
     let auth = UseAuth();
-    const location = useLocation();
+    let navigate = useNavigate();
+    let location = useLocation();
+    const [preloaderVisible, setPreloaderVisible] = useState(auth.preloaderVisible);
 
-    if (!auth.user) {
-        return <Navigate to = "/login" state={{from: location}} replace />
-    }
-    return children
+    useEffect(() => {
+        auth.checkLogin().then(r => {
+            setPreloaderVisible(false);
+        }).catch(rejection => {
+            setPreloaderVisible(false);
+            navigate("/login");
+        })
+    }, []);
+
+    return (
+        <>
+            {preloaderVisible ?
+                <Stack>
+                    <Skeleton variant="text"/>
+                    <Skeleton variant="text"/>
+                    <Skeleton variant="text"/>
+                </Stack> : children}
+        </>
+
+    )
 }
 
 export {RequireAuth, UseAuth, AuthProvider};

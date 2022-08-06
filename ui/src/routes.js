@@ -14,13 +14,13 @@ import {RequireAuth} from "./auth/auth";
 export default function Router() {
   return useRoutes([
     {
-      path: '/home',
-      element: <DashboardLayout />,
+      path: '/',
+      element: <RequireAuth> <DashboardLayout /> </RequireAuth>,
       children: [
-        { path: 'app', element: <RequireAuth> <Home /> </RequireAuth> },
+        { path: 'home', element: <RequireAuth> <Home /> </RequireAuth> },
+        { path: '/', element: <RequireAuth> <Home /> </RequireAuth> },
         { path: 'note', element: <RequireAuth> <Note/> </RequireAuth> },
         { path: 'review', element: <RequireAuth> <Review /> </RequireAuth> },
-        { path: 'home', element: <RequireAuth> <Home /> </RequireAuth> },
         { path: 'note/:id', element: <RequireAuth> <Note/> </RequireAuth>}
       ],
     },
@@ -28,7 +28,6 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <RequireAuth> <Home /> </RequireAuth>},
         { path: 'login', element: <Login /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },

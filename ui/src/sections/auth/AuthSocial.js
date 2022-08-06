@@ -11,10 +11,10 @@ export default function AuthSocial(props) {
     const auth = UseAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state.from.pathName ? location.state.from.pathName : "/";
+    // const from = location.state.from.pathName ? location.state.from.pathName : "/";
     const handleAuth = () => {
         auth.signIn().then(() => {
-            navigate(from, {replace: true});
+            navigate("/", {replace: true});
         });
     }
 

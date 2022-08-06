@@ -5,6 +5,7 @@ import Iconify from '../components/Iconify';
 import { NotesCard, NotesSort } from '../sections/@dashboard/notes';
 import {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
+import {UseAuth} from "../auth/auth";
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +24,7 @@ const Progress = styled('div')({
 export default function Home() {
   const [notes, setNotes] = useState([]);
   const [preloaderVisible, setPreloaderVisible] = useState(true);
+  const auth = UseAuth();
 
   useEffect(() => {
     fetchLatestNotes().then(r =>
@@ -63,8 +65,11 @@ export default function Home() {
           <Typography variant="h4" gutterBottom>
             My Notes
           </Typography>
-          <Button variant="contained" component={RouterLink} to="/home/note" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" component={RouterLink} to="/note" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Note
+          </Button>
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={auth.signOut}>
+            Logout
           </Button>
         </Stack>
 

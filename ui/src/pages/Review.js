@@ -10,6 +10,7 @@ import {
 // components
 import Page from '../components/Page';
 import ReviewFlashCard from "../components/review-elements/ReviewFlashCard";
+import {UseAuth} from "../auth/auth";
 
 export default function Review() {
 
@@ -20,11 +21,14 @@ export default function Review() {
   const [cardsLeft, setCardsLeft] = useState(false);
   const [noteName, setNoteName] = useState("");
   const [noteId, setNoteId] = useState("");
+  const auth = UseAuth();
 
   useEffect(() => {
-    fetchReviewFlashcards().then((reviewCards) => {
-      startReviewSession(reviewCards["flashcardInfoList"]);
-    });
+    if (auth.user) {
+      fetchReviewFlashcards().then((reviewCards) => {
+        startReviewSession(reviewCards["flashcardInfoList"]);
+      });
+    }
   }, []);
 
   async function fetchReviewFlashcards() {

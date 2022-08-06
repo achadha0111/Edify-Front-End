@@ -9,6 +9,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import blockTypes from "../utils/blockTypes";
 import AddFlashCardFormQuill from "../components/dialogs/AddFlashCardFormQuill";
 import {styled} from "@mui/material/styles";
+import {UseAuth} from "../auth/Auth";
 
 const Progress = styled('div')({
     margin: "auto",
@@ -25,20 +26,24 @@ function Note() {
     const [noteId, setNoteId] = useState(null)
     const location = useLocation();
     const navigate = useNavigate();
+    const auth = UseAuth();
 
     useEffect(() => {
-        const noteId = location["pathname"].split("/")[2]
-        if (noteId) {
-            fetchNoteBlocks(noteId).then(r => {
-                const note= r["note"]
-                setNoteId(noteId);
-                setBlocks([...note["blocks"]]);
-                setNoteName(note["noteName"])
-                setLastSaved(note["lastSaved"])
-            });
+        console.log(auth.user)
+        if (auth.user) {
+            const noteId = location["pathname"].split("/")[2]
+            if (noteId) {
+                fetchNoteBlocks(noteId).then(r => {
+                    const note= r["note"]
+                    setNoteId(noteId);
+                    setBlocks([...note["blocks"]]);
+                    setNoteName(note["noteName"])
+                    setLastSaved(note["lastSaved"])
+                });
+            }
+            setDataFetched(true);
         }
-        setDataFetched(true);
-    }, [location, navigate]);
+    }, [location, navigate, auth]);
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id

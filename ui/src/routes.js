@@ -7,7 +7,7 @@ import Review from './pages/Review';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Note from "./pages/Note";
-import {RequireAuth} from "./auth/auth";
+import {RequireAuth} from "./auth/Auth";
 
 // ----------------------------------------------------------------------
 

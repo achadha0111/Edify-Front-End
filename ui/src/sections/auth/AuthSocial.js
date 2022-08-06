@@ -4,7 +4,7 @@ import { Stack, Button, Divider, Typography } from '@mui/material';
 import Iconify from '../../components/Iconify';
 import {useLocation, useNavigate} from "react-router-dom";
 import {response} from "msw";
-import {UseAuth} from "../../auth/auth";
+import {UseAuth} from "../../auth/Auth";
 // ----------------------------------------------------------------------
 
 export default function AuthSocial(props) {
@@ -14,7 +14,7 @@ export default function AuthSocial(props) {
     // const from = location.state.from.pathName ? location.state.from.pathName : "/";
     const handleAuth = () => {
         auth.signIn().then(() => {
-            navigate("/", {replace: true});
+            navigate("/home", {replace: true});
         });
     }
 

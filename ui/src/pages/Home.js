@@ -5,7 +5,7 @@ import Iconify from '../components/Iconify';
 import { NotesCard, NotesSort } from '../sections/@dashboard/notes';
 import {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
-import {UseAuth} from "../auth/auth";
+import {UseAuth} from "../auth/Auth";
 
 // ----------------------------------------------------------------------
 
@@ -27,13 +27,15 @@ export default function Home() {
   const auth = UseAuth();
 
   useEffect(() => {
-    fetchLatestNotes().then(r =>
-        setNotes(r["noteInfoList"])
-    ).catch(err => {
-      // TODO Add proper error handling
-    }).finally(() => {
-      setPreloaderVisible(false)
-    });
+    if (auth.user) {
+      fetchLatestNotes().then(r =>
+          setNotes(r["noteInfoList"])
+      ).catch(err => {
+        // TODO Add proper error handling
+      }).finally(() => {
+        setPreloaderVisible(false)
+      });
+    }
   });
 
   async function fetchLatestNotes() {
@@ -67,9 +69,6 @@ export default function Home() {
           </Typography>
           <Button variant="contained" component={RouterLink} to="/note" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Note
-          </Button>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={auth.signOut}>
-            Logout
           </Button>
         </Stack>
 

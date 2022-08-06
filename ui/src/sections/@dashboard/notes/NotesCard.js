@@ -55,7 +55,7 @@ export default function NotesCard({ note, index, deleteNote }) {
 
             <TitleStyle
                 aria-label="NoteTitle"
-                to={`/home/note/${id}`}
+                to={`/note/${id}`}
                 color="inherit"
                 variant="subtitle2"
                 underline="hover"

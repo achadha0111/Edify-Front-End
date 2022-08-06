@@ -25,6 +25,7 @@ const AllTheProviders = ({children}) => {
 }
 
 const customRender = (ui, options) => {
+    window.history.pushState({}, 'Home page', "/");
     render(ui, {wrapper: AllTheProviders, ...options});
 }
 

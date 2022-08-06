@@ -1,15 +1,26 @@
-import React from 'react'
+import React, {createContext} from 'react'
 import {render} from '@testing-library/react'
 import {HelmetProvider} from "react-helmet-async";
 import {BrowserRouter} from "react-router-dom";
+import {authContext} from "./auth/AuthContext";
+
+const mockAuthContextValue = {
+    user: {"name": "Mockito"},
+    signIn: jest.fn(),
+    signOut: jest.fn(),
+    checkLogin: jest.fn(),
+
+}
 
 const AllTheProviders = ({children}) => {
     return (
-        <BrowserRouter>
-            <HelmetProvider>
-                {children}
-            </HelmetProvider>
-        </BrowserRouter>
+        <authContext.Provider value={mockAuthContextValue}>
+            <BrowserRouter>
+                <HelmetProvider>
+                    {children}
+                </HelmetProvider>
+            </BrowserRouter>
+        </authContext.Provider>
     )
 }
 

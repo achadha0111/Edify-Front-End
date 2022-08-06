@@ -9,9 +9,8 @@ import {
 } from "firebase/auth";
 import firebaseApp from "../firebase";
 import {useLocation, Navigate, useNavigate} from "react-router-dom";
-import {Skeleton, Stack} from "@mui/material";
-
-let authContext = createContext(null);
+import {Box, Skeleton, Stack} from "@mui/material";
+import {authContext} from "./AuthContext";
 const provider = new GoogleAuthProvider();
 
 function AuthProvider({children}) {
@@ -78,21 +77,20 @@ function RequireAuth({children}) {
         auth.checkLogin().then(r => {
             setPreloaderVisible(false);
         }).catch(rejection => {
-            setPreloaderVisible(false);
             navigate("/login");
         })
     }, []);
 
     return (
         <>
-            {preloaderVisible ?
-                <Stack>
-                    <Skeleton variant="text"/>
-                    <Skeleton variant="text"/>
-                    <Skeleton variant="text"/>
-                </Stack> : children}
+            {(preloaderVisible) ?
+                <Box justifyContent="center"
+                       alignItems="center" sx={{width: 300}}>
+                    <Skeleton variant="text" height={118}/>
+                    <Skeleton variant="text" height={118}/>
+                    <Skeleton variant="text" height={118}/>
+                </Box> : children}
         </>
-
     )
 }
 

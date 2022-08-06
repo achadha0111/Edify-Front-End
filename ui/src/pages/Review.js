@@ -10,7 +10,7 @@ import {
 // components
 import Page from '../components/Page';
 import ReviewFlashCard from "../components/review-elements/ReviewFlashCard";
-import {UseAuth} from "../auth/auth";
+import {UseAuth} from "../auth/Auth";
 
 export default function Review() {
 

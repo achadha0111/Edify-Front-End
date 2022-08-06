@@ -2,7 +2,7 @@ import Router from './routes';
 // theme
 import ThemeProvider from './theme';
 import ScrollToTop from './components/ScrollToTop';
-import {AuthProvider} from "./auth/auth";
+import {AuthProvider} from "./auth/Auth";
 
 // ----------------------------------------------------------------------
 

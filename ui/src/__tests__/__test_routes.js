@@ -1,28 +1,11 @@
 import {render as rtlRender, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {
-    Link,
-    Route,
-    BrowserRouter as Router,
-    Switch,
-    useLocation, BrowserRouter,
-} from 'react-router-dom';
-import App from '../App';
-import {HelmetProvider} from "react-helmet-async";
-import Note from "../pages/Note";
 import {setupServer} from "msw/node";
 import {rest} from "msw";
 import uid from "../utils/uid";
 import Home from "../pages/Home";
 import blockTypes from "../utils/blockTypes";
-import {customBeforeEach} from "../setupTests";
-import Login from "../pages/Login";
-
-const render = (ui, {route = '/'} = {}) => {
-    window.history.pushState({}, 'Home page', route);
-
-    return rtlRender(ui, {wrapper: Router});
-}
+import {customBeforeEach, render} from "../setupTests";
 
 const mockNote = {"note":
         {
@@ -59,14 +42,10 @@ customBeforeEach();
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 
-
-
 test('navigating to new note page', () => {
     render(
-        <HelmetProvider>
-            <App />
-        </HelmetProvider>
-        );
+        <Home/>
+    );
 
     expect(screen.getByText(/My Notes/i)).toBeInTheDocument();
 
@@ -82,11 +61,7 @@ test('navigating to new note page', () => {
 // })
 //
 test('opening existing note', async () => {
-    render(
-        <HelmetProvider>
-            <App />
-        </HelmetProvider>
-    );
+    render(<Home />);
 
     await waitFor(() => screen.findAllByLabelText("NoteTitle"));
 

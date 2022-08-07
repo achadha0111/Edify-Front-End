@@ -9,7 +9,7 @@ import '../styles/Blocks.css';
 import Code from "./Code";
 import blockTypes from "../../utils/blockTypes";
 import {Button, Stack, Tooltip} from "@mui/material";
-import {Delete} from "@mui/icons-material";
+import {Delete, PlayArrow} from "@mui/icons-material";
 import AddFlashCardFormQuill from "../dialogs/AddFlashCardFormQuill";
 
 class NotesBlock extends React.Component {
@@ -80,27 +80,12 @@ class NotesBlock extends React.Component {
                     innerRef={this.blockRef}/>;
 
             case blockTypes.Code:
-                return (
-                    <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex}>
-                    <Stack direction="row" >
-                       <Code data={this.props.data} innerRef={this.blockRef} />
-                        <div aria-label="cellOptions" className="CodeCellOptions">
-                            <Stack direction="column">
-                                <Tooltip title="Delete cell">
-                                    <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={this.delete}>
-                                        <Delete/>
-                                    </Button>
-                                </Tooltip>
-                                {/*<Tooltip title="Run cell">*/}
-                                {/*    <Button variant="text" className="RunCell">*/}
-                                {/*        <PlayArrow/>*/}
-                                {/*    </Button>*/}
-                                {/*</Tooltip>*/}
-                            </Stack>
-                        </div>
-                    </Stack>
-                </div>
-                )
+                return <Code data={this.props.data}
+                             innerRef={this.blockRef}
+                             onFocus={this.blockInFocus}
+                             tabIndex={tabIndex}
+                             delete={this.delete}
+                             updateData={this.updateData}/>
             default:
                 return (
                     <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex} role="cell">

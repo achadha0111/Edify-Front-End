@@ -3,6 +3,7 @@ import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 import blockTypes from "../../utils/blockTypes";
 import PropTypes from "prop-types";
+import {createParagraph, updateParagraph} from "../../codeservice/ParagraphManager";
 
 /**
  * This component is the parent level Notes component that manages state for a note
@@ -26,6 +27,7 @@ class EditableNotes extends React.Component {
             blocks: props.blocks,
             blockInFocusRef: '',
             blockInFocusId: props.blocks[0]["fid"],
+            zepNoteId: null
         }
     }
 
@@ -48,6 +50,9 @@ class EditableNotes extends React.Component {
             });
         } else if (prevProps.blocks !== this.props.blocks) {
             this.setState({blocks: this.props.blocks, id: this.props.noteId})
+        } else if (prevProps.zepNoteId !== this.props.zepNoteId) {
+            console.log("zep note id changed", this.props.zepNoteId)
+            this.setState({zepNoteId: this.props.zepNoteId})
         }
         return null
     }
@@ -87,22 +92,25 @@ class EditableNotes extends React.Component {
      * @param{Object} updatedBlock
      * @param{Object | string} value
      * @public */
-    updateBlock(updatedBlock, value) {
+    async updateBlock(updatedBlock, value) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.fid).indexOf(updatedBlock.id);
         const updatedBlocks = [...blocks];
         if (updatedBlocks[index].type === blockTypes.FlashCard) {
             // For flashcard type blocks, the data field is an array of values
             updatedBlocks[index].data[updatedBlock.cardKey] = value
-        }
-         else {
+        } else {
             updatedBlocks[index] = {
                 ...updatedBlocks[index],
                 data: value,
             };
+
+            if (updatedBlocks[index].type === blockTypes.code) {
+                await updateParagraph(this.props.zepNoteId, updatedBlocks[index].paraId, value)
+            }
         }
 
-        this.setState({ blocks: updatedBlocks });
+        this.setState({blocks: updatedBlocks});
     }
 
     /** Delete block from the note
@@ -125,12 +133,12 @@ class EditableNotes extends React.Component {
      * @param{string} newBlockType - type of the new block
      * @param{object | string} data - data for the new block, for flashcards, this is a list
      * @public */
-    addBlock(currentBlock, newBlockType, data) {
+    async addBlock(currentBlock, newBlockType, data) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.fid).indexOf(currentBlock.id);
-        let newBlock = { fid: uid(), type: newBlockType, data: data, locationIndex: index+1};
+        let newBlock = {fid: uid(), type: newBlockType, data: data, locationIndex: index + 1};
         const updatedBlocks = [...blocks];
-
+        console.log(newBlockType);
         if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type !== blockTypes.FlashCard) {
             // Current block in focus is not a flashcard block and we have received a flashcard block
             // we update the new block data field to be a list containing block data received
@@ -141,6 +149,11 @@ class EditableNotes extends React.Component {
             // append data to its data array of cards
             updatedBlocks[index].data.push(data)
         } else {
+            console.log("check block type")
+            if (newBlockType === blockTypes.Code) {
+                console.log(this.state.zepNoteId);
+                newBlock["paraId"] = await createParagraph(this.state.zepNoteId);
+            }
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
@@ -149,7 +162,7 @@ class EditableNotes extends React.Component {
             block.locationIndex = index;
         });
 
-        this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.fid});
+        this.setState({blocks: updatedBlocks, blockInFocusId: newBlock.fid});
     }
 
     /** Delete card from a flashcard block

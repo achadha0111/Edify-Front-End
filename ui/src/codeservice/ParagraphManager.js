@@ -1,13 +1,15 @@
-const baseEndpoint = "http://[zeppelin-server]:[zeppelin-port]/api/notebook"
+const baseEndpoint = "http://localhost:8080/api/notebook"
 
 const createParagraph = async (noteId) => {
     const endpoint = baseEndpoint + `/${noteId}/paragraph`
-    const response = await(endpoint, {
+
+    const response = await fetch(endpoint, {
         method: "POST",
         mode: "cors",
+        body: JSON.stringify({"title": "", "text": ""})
     });
 
-    return response.json()
+    return response.json();
 }
 
 const deleteParagraph = async (noteId, paragraphId) => {
@@ -25,7 +27,7 @@ const updateParagraph = async (noteId, paragraphId, content) => {
     const response = await(endpoint, {
         method: "PUT",
         mode: "cors",
-        body: content
+        body: {text: "%python.ipython\n" + content}
     });
 
     return response.json();
@@ -33,10 +35,12 @@ const updateParagraph = async (noteId, paragraphId, content) => {
 
 const runParagraph = async (noteId, paragraphId) => {
     const endpoint = baseEndpoint + `/run/${noteId}/${paragraphId}`
-    const response = await(endpoint, {
+    const response = await fetch(endpoint, {
         method: "POST",
         mode: "cors",
     });
 
     return response.json();
 }
+
+export {runParagraph, createParagraph, deleteParagraph, updateParagraph}

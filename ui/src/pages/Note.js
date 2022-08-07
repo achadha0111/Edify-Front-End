@@ -28,40 +28,37 @@ function Note() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    useEffect(() => {
+    useEffect(async () => {
         if (sessionStorage.getItem('Token')) {
             const noteId = location["pathname"].split("/")[3]
             if (noteId) {
                 fetchNoteBlocks(noteId).then(r => {
-                    const note= r["note"]
+                    const note = r["note"]
                     setNoteId(noteId);
                     setBlocks([...note["blocks"]]);
                     setNoteName(note["noteName"])
                     setLastSaved(note["lastSaved"])
                 });
-
-                createZepNote.then(r => {
-                    setZepNoteId(r["body"]);
-                }).catch(err => {
-                    console.log(err);
-                });
-
             }
+
+            const response = await createZepNote(noteName);
             setDataFetched(true);
+            setZepNoteId(response["body"]);
         } else {
             navigate("/login");
         }
     }, [location, navigate]);
 
     useEffect(() => {
-        if (lastSaved === "") {
-            deleteNote(zepNoteId).then(_ => {
-            }).catch(err => {
-                console.log(err)
-            });
-        }
-        return () => {};
-    });
+        return () => {
+            if (lastSaved === "") {
+                deleteNote(zepNoteId).then(_ => {
+                }).catch(err => {
+                    console.log(err)
+                });
+            }
+        };
+    }, [zepNoteId]);
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id

@@ -2,7 +2,7 @@
  * - https://zeppelin.apache.org/docs/0.10.1/usage/rest_api/notebook.html
  * @author{Aayush Chadha} */
 
-const baseEndpoint = "http://[zeppelin-server]:[zeppelin-port]/api/notebook"
+const baseEndpoint = "http://localhost:8080/api/notebook"
 
 /** Create a new note
  * @return{JSON} {
@@ -10,10 +10,11 @@ const baseEndpoint = "http://[zeppelin-server]:[zeppelin-port]/api/notebook"
  *    "message": "",
  *    "body": ""
  * }*/
-const createZepNote = async () => {
+const createZepNote = async (noteName) => {
     const response = await fetch(baseEndpoint, {
         method: "POST",
         mode: 'cors',
+        body: JSON.stringify({"name": noteName})
     });
 
     return response.json();

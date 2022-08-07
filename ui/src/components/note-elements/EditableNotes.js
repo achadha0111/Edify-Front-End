@@ -104,10 +104,6 @@ class EditableNotes extends React.Component {
                 ...updatedBlocks[index],
                 data: value,
             };
-
-            if (updatedBlocks[index].type === blockTypes.code) {
-                await updateParagraph(this.props.zepNoteId, updatedBlocks[index].paraId, value)
-            }
         }
 
         this.setState({blocks: updatedBlocks});
@@ -152,7 +148,9 @@ class EditableNotes extends React.Component {
             console.log("check block type")
             if (newBlockType === blockTypes.Code) {
                 console.log(this.state.zepNoteId);
-                newBlock["paraId"] = await createParagraph(this.state.zepNoteId);
+                const paraRequest = await createParagraph(this.state.zepNoteId);
+                newBlock["paraId"] = paraRequest["body"];
+                newBlock["zepNoteId"] = this.state.zepNoteId;
             }
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
@@ -187,6 +185,7 @@ class EditableNotes extends React.Component {
                             id={block.fid}
                             noteType={block.type}
                             data={block.data}
+                            block={block}
                             onFocusEnter={this.updateCurrentBlockInFocus}
                             updateData={this.updateBlock}
                             deleteBlock={this.deleteBlock}

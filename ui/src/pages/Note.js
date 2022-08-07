@@ -47,9 +47,7 @@ function Note() {
         } else {
             navigate("/login");
         }
-    }, [location, navigate]);
 
-    useEffect(() => {
         return () => {
             if (lastSaved === "") {
                 deleteNote(zepNoteId).then(_ => {
@@ -58,7 +56,8 @@ function Note() {
                 });
             }
         };
-    }, [zepNoteId]);
+    }, [location, navigate]);
+
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id

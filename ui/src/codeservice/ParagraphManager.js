@@ -24,16 +24,19 @@ const deleteParagraph = async (noteId, paragraphId) => {
 
 const updateParagraph = async (noteId, paragraphId, content) => {
     const endpoint = baseEndpoint + `/${noteId}/paragraph/${paragraphId}`
-    const response = await(endpoint, {
+    const response = await fetch(endpoint, {
         method: "PUT",
         mode: "cors",
-        body: {text: "%python.ipython\n" + content}
+        body: JSON.stringify({text: "%python.ipython\n" + content})
     });
+
+    console.log(response);
 
     return response.json();
 }
 
-const runParagraph = async (noteId, paragraphId) => {
+const runParagraph = async (noteId, paragraphId, content) => {
+    const paraId = await updateParagraph(noteId, paragraphId, content);
     const endpoint = baseEndpoint + `/run/${noteId}/${paragraphId}`
     const response = await fetch(endpoint, {
         method: "POST",

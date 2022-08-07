@@ -85,7 +85,8 @@ class NotesBlock extends React.Component {
                              onFocus={this.blockInFocus}
                              tabIndex={tabIndex}
                              delete={this.delete}
-                             updateData={this.updateData}/>
+                             updateData={this.updateData}
+                             block={this.props.block}/>
             default:
                 return (
                     <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex} role="cell">

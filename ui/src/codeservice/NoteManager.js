@@ -23,6 +23,7 @@ const createZepNote = async (noteName) => {
 /** Delete existing note
  * @input{String} noteId */
 const deleteNote = async (noteId) => {
+    console.log("Deleting", noteId)
     const noteToDelete = `/${noteId}`
     const response = await fetch(baseEndpoint+noteToDelete, {
         method: "DELETE",

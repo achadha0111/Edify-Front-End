@@ -17,9 +17,16 @@ export default function Code(props) {
 
 
     const executeCell = async () => {
-        const result = await runParagraph('some id', props.data);
+        console.log(props.block.paraId);
+        const result = await runParagraph(props.block.zepNoteId, props.block.paraId, userCode);
         setResultReady(true);
+        console.log(result)
         setResultToDisplay(result["body"]["msg"]);
+    }
+
+    const updateAndPropagate = (value) => {
+        setUserCode(value);
+        props.updateData(value);
     }
 
     return (
@@ -31,7 +38,7 @@ export default function Code(props) {
                         value={userCode}
                         extensions={[python(), javascript()]}
                         onChange={(value, viewUpdate) => {
-                            setUserCode(value);
+                            updateAndPropagate(value);
                         }}
                     />
                     <div aria-label="cellOptions" className="CodeCellOptions">

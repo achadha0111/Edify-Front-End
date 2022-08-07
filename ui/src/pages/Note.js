@@ -9,6 +9,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import blockTypes from "../utils/blockTypes";
 import AddFlashCardFormQuill from "../components/dialogs/AddFlashCardFormQuill";
 import {styled} from "@mui/material/styles";
+import {createZepNote, deleteNote} from "../codeservice/NoteManager";
 
 const Progress = styled('div')({
     margin: "auto",
@@ -22,7 +23,8 @@ function Note() {
     const [dataFetched, setDataFetched] = useState(false);
     const [lastSaved, setLastSaved] = useState("");
     const [blocks, setBlocks] = useState([{fid: uid(), type: blockTypes.RichText, data: "", locationIndex: 0}])
-    const [noteId, setNoteId] = useState(null)
+    const [noteId, setNoteId] = useState(null);
+    const [zepNoteId, setZepNoteId] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -37,12 +39,29 @@ function Note() {
                     setNoteName(note["noteName"])
                     setLastSaved(note["lastSaved"])
                 });
+
+                createZepNote.then(r => {
+                    setZepNoteId(r["body"]);
+                }).catch(err => {
+                    console.log(err);
+                });
+
             }
             setDataFetched(true);
         } else {
             navigate("/login");
         }
     }, [location, navigate]);
+
+    useEffect(() => {
+        if (lastSaved === "") {
+            deleteNote(zepNoteId).then(_ => {
+            }).catch(err => {
+                console.log(err)
+            });
+        }
+        return () => {};
+    });
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id
@@ -99,7 +118,8 @@ function Note() {
                     blocks={blocks}
                     newElement={newElement}
                     lastSaved={lastSaved}
-                    noteName={noteName}/>:
+                    noteName={noteName}
+                    zepNoteId={zepNoteId}/>:
                     <Grid container>
                         <Progress className="DataFetchPreloader">
                             <CircularProgress />

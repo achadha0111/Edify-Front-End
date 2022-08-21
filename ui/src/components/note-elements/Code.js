@@ -17,11 +17,13 @@ export default function Code(props) {
 
 
     const executeCell = async () => {
-        console.log(props.block.paraId);
-        const result = await runParagraph(props.block.zepNoteId, props.block.paraId, userCode);
-        setResultReady(true);
-        console.log(result)
-        setResultToDisplay(result["body"]["msg"]);
+        runParagraph(props.block.zepNoteId, props.block.paraId, userCode).then(res => {
+            setResultReady(true);
+            console.log(res)
+            setResultToDisplay(res["body"]["msg"][0]["data"]);
+        }).catch(err => {
+            console.log(err)
+        });
     }
 
     const updateAndPropagate = (value) => {
@@ -30,7 +32,6 @@ export default function Code(props) {
     }
 
     return (
-        <>
             <div className="CellWithOptions" onFocus={props.onFocus} tabIndex={props.tabIndex}>
                 <Stack direction="row" >
                     <CodeMirror
@@ -56,9 +57,8 @@ export default function Code(props) {
                         </Stack>
                     </div>
                 </Stack>
+                {resultReady ? <div> {resultToDisplay} </div> : null}
             </div>
-            {resultReady ? <div> {resultToDisplay} </div> : null}
-        </>
     );
 }
 

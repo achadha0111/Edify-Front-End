@@ -27,7 +27,7 @@ const updateParagraph = async (noteId, paragraphId, content) => {
     const response = await fetch(endpoint, {
         method: "PUT",
         mode: "cors",
-        body: JSON.stringify({text: "%python.ipython\n" + content})
+        body: JSON.stringify({text: "%python.python\n" + content})
     });
 
     console.log(response);

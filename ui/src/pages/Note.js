@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {CircularProgress, Container, Grid} from '@mui/material';
 
 import Page from '../components/Page';
@@ -25,8 +25,10 @@ function Note() {
     const [blocks, setBlocks] = useState([{fid: uid(), type: blockTypes.RichText, data: "", locationIndex: 0}])
     const [noteId, setNoteId] = useState(null);
     const [zepNoteId, setZepNoteId] = useState(null);
+    const [kernelStatus, setKernelStatus] = useState("Unavailable");
     const location = useLocation();
     const navigate = useNavigate();
+    const zepNoteRef = useRef();
 
     useEffect(async () => {
         if (sessionStorage.getItem('Token')) {
@@ -37,26 +39,30 @@ function Note() {
                     setNoteId(noteId);
                     setBlocks([...note["blocks"]]);
                     setNoteName(note["noteName"])
-                    setLastSaved(note["lastSaved"])
+                    setLastSaved(note["lastSaved"]);
                 });
             }
 
-            const response = await createZepNote(noteName);
+            createZepNote(noteName).then(res => {
+                setZepNoteId(res["body"]);
+                setKernelStatus("Ready");
+                zepNoteRef.current = res["body"];
+            });
+
             setDataFetched(true);
-            setZepNoteId(response["body"]);
+
         } else {
             navigate("/login");
         }
+    }, [location, navigate]);
 
+    useEffect(() => {
         return () => {
             if (lastSaved === "") {
-                deleteNote(zepNoteId).then(_ => {
-                }).catch(err => {
-                    console.log(err)
-                });
+                deleteNote(zepNoteRef.current).then(_ => {});
             }
         };
-    }, [location, navigate]);
+    }, []);
 
 
     async function fetchNoteBlocks(id) {
@@ -105,7 +111,8 @@ function Note() {
                              updateNoteName={updateNoteName}
                              addCodeBlock={addNoteElement}
                              saveNote={saveNote}
-                             lastSaved={lastSaved}/>
+                             lastSaved={lastSaved}
+                             kernelStatus={kernelStatus}/>
                 </div>
                 <AddFlashCardFormQuill open={flashCardFormOpen} close={closeFlashCardForm} saveFlashCard={addNoteElement}/>
                 {dataFetched?

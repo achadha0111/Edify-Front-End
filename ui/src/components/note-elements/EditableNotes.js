@@ -145,9 +145,9 @@ class EditableNotes extends React.Component {
             // append data to its data array of cards
             updatedBlocks[index].data.push(data)
         } else {
-            console.log("check block type")
             if (newBlockType === blockTypes.Code) {
                 console.log(this.state.zepNoteId);
+                // TODO this needs refactoring to not block UI thread
                 const paraRequest = await createParagraph(this.state.zepNoteId);
                 newBlock["paraId"] = paraRequest["body"];
                 newBlock["zepNoteId"] = this.state.zepNoteId;

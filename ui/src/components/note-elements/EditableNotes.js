@@ -148,17 +148,23 @@ class EditableNotes extends React.Component {
             if (newBlockType === blockTypes.Code) {
                 console.log(this.state.zepNoteId);
                 // TODO this needs refactoring to not block UI thread
-                const paraRequest = await createParagraph(this.state.zepNoteId);
-                newBlock["paraId"] = paraRequest["body"];
-                newBlock["zepNoteId"] = this.state.zepNoteId;
+                createParagraph(this.state.zepNoteId).then(res => {
+                    newBlock["paraId"] = res["body"];
+                    newBlock["zepNoteId"] = this.state.zepNoteId;
+                });
             }
+            console.log(newBlock);
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
 
+        console.log(updatedBlocks);
+
         updatedBlocks.forEach((block, index) => {
             block.locationIndex = index;
         });
+
+
 
         this.setState({blocks: updatedBlocks, blockInFocusId: newBlock.fid});
     }

@@ -36,7 +36,7 @@ const updateParagraph = async (noteId, paragraphId, content) => {
 }
 
 const runParagraph = async (noteId, paragraphId, content) => {
-    const paraId = await updateParagraph(noteId, paragraphId, content);
+    await updateParagraph(noteId, paragraphId, content);
     const endpoint = baseEndpoint + `/run/${noteId}/${paragraphId}`
     const response = await fetch(endpoint, {
         method: "POST",

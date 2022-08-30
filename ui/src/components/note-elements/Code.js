@@ -6,21 +6,20 @@ import {javascript} from "@codemirror/lang-javascript";
 import {Button, Stack, Tooltip} from "@mui/material";
 import {Delete, PlayArrow} from "@mui/icons-material";
 import {runParagraph} from "../../codeservice/ParagraphManager";
-
+import Result from "./Result";
 /**
  * A component to display a cell containing code **/
 export default function Code(props) {
 
     const [userCode, setUserCode] = useState(props.data);
     const [resultReady, setResultReady] = useState(false);
-    const [resultToDisplay, setResultToDisplay] = useState("");
-
+    const [resultToDisplay, setResultToDisplay] = useState(null);
 
     const executeCell = async () => {
         runParagraph(props.block.zepNoteId, props.block.paraId, userCode).then(res => {
             setResultReady(true);
             console.log(res)
-            setResultToDisplay(res["body"]["msg"][0]["data"]);
+            setResultToDisplay(res["body"]["msg"]);
         }).catch(err => {
             console.log(err)
         });
@@ -57,7 +56,7 @@ export default function Code(props) {
                         </Stack>
                     </div>
                 </Stack>
-                {resultReady ? <div> {resultToDisplay} </div> : null}
+                {resultToDisplay ? <Result displayContent={resultToDisplay}/> : null}
             </div>
     );
 }

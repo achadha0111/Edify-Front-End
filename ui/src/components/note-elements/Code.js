@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {javascript} from "@codemirror/lang-javascript";
 import {Button, Stack, Tooltip} from "@mui/material";
 import {Delete, PlayArrow} from "@mui/icons-material";
-import {runParagraph} from "../../codeservice/ParagraphManager";
+import {runWCreateParagraph, runWOCreateParagraph} from "../../codeservice/ParagraphManager";
 import Result from "./Result";
 /**
  * A component to display a cell containing code **/
@@ -16,13 +16,27 @@ export default function Code(props) {
     const [resultToDisplay, setResultToDisplay] = useState(null);
 
     const executeCell = async () => {
-        runParagraph(props.block.zepNoteId, props.block.paraId, userCode).then(res => {
-            setResultReady(true);
-            console.log(res)
-            setResultToDisplay(res["body"]["msg"]);
-        }).catch(err => {
-            console.log(err)
-        });
+        if (props.block.zepParaId) {
+            runWOCreateParagraph(props.block.zepNoteId, props.block.zepParaId, userCode).then(res => {
+                setResultReady(true);
+                console.log(res)
+                setResultToDisplay(res["body"]["msg"]);
+            }).catch(err => {
+                console.log(err);
+            });
+        } else {
+            runWCreateParagraph(props.block.zepNoteId, userCode).then(res => {
+                setResultReady(true);
+                console.log(res);
+                setResultToDisplay(res["data"]["body"]["msg"]);
+                props.setCodeExecParams({
+                    paraId: res.paraId,
+                    execResult: res.data
+                });
+            }).catch(err => {
+                console.log(err);
+            });
+        }
     }
 
     const updateAndPropagate = (value) => {

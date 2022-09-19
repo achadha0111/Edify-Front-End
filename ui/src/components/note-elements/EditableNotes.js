@@ -21,6 +21,7 @@ class EditableNotes extends React.Component {
         this.deleteBlock = this.deleteBlock.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
         this.saveNote = this.saveNote.bind(this);
+        this.setCodeExecParams = this.setCodeExecParams.bind(this);
         this.state = {
             // Updated on first save
             id: null,
@@ -92,7 +93,7 @@ class EditableNotes extends React.Component {
      * @param{Object} updatedBlock
      * @param{Object | string} value
      * @public */
-    async updateBlock(updatedBlock, value) {
+    updateBlock(updatedBlock, value) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.fid).indexOf(updatedBlock.id);
         const updatedBlocks = [...blocks];
@@ -107,6 +108,20 @@ class EditableNotes extends React.Component {
         }
 
         this.setState({blocks: updatedBlocks});
+    }
+
+    setCodeExecParams(block) {
+        const blocks = this.state.blocks;
+        const index = blocks.map((b) => b.fid).indexOf(block.id);
+        const updatedBlocks = [...blocks];
+        updatedBlocks[index] = {
+            ...updatedBlocks[index],
+            zepParaId: block.paraId,
+            result: block.execResult
+        };
+
+        this.setState({blocks: updatedBlocks});
+        console.log(blocks);
     }
 
     /** Delete block from the note
@@ -146,19 +161,14 @@ class EditableNotes extends React.Component {
             updatedBlocks[index].data.push(data)
         } else {
             if (newBlockType === blockTypes.Code) {
+                newBlock["zepNoteId"] = this.state.zepNoteId;
                 console.log(this.state.zepNoteId);
-                // TODO this needs refactoring to not block UI thread
-                createParagraph(this.state.zepNoteId).then(res => {
-                    newBlock["paraId"] = res["body"];
-                    newBlock["zepNoteId"] = this.state.zepNoteId;
-                });
             }
-            console.log(newBlock);
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
 
-        console.log(updatedBlocks);
+
 
         updatedBlocks.forEach((block, index) => {
             block.locationIndex = index;
@@ -167,6 +177,7 @@ class EditableNotes extends React.Component {
 
 
         this.setState({blocks: updatedBlocks, blockInFocusId: newBlock.fid});
+        console.log(blocks);
     }
 
     /** Delete card from a flashcard block
@@ -196,6 +207,7 @@ class EditableNotes extends React.Component {
                             updateData={this.updateBlock}
                             deleteBlock={this.deleteBlock}
                             deleteCard={this.deleteCard}
+                            setCodeExecParams={this.setCodeExecParams}
                         />
                     );
                 })}

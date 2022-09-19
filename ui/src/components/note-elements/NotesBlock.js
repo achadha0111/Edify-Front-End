@@ -22,6 +22,7 @@ class NotesBlock extends React.Component {
         this.delete = this.delete.bind(this);
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
         this.closeFlashCardForm = this.closeFlashCardForm.bind(this);
+        this.setCodeExecParams = this.setCodeExecParams.bind(this);
 
         this.state = {
             flashCardFormOpen: false,
@@ -68,6 +69,13 @@ class NotesBlock extends React.Component {
         }
     }
 
+    setCodeExecParams = (data) => {
+        this.props.setCodeExecParams({
+            id: this.props.id,
+            paraId: data.paraId,
+            execResult: data.execResult});
+    }
+
     displayComponent(blockType, tabIndex) {
         switch (blockType) {
             case blockTypes.FlashCard:
@@ -86,7 +94,8 @@ class NotesBlock extends React.Component {
                              tabIndex={tabIndex}
                              delete={this.delete}
                              updateData={this.updateData}
-                             block={this.props.block}/>
+                             block={this.props.block}
+                             setCodeExecParams={this.setCodeExecParams}/>
             default:
                 return (
                     <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex} role="cell">

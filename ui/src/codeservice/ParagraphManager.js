@@ -1,12 +1,12 @@
 const baseEndpoint = "http://localhost:8080/api/notebook"
 
-const createParagraph = async (noteId) => {
+const createParagraph = async (noteId, content) => {
     const endpoint = baseEndpoint + `/${noteId}/paragraph`
 
     const response = await fetch(endpoint, {
         method: "POST",
         mode: "cors",
-        body: JSON.stringify({"title": "", "text": ""})
+        body: JSON.stringify({"title": "", text: "%python.python\n" + content})
     });
 
     return response.json();
@@ -35,7 +35,7 @@ const updateParagraph = async (noteId, paragraphId, content) => {
     return response.json();
 }
 
-const runParagraph = async (noteId, paragraphId, content) => {
+const runWOCreateParagraph = async (noteId, paragraphId, content) => {
     await updateParagraph(noteId, paragraphId, content);
     const endpoint = baseEndpoint + `/run/${noteId}/${paragraphId}`
     const response = await fetch(endpoint, {
@@ -46,4 +46,15 @@ const runParagraph = async (noteId, paragraphId, content) => {
     return response.json();
 }
 
-export {runParagraph, createParagraph, deleteParagraph, updateParagraph}
+const runWCreateParagraph = async (noteId, content) => {
+    let para = await createParagraph(noteId, content);
+    const endpoint = baseEndpoint + `/run/${noteId}/${para["body"]}`
+    const response = await fetch(endpoint, {
+        method: "POST",
+        mode: "cors",
+    });
+
+    return {data: await response.json(), paraId: para["body"]};
+}
+
+export {runWCreateParagraph, runWOCreateParagraph, createParagraph, deleteParagraph, updateParagraph}

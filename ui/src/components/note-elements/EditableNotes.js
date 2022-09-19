@@ -160,10 +160,6 @@ class EditableNotes extends React.Component {
             // append data to its data array of cards
             updatedBlocks[index].data.push(data)
         } else {
-            if (newBlockType === blockTypes.Code) {
-                newBlock["zepNoteId"] = this.state.zepNoteId;
-                console.log(this.state.zepNoteId);
-            }
             // In all other cases, we just add a new block
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
@@ -203,6 +199,7 @@ class EditableNotes extends React.Component {
                             noteType={block.type}
                             data={block.data}
                             block={block}
+                            zepNoteId={this.state.zepNoteId}
                             onFocusEnter={this.updateCurrentBlockInFocus}
                             updateData={this.updateBlock}
                             deleteBlock={this.deleteBlock}

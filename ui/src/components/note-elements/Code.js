@@ -2,7 +2,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { python } from '@codemirror/lang-python';
 import {useState} from "react";
 import PropTypes from "prop-types";
-import {javascript} from "@codemirror/lang-javascript";
+import {LinearProgress} from "@mui/material"
 import {Button, Stack, Tooltip} from "@mui/material";
 import {Delete, PlayArrow} from "@mui/icons-material";
 import {runWCreateParagraph, runWOCreateParagraph} from "../../codeservice/ParagraphManager";
@@ -12,31 +12,33 @@ import Result from "./Result";
 export default function Code(props) {
 
     const [userCode, setUserCode] = useState(props.data);
-    const [resultReady, setResultReady] = useState(false);
+    const [executeIndicator, setExecuteIndicator] = useState(false);
     const [resultToDisplay, setResultToDisplay] = useState(null);
 
-    const executeCell = async () => {
+    const executeCell = () => {
+        setExecuteIndicator(true);
         if (props.block.zepParaId) {
-            runWOCreateParagraph(props.block.zepNoteId, props.block.zepParaId, userCode).then(res => {
-                setResultReady(true);
+            runWOCreateParagraph(props.zepNoteId, props.block.zepParaId, userCode).then(res => {
                 console.log(res)
                 setResultToDisplay(res["body"]["msg"]);
+                setExecuteIndicator(false);
             }).catch(err => {
                 console.log(err);
-            });
+            })
         } else {
-            runWCreateParagraph(props.block.zepNoteId, userCode).then(res => {
-                setResultReady(true);
+            runWCreateParagraph(props.zepNoteId, userCode).then(res => {
                 console.log(res);
                 setResultToDisplay(res["data"]["body"]["msg"]);
                 props.setCodeExecParams({
                     paraId: res.paraId,
                     execResult: res.data
                 });
+                setExecuteIndicator(false);
             }).catch(err => {
                 console.log(err);
-            });
+            })
         }
+
     }
 
     const updateAndPropagate = (value) => {
@@ -50,28 +52,33 @@ export default function Code(props) {
                     <CodeMirror
                         className="Code"
                         value={userCode}
-                        extensions={[python(), javascript()]}
+                        extensions={[python()]}
                         onChange={(value, viewUpdate) => {
                             updateAndPropagate(value);
                         }}
                     />
                     <div aria-label="cellOptions" className="CodeCellOptions">
                         <Stack direction="column">
-                            <Tooltip title="Delete cell">
-                                <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={props.delete}>
-                                    <Delete/>
-                                </Button>
-                            </Tooltip>
                             <Tooltip title="Run cell">
                                 <Button variant="text" className="RunCell" onClick={executeCell}>
                                     <PlayArrow/>
                                 </Button>
                             </Tooltip>
+                            <Tooltip title="Delete cell">
+                                <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={props.delete}>
+                                    <Delete/>
+                                </Button>
+                            </Tooltip>
                         </Stack>
                     </div>
                 </Stack>
-                {resultToDisplay ? <Result displayContent={resultToDisplay}/> : null}
+                <>
+                    {executeIndicator ? <LinearProgress className="ExecutionStatus"/> : null}
+                    {resultToDisplay ? <Result displayContent={resultToDisplay}/> : null}
+                </>
             </div>
+
+
     );
 }
 

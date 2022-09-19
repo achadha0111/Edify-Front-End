@@ -89,6 +89,7 @@ class NotesBlock extends React.Component {
 
             case blockTypes.Code:
                 return <Code data={this.props.data}
+                             zepNoteId={this.props.zepNoteId}
                              innerRef={this.blockRef}
                              onFocus={this.blockInFocus}
                              tabIndex={tabIndex}

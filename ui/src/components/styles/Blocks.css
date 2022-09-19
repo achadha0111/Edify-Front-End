@@ -1,5 +1,5 @@
 .ͼ1.cm-editor {
-    min-height: 0.875rem;
+    min-height: 72px;
     font-size: 15px;
     padding-bottom: 5px;
 }
@@ -46,6 +46,10 @@
 
 .CellWithOptions:focus, .CellWithOptions:active {
     outline: none;
+}
+
+.ExecutionStatus {
+    margin-top: 0;
 }
 
 .FlashCard {

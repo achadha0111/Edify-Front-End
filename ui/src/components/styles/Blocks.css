@@ -30,6 +30,10 @@
     width: 100%;
 }
 
+.CellWithOptions:focus, .CellWithOptions:active {
+    outline: none;
+}
+
 .Code {
     min-width: 94.5%;
     margin-top: 1vh;
@@ -44,8 +48,10 @@
     margin-bottom: 1vh;
 }
 
-.CellWithOptions:focus, .CellWithOptions:active {
-    outline: none;
+.CodeResultText {
+    margin-top: 1.5vh;
+    padding: 1vh;
+    margin-bottom: 1.5vh;
 }
 
 .ExecutionStatus {

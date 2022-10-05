@@ -54,6 +54,56 @@
     margin-bottom: 1.5vh;
 }
 
+.CodeResultHTML tr,
+.CodeResultHTML th,
+.CodeResultHTML td {
+    text-align: left;
+    vertical-align: middle;
+    padding: 0.42em 0.47em;
+    line-height: normal;
+    font-size: 9.3pt;
+    white-space: normal;
+    max-width: none;
+    border: none;
+}
+.CodeResultHTML td {
+    font-family: sans-serif !important;
+    font-size: 9.3pt;
+}
+.CodeResultHTML table {
+    font-family: sans-serif !important;
+    margin-left: 8px;
+    margin-right: auto;
+    border: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: #353535;
+    table-layout: fixed;
+}
+.CodeResultHTML thead {
+    font-family: sans-serif !important;
+    font-size: 10.3pt !important;
+    background: #ebebeb;
+    color: #353535;
+    border-bottom: 1px solid #ebebeb;
+    vertical-align: bottom;
+}
+.CodeResultHTML tbody tr:nth-child(odd) {
+    background: #fafafa;
+}
+.CodeResultHTML tbody tr {
+    background: #f2f2f2;
+}
+.CodeResultHTML tbody tr:hover:nth-child(odd) {
+    background: #f7f7f7;
+}
+.CodeResultHTML tbody tr:hover {
+    background: #f0f0f0;
+}
+.CodeResultHTML * + table {
+    margin-top: .05em;
+}
+
 .ExecutionStatus {
     margin-top: 0;
 }

@@ -18,8 +18,6 @@ const deleteParagraph = async (noteId, paragraphId) => {
         method: "DELETE",
         mode: "cors",
     });
-
-    return response.json();
 }
 
 const updateParagraph = async (noteId, paragraphId, content) => {

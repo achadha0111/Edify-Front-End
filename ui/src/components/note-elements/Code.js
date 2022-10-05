@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {LinearProgress} from "@mui/material"
 import {Button, Stack, Tooltip} from "@mui/material";
 import {Delete, PlayArrow} from "@mui/icons-material";
-import {runWCreateParagraph, runWOCreateParagraph} from "../../codeservice/ParagraphManager";
+import {runWCreateParagraph, deleteParagraph, runWOCreateParagraph} from "../../codeservice/ParagraphManager";
 import Result from "./Result";
 /**
  * A component to display a cell containing code **/
@@ -41,6 +41,14 @@ export default function Code(props) {
 
     }
 
+    const deleteCell = (entity) => {
+        props.delete(entity)
+        deleteParagraph(props.zepNoteId, props.block.zepParaId).then(res => {
+            setExecuteIndicator(false);
+        });
+
+    }
+
     const updateAndPropagate = (value) => {
         setUserCode(value);
         props.updateData(value);
@@ -65,7 +73,7 @@ export default function Code(props) {
                                 </Button>
                             </Tooltip>
                             <Tooltip title="Delete cell">
-                                <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={props.delete}>
+                                <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={deleteCell}>
                                     <Delete/>
                                 </Button>
                             </Tooltip>
@@ -74,7 +82,7 @@ export default function Code(props) {
                 </Stack>
                 <>
                     {executeIndicator ? <LinearProgress className="ExecutionStatus"/> : null}
-                    {resultToDisplay ? <Result displayContent={resultToDisplay}/> : null}
+                    {resultToDisplay ? <Result className="CodeResult" displayContent={resultToDisplay}/> : null}
                 </>
             </div>
 

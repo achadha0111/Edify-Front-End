@@ -61,6 +61,7 @@ class NotesBlock extends React.Component {
     }
 
     delete = (deleteEntity) => {
+        console.log(deleteEntity)
         if (deleteEntity.cardKey >= 0) {
             this.props.deleteCard({id: this.props.id,
                 cardIndex: deleteEntity.cardKey});

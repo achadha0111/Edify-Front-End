@@ -49,16 +49,6 @@ function Note() {
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id
         return await MakeRequest("GET", endpoint, auth)
-        // const response = await fetch(endpoint, {
-        //     method: "GET",
-        //     mode: 'cors',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': idToken
-        //     }
-        // })
-        //
-        // return response.json();
     }
 
     function saveNote () {

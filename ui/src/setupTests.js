@@ -9,7 +9,7 @@ const mockAuthContextValue = {
     signIn: jest.fn(),
     signOut: jest.fn(),
     checkLogin: jest.fn(),
-
+    fetchIdToken: jest.fn(),
 }
 
 const AllTheProviders = ({children}) => {

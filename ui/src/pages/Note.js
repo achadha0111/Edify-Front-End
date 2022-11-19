@@ -9,7 +9,10 @@ import {useLocation, useNavigate} from "react-router-dom";
 import blockTypes from "../utils/blockTypes";
 import AddFlashCardFormQuill from "../components/dialogs/AddFlashCardFormQuill";
 import {styled} from "@mui/material/styles";
+
 import {createZepNote, deleteNote} from "../codeservice/NoteManager";
+import {UseAuth} from "../auth/Auth";
+import {MakeRequest} from "../api/apiRequest";
 
 const Progress = styled('div')({
     margin: "auto",
@@ -28,11 +31,19 @@ function Note() {
     const [kernelStatus, setKernelStatus] = useState("Unavailable");
     const location = useLocation();
     const navigate = useNavigate();
+
     const zepNoteRef = useRef();
 
     useEffect(async () => {
         if (sessionStorage.getItem('Token')) {
             const noteId = location["pathname"].split("/")[3]
+
+    const auth = UseAuth();
+
+    useEffect(() => {
+        if (auth.user) {
+            const noteId = location["pathname"].split("/")[2]
+            console.log(noteId);
             if (noteId) {
                 fetchNoteBlocks(noteId).then(r => {
                     const note = r["note"]
@@ -54,7 +65,7 @@ function Note() {
         } else {
             navigate("/login");
         }
-    }, [location, navigate]);
+    }, [location, navigate, auth]);
 
     useEffect(() => {
         return () => {
@@ -67,13 +78,7 @@ function Note() {
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id
-
-        const response = await fetch(endpoint, {
-            method: "GET",
-            mode: 'cors',
-        })
-
-        return response.json();
+        return await MakeRequest("GET", endpoint, auth)
     }
 
     function saveNote () {
@@ -123,6 +128,7 @@ function Note() {
                     lastSaved={lastSaved}
                     noteName={noteName}
                     zepNoteId={zepNoteId}/>:
+                    auth={auth}/>:
                     <Grid container>
                         <Progress className="DataFetchPreloader">
                             <CircularProgress />

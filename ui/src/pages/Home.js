@@ -5,6 +5,8 @@ import Iconify from '../components/Iconify';
 import { NotesCard, NotesSort } from '../sections/@dashboard/notes';
 import {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
+import {UseAuth} from "../auth/Auth";
+import {MakeRequest} from "../api/apiRequest";
 
 // ----------------------------------------------------------------------
 
@@ -23,36 +25,29 @@ const Progress = styled('div')({
 export default function Home() {
   const [notes, setNotes] = useState([]);
   const [preloaderVisible, setPreloaderVisible] = useState(true);
-  const navigate = useNavigate();
+  const auth = UseAuth();
 
   useEffect(() => {
-    if (sessionStorage.getItem('Token')) {
+    if (auth.user) {
       fetchLatestNotes().then(r =>
           setNotes(r["noteInfoList"])
       ).catch(err => {
         // TODO Add proper error handling
+        console.log(err);
       }).finally(() => {
-            setPreloaderVisible(false)
+        setPreloaderVisible(false)
       });
-
-    } else {
-      navigate("/login");
     }
   });
 
   async function fetchLatestNotes() {
-    const response = await fetch("/notes-api/getallnoteinfo", {
-      method: "GET",
-      mode: 'cors',
-    });
-    return response.json();
+    const notes =  await MakeRequest("GET", "/notes-api/getallnoteinfo", auth);
+    return notes;
   }
 
   async function deleteNote(id) {
-    const response = await fetch("/notes-api/deletenote?id="+id, {
-      method: "POST",
-      mode: 'cors',
-    }).then(_ => {
+   await MakeRequest("POST", "/notes-api/deletenote?id="+id, auth)
+    .then(_ => {
       const remainingNotes = [...notes];
       const index = remainingNotes.map(notes => notes.id).indexOf(id);
       remainingNotes.splice(index, 1);
@@ -69,7 +64,7 @@ export default function Home() {
           <Typography variant="h4" gutterBottom>
             My Notes
           </Typography>
-          <Button variant="contained" component={RouterLink} to="/home/note" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" component={RouterLink} to="/note" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Note
           </Button>
         </Stack>

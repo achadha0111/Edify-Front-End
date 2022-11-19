@@ -7,27 +7,27 @@ import Review from './pages/Review';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Note from "./pages/Note";
+import {RequireAuth} from "./auth/Auth";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
     {
-      path: '/home',
-      element: <DashboardLayout />,
+      path: '/',
+      element: <RequireAuth> <DashboardLayout /> </RequireAuth>,
       children: [
-        { path: 'app', element: <Home /> },
-        { path: 'note', element: <Note/> },
-        { path: 'review', element: <Review /> },
-        { path: 'home', element: <Home /> },
-        { path: 'note/:id', element: <Note/>}
+        { path: 'home', element: <RequireAuth> <Home /> </RequireAuth> },
+        { path: '/', element: <RequireAuth> <Home /> </RequireAuth> },
+        { path: 'note', element: <RequireAuth> <Note/> </RequireAuth> },
+        { path: 'review', element: <RequireAuth> <Review /> </RequireAuth> },
+        { path: 'note/:id', element: <RequireAuth> <Note/> </RequireAuth>}
       ],
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Home /> },
         { path: 'login', element: <Login /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },

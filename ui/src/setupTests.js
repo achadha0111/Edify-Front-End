@@ -4,18 +4,30 @@ import {HelmetProvider} from "react-helmet-async";
 import {BrowserRouter} from "react-router-dom";
 import {setupServer} from "msw/node";
 import {rest} from "msw";
+import {authContext} from "./auth/AuthContext";
+
+const mockAuthContextValue = {
+    user: {"name": "Mockito"},
+    signIn: jest.fn(),
+    signOut: jest.fn(),
+    checkLogin: jest.fn(),
+    fetchIdToken: jest.fn(),
+}
 
 const AllTheProviders = ({children}) => {
     return (
-        <BrowserRouter>
-            <HelmetProvider>
-                {children}
-            </HelmetProvider>
-        </BrowserRouter>
+        <authContext.Provider value={mockAuthContextValue}>
+            <BrowserRouter>
+                <HelmetProvider>
+                    {children}
+                </HelmetProvider>
+            </BrowserRouter>
+        </authContext.Provider>
     )
 }
 
 const customRender = (ui, options) => {
+    window.history.pushState({}, 'Home page', "/");
     render(ui, {wrapper: AllTheProviders, ...options});
 }
 
@@ -47,7 +59,7 @@ const setupMockZeppelinServer = () => {
         }),
 
         rest.options("http://localhost:8080/api/notebook/undefined", (req, res, ctx) => {
-            return rest(ctx.status(200), ctx.json(zepResponse))
+            return res(ctx.status(200), ctx.json(zepResponse))
         })
     );
 

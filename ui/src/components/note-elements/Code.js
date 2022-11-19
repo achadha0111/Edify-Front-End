@@ -82,7 +82,9 @@ export default function Code(props) {
                 </Stack>
                 <>
                     {executeIndicator ? <LinearProgress className="ExecutionStatus"/> : null}
-                    {resultToDisplay ? <Result className="CodeResult" displayContent={resultToDisplay}/> : null}
+                    {resultToDisplay ? resultToDisplay.map((resultElement, _) => {
+                        return (<Result className="CodeResult" displayContent={resultElement}/>)
+                    }) : null}
                 </>
             </div>
 

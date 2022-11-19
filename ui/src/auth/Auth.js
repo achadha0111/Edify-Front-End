@@ -21,7 +21,6 @@ function AuthProvider({children}) {
     const firebaseAuth = getAuth(firebaseApp);
     const location = useLocation();
     const navigate = useNavigate();
-    console.log(location)
     const from = location.state ? location.state.from.pathname : "/"
 
     async function fetchIdToken() {
@@ -44,9 +43,9 @@ function AuthProvider({children}) {
                     method: 'POST',
                     mode: 'cors',
                      headers: {
-                         'Content-Type': 'application/json'
-                     },
-                     body: JSON.stringify({"token": idToken})
+                         'Content-Type': 'application/json',
+                         'Authorization': idToken
+                     }
                 });
             }).catch(err => {
                 console.log(err);

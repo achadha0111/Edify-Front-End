@@ -10,6 +10,7 @@ import blockTypes from "../utils/blockTypes";
 import AddFlashCardFormQuill from "../components/dialogs/AddFlashCardFormQuill";
 import {styled} from "@mui/material/styles";
 import {UseAuth} from "../auth/Auth";
+import {MakeRequest} from "../api/apiRequest";
 
 const Progress = styled('div')({
     margin: "auto",
@@ -47,13 +48,17 @@ function Note() {
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id
-
-        const response = await fetch(endpoint, {
-            method: "GET",
-            mode: 'cors',
-        })
-
-        return response.json();
+        return await MakeRequest("GET", endpoint, auth)
+        // const response = await fetch(endpoint, {
+        //     method: "GET",
+        //     mode: 'cors',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': idToken
+        //     }
+        // })
+        //
+        // return response.json();
     }
 
     function saveNote () {
@@ -100,7 +105,8 @@ function Note() {
                     blocks={blocks}
                     newElement={newElement}
                     lastSaved={lastSaved}
-                    noteName={noteName}/>:
+                    noteName={noteName}
+                    auth={auth}/>:
                     <Grid container>
                         <Progress className="DataFetchPreloader">
                             <CircularProgress />

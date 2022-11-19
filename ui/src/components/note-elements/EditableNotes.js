@@ -3,6 +3,7 @@ import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 import blockTypes from "../../utils/blockTypes";
 import PropTypes from "prop-types";
+import {MakeRequest} from "../../api/apiRequest";
 
 /**
  * This component is the parent level Notes component that manages state for a note
@@ -57,23 +58,26 @@ class EditableNotes extends React.Component {
      * @return{Object}
      * @public */
     async saveNote(noteName) {
-
         let noteBody = {noteName: noteName,
             blocks: this.state.blocks};
 
         if (this.state.id) {
             noteBody["id"] = this.state.id;
         }
-        const response = await fetch('/notes-api/savenote', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(noteBody)
-        })
 
-        return response.json();
+        return await MakeRequest("POST", '/notes-api/savenote',
+            this.props.auth, noteBody)
+        // const response = await fetch('/notes-api/savenote', {
+        //     method: 'POST',
+        //     mode: 'cors',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': this.props.idToken
+        //     },
+        //     body: JSON.stringify(noteBody)
+        // })
+        //
+        // return response.json();
     }
 
     /** Updates state block focus variable

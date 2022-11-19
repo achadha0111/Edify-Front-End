@@ -3,7 +3,8 @@ import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 import blockTypes from "../../utils/blockTypes";
 import PropTypes from "prop-types";
-import {createParagraph, updateParagraph} from "../../codeservice/ParagraphManager";
+// import {createParagraph, updateParagraph} from "../../codeservice/ParagraphManager";
+import {MakeRequest} from "../../api/apiRequest";
 
 /**
  * This component is the parent level Notes component that manages state for a note
@@ -63,23 +64,15 @@ class EditableNotes extends React.Component {
      * @return{Object}
      * @public */
     async saveNote(noteName) {
-
         let noteBody = {noteName: noteName,
             blocks: this.state.blocks};
 
         if (this.state.id) {
             noteBody["id"] = this.state.id;
         }
-        const response = await fetch('/notes-api/savenote', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(noteBody)
-        })
 
-        return response.json();
+        return await MakeRequest("POST", '/notes-api/savenote',
+            this.props.auth, noteBody)
     }
 
     /** Updates state block focus variable
@@ -169,8 +162,6 @@ class EditableNotes extends React.Component {
         updatedBlocks.forEach((block, index) => {
             block.locationIndex = index;
         });
-
-
 
         this.setState({blocks: updatedBlocks, blockInFocusId: newBlock.fid});
         console.log(blocks);

@@ -10,6 +10,8 @@ import {
 // components
 import Page from '../components/Page';
 import ReviewFlashCard from "../components/review-elements/ReviewFlashCard";
+import {UseAuth} from "../auth/Auth";
+import {MakeRequest} from "../api/apiRequest";
 
 export default function Review() {
 
@@ -20,25 +22,19 @@ export default function Review() {
   const [cardsLeft, setCardsLeft] = useState(false);
   const [noteName, setNoteName] = useState("");
   const [noteId, setNoteId] = useState("");
-  const navigate = useNavigate();
+  const auth = UseAuth();
 
   useEffect(() => {
-    if (sessionStorage.getItem('Token')) {
+    if (auth.user) {
       fetchReviewFlashcards().then((reviewCards) => {
         startReviewSession(reviewCards["flashcardInfoList"]);
       });
-    } else {
-      navigate("/login");
     }
   }, []);
 
   async function fetchReviewFlashcards() {
-    const response = await fetch("/notes-api/getallflashcardinfo", {
-      method: "GET",
-      mode: 'cors',
-    })
-
-    return response.json();
+    return await MakeRequest("GET", "/notes-api/getallflashcardinfo",
+        auth);
   }
 
   const startReviewSession = (cards) => {

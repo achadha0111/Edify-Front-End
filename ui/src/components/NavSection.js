@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom';
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles';
-import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
+import {Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton, Button} from '@mui/material';
 //
 import Iconify from './Iconify';
+import {UseAuth} from "../auth/Auth";
 
 // ----------------------------------------------------------------------
 
@@ -139,11 +140,15 @@ NavSection.propTypes = {
   navConfig: PropTypes.array,
 };
 
+const LogoutButton = styled(Button)({
+  marginLeft: "4vw"
+})
+
 export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
 
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
-
+  const auth = UseAuth();
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
@@ -151,6 +156,9 @@ export default function NavSection({ navConfig, ...other }) {
           <NavItem key={item.title} item={item} active={match} />
         ))}
       </List>
+      <LogoutButton variant="text" startIcon={<Iconify icon="eva:log-out-fill" />} onClick={auth.signOut}>
+        Logout
+      </LogoutButton>
     </Box>
   );
 }

@@ -6,6 +6,7 @@ import { NotesCard, NotesSort } from '../sections/@dashboard/notes';
 import {useEffect, useState} from "react";
 import {styled} from "@mui/material/styles";
 import {UseAuth} from "../auth/Auth";
+import {MakeRequest} from "../api/apiRequest";
 
 // ----------------------------------------------------------------------
 
@@ -39,18 +40,21 @@ export default function Home() {
   });
 
   async function fetchLatestNotes() {
-    const response = await fetch("/notes-api/getallnoteinfo", {
-      method: "GET",
-      mode: 'cors',
-    });
-    return response.json();
+    return await MakeRequest("GET", "/notes-api/getallnoteinfo", auth);
+    // const response = await fetch("/notes-api/getallnoteinfo", {
+    //   method: "GET",
+    //   mode: 'cors',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': idToken
+    //   }
+    // });
+    // return response.json();
   }
 
   async function deleteNote(id) {
-    const response = await fetch("/notes-api/deletenote?id="+id, {
-      method: "POST",
-      mode: 'cors',
-    }).then(_ => {
+   await MakeRequest("POST", "/notes-api/deletenote?id="+id, auth)
+    .then(_ => {
       const remainingNotes = [...notes];
       const index = remainingNotes.map(notes => notes.id).indexOf(id);
       remainingNotes.splice(index, 1);

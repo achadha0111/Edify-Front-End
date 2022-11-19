@@ -22,6 +22,7 @@ export default function Review() {
   const [noteName, setNoteName] = useState("");
   const [noteId, setNoteId] = useState("");
   const auth = UseAuth();
+  const idToken = auth.fetchIdToken();
 
   useEffect(() => {
     if (auth.user) {
@@ -35,6 +36,10 @@ export default function Review() {
     const response = await fetch("/notes-api/getallflashcardinfo", {
       method: "GET",
       mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': idToken
+      }
     })
 
     return response.json();

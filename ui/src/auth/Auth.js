@@ -25,7 +25,7 @@ function AuthProvider({children}) {
 
     async function fetchIdToken() {
         return new Promise((resolve, reject) => {
-            firebaseAuth.currentUser.getIdToken(true).then(idToken => {
+            firebaseAuth.currentUser.getIdToken().then(idToken => {
                 resolve(idToken);
             }).catch(err => {
                 reject(err);
@@ -65,6 +65,7 @@ function AuthProvider({children}) {
     const signOut = async () => {
         const auth = getAuth(firebaseApp);
         await auth.signOut();
+        setUser(null);
         navigate("/login");
     }
 

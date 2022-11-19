@@ -33,6 +33,7 @@ export default function Home() {
           setNotes(r["noteInfoList"])
       ).catch(err => {
         // TODO Add proper error handling
+        console.log(err);
       }).finally(() => {
         setPreloaderVisible(false)
       });
@@ -40,16 +41,8 @@ export default function Home() {
   });
 
   async function fetchLatestNotes() {
-    return await MakeRequest("GET", "/notes-api/getallnoteinfo", auth);
-    // const response = await fetch("/notes-api/getallnoteinfo", {
-    //   method: "GET",
-    //   mode: 'cors',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': idToken
-    //   }
-    // });
-    // return response.json();
+    const notes =  await MakeRequest("GET", "/notes-api/getallnoteinfo", auth);
+    return notes;
   }
 
   async function deleteNote(id) {

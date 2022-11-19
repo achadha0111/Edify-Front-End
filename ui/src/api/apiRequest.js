@@ -14,7 +14,7 @@ export async function MakeRequest(method, endpoint, auth, body) {
             'Content-Type': 'application/json',
             'Authorization': idToken
         },
-        body: typeof body === 'undefined' ? "" : JSON.stringify(body)
+        body: typeof body === 'undefined' ? null : JSON.stringify(body)
     });
     return response.json();
 }

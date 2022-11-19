@@ -11,6 +11,7 @@ import {
 import Page from '../components/Page';
 import ReviewFlashCard from "../components/review-elements/ReviewFlashCard";
 import {UseAuth} from "../auth/Auth";
+import {MakeRequest} from "../api/apiRequest";
 
 export default function Review() {
 
@@ -22,7 +23,6 @@ export default function Review() {
   const [noteName, setNoteName] = useState("");
   const [noteId, setNoteId] = useState("");
   const auth = UseAuth();
-  const idToken = auth.fetchIdToken();
 
   useEffect(() => {
     if (auth.user) {
@@ -33,16 +33,8 @@ export default function Review() {
   }, []);
 
   async function fetchReviewFlashcards() {
-    const response = await fetch("/notes-api/getallflashcardinfo", {
-      method: "GET",
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': idToken
-      }
-    })
-
-    return response.json();
+    return await MakeRequest("GET", "/notes-api/getallflashcardinfo",
+        auth);
   }
 
   const startReviewSession = (cards) => {

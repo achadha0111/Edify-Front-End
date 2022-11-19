@@ -55,6 +55,7 @@ function Toolbar(props) {
                 <Stack direction="row" alignItems="center" justifyContent="space-evenly">
 
                     <TitleInput value={noteName} onChange={updateNoteName}/>
+                    <Typography className="kernelStatus" variant="p"> Kernel Status: {props.kernelStatus} </Typography>
 
                     <Typography variant="p" className="lastSave" aria-label="LastSavedDateTime">
                         Last saved on: {props.lastSaved === "" ? "Not Saved" : fDateTime(props.lastSaved)}

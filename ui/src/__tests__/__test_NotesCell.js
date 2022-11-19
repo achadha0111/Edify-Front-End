@@ -1,9 +1,10 @@
 import Note from "../pages/Note"
-import {customBeforeEach, render, screen} from "../setupTests";
+import {customBeforeEach, render, screen, setupMockZeppelinServer} from "../setupTests";
 import userEvent from "@testing-library/user-event";
 import blockTypes from "../utils/blockTypes";
 
 customBeforeEach();
+setupMockZeppelinServer();
 
 function findElement(blockType, className) {
     let field = screen.getByLabelText(blockType);

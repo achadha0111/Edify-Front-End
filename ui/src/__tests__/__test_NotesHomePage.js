@@ -1,4 +1,4 @@
-import {customBeforeEach, render, screen} from "../setupTests";
+import {customBeforeEach, render, screen, setupMockZeppelinServer} from "../setupTests";
 import {waitFor, waitForElementToBeRemoved} from "@testing-library/react";
 import Home from "../pages/Home";
 import {rest} from 'msw'

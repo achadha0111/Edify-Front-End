@@ -3,6 +3,7 @@ import uid from '../../utils/uid';
 import NotesBlock from "./NotesBlock";
 import blockTypes from "../../utils/blockTypes";
 import PropTypes from "prop-types";
+// import {createParagraph, updateParagraph} from "../../codeservice/ParagraphManager";
 import {MakeRequest} from "../../api/apiRequest";
 
 /**
@@ -21,12 +22,14 @@ class EditableNotes extends React.Component {
         this.deleteBlock = this.deleteBlock.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
         this.saveNote = this.saveNote.bind(this);
+        this.setCodeExecParams = this.setCodeExecParams.bind(this);
         this.state = {
             // Updated on first save
             id: null,
             blocks: props.blocks,
             blockInFocusRef: '',
             blockInFocusId: props.blocks[0]["fid"],
+            zepNoteId: null
         }
     }
 
@@ -49,6 +52,9 @@ class EditableNotes extends React.Component {
             });
         } else if (prevProps.blocks !== this.props.blocks) {
             this.setState({blocks: this.props.blocks, id: this.props.noteId})
+        } else if (prevProps.zepNoteId !== this.props.zepNoteId) {
+            console.log("zep note id changed", this.props.zepNoteId)
+            this.setState({zepNoteId: this.props.zepNoteId})
         }
         return null
     }
@@ -67,17 +73,6 @@ class EditableNotes extends React.Component {
 
         return await MakeRequest("POST", '/notes-api/savenote',
             this.props.auth, noteBody)
-        // const response = await fetch('/notes-api/savenote', {
-        //     method: 'POST',
-        //     mode: 'cors',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': this.props.idToken
-        //     },
-        //     body: JSON.stringify(noteBody)
-        // })
-        //
-        // return response.json();
     }
 
     /** Updates state block focus variable
@@ -98,15 +93,28 @@ class EditableNotes extends React.Component {
         if (updatedBlocks[index].type === blockTypes.FlashCard) {
             // For flashcard type blocks, the data field is an array of values
             updatedBlocks[index].data[updatedBlock.cardKey] = value
-        }
-         else {
+        } else {
             updatedBlocks[index] = {
                 ...updatedBlocks[index],
                 data: value,
             };
         }
 
-        this.setState({ blocks: updatedBlocks });
+        this.setState({blocks: updatedBlocks});
+    }
+
+    setCodeExecParams(block) {
+        const blocks = this.state.blocks;
+        const index = blocks.map((b) => b.fid).indexOf(block.id);
+        const updatedBlocks = [...blocks];
+        updatedBlocks[index] = {
+            ...updatedBlocks[index],
+            zepParaId: block.paraId,
+            result: block.execResult
+        };
+
+        this.setState({blocks: updatedBlocks});
+        console.log(blocks);
     }
 
     /** Delete block from the note
@@ -129,12 +137,12 @@ class EditableNotes extends React.Component {
      * @param{string} newBlockType - type of the new block
      * @param{object | string} data - data for the new block, for flashcards, this is a list
      * @public */
-    addBlock(currentBlock, newBlockType, data) {
+    async addBlock(currentBlock, newBlockType, data) {
         const blocks = this.state.blocks;
         const index = blocks.map((b) => b.fid).indexOf(currentBlock.id);
-        let newBlock = { fid: uid(), type: newBlockType, data: data, locationIndex: index+1};
+        let newBlock = {fid: uid(), type: newBlockType, data: data, locationIndex: index + 1};
         const updatedBlocks = [...blocks];
-
+        console.log(newBlockType);
         if (newBlockType === blockTypes.FlashCard && updatedBlocks[index].type !== blockTypes.FlashCard) {
             // Current block in focus is not a flashcard block and we have received a flashcard block
             // we update the new block data field to be a list containing block data received
@@ -149,11 +157,14 @@ class EditableNotes extends React.Component {
             updatedBlocks.splice(index + 1, 0, newBlock);
         }
 
+
+
         updatedBlocks.forEach((block, index) => {
             block.locationIndex = index;
         });
 
-        this.setState({ blocks: updatedBlocks, blockInFocusId: newBlock.fid});
+        this.setState({blocks: updatedBlocks, blockInFocusId: newBlock.fid});
+        console.log(blocks);
     }
 
     /** Delete card from a flashcard block
@@ -178,10 +189,13 @@ class EditableNotes extends React.Component {
                             id={block.fid}
                             noteType={block.type}
                             data={block.data}
+                            block={block}
+                            zepNoteId={this.state.zepNoteId}
                             onFocusEnter={this.updateCurrentBlockInFocus}
                             updateData={this.updateBlock}
                             deleteBlock={this.deleteBlock}
                             deleteCard={this.deleteCard}
+                            setCodeExecParams={this.setCodeExecParams}
                         />
                     );
                 })}

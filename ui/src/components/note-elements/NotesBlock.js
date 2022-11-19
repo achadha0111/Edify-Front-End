@@ -9,7 +9,7 @@ import '../styles/Blocks.css';
 import Code from "./Code";
 import blockTypes from "../../utils/blockTypes";
 import {Button, Stack, Tooltip} from "@mui/material";
-import {Delete} from "@mui/icons-material";
+import {Delete, PlayArrow} from "@mui/icons-material";
 import AddFlashCardFormQuill from "../dialogs/AddFlashCardFormQuill";
 
 class NotesBlock extends React.Component {
@@ -22,6 +22,7 @@ class NotesBlock extends React.Component {
         this.delete = this.delete.bind(this);
         this.openFlashCardForm = this.openFlashCardForm.bind(this);
         this.closeFlashCardForm = this.closeFlashCardForm.bind(this);
+        this.setCodeExecParams = this.setCodeExecParams.bind(this);
 
         this.state = {
             flashCardFormOpen: false,
@@ -60,12 +61,20 @@ class NotesBlock extends React.Component {
     }
 
     delete = (deleteEntity) => {
+        console.log(deleteEntity)
         if (deleteEntity.cardKey >= 0) {
             this.props.deleteCard({id: this.props.id,
                 cardIndex: deleteEntity.cardKey});
         } else {
             this.props.deleteBlock()
         }
+    }
+
+    setCodeExecParams = (data) => {
+        this.props.setCodeExecParams({
+            id: this.props.id,
+            paraId: data.paraId,
+            execResult: data.execResult});
     }
 
     displayComponent(blockType, tabIndex) {
@@ -80,27 +89,15 @@ class NotesBlock extends React.Component {
                     innerRef={this.blockRef}/>;
 
             case blockTypes.Code:
-                return (
-                    <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex}>
-                    <Stack direction="row" >
-                       <Code data={this.props.data} innerRef={this.blockRef} />
-                        <div aria-label="cellOptions" className="CodeCellOptions">
-                            <Stack direction="column">
-                                <Tooltip title="Delete cell">
-                                    <Button variant="text" className="DeleteCell" aria-label="DeleteCellButton" onClick={this.delete}>
-                                        <Delete/>
-                                    </Button>
-                                </Tooltip>
-                                {/*<Tooltip title="Run cell">*/}
-                                {/*    <Button variant="text" className="RunCell">*/}
-                                {/*        <PlayArrow/>*/}
-                                {/*    </Button>*/}
-                                {/*</Tooltip>*/}
-                            </Stack>
-                        </div>
-                    </Stack>
-                </div>
-                )
+                return <Code data={this.props.data}
+                             zepNoteId={this.props.zepNoteId}
+                             innerRef={this.blockRef}
+                             onFocus={this.blockInFocus}
+                             tabIndex={tabIndex}
+                             delete={this.delete}
+                             updateData={this.updateData}
+                             block={this.props.block}
+                             setCodeExecParams={this.setCodeExecParams}/>
             default:
                 return (
                     <div className="CellWithOptions" onFocus={this.blockInFocus} tabIndex={tabIndex} role="cell">

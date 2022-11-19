@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {CircularProgress, Container, Grid} from '@mui/material';
 
 import Page from '../components/Page';
@@ -9,6 +9,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import blockTypes from "../utils/blockTypes";
 import AddFlashCardFormQuill from "../components/dialogs/AddFlashCardFormQuill";
 import {styled} from "@mui/material/styles";
+import {createZepNote, deleteNote} from "../codeservice/NoteManager";
 import {UseAuth} from "../auth/Auth";
 import {MakeRequest} from "../api/apiRequest";
 
@@ -24,9 +25,12 @@ function Note() {
     const [dataFetched, setDataFetched] = useState(false);
     const [lastSaved, setLastSaved] = useState("");
     const [blocks, setBlocks] = useState([{fid: uid(), type: blockTypes.RichText, data: "", locationIndex: 0}])
-    const [noteId, setNoteId] = useState(null)
+    const [noteId, setNoteId] = useState(null);
+    const [zepNoteId, setZepNoteId] = useState(null);
+    const [kernelStatus, setKernelStatus] = useState("Unavailable");
     const location = useLocation();
     const navigate = useNavigate();
+    const zepNoteRef = useRef();
     const auth = UseAuth();
 
     useEffect(() => {
@@ -35,16 +39,34 @@ function Note() {
             console.log(noteId);
             if (noteId) {
                 fetchNoteBlocks(noteId).then(r => {
-                    const note= r["note"]
+                    const note = r["note"]
                     setNoteId(noteId);
                     setBlocks([...note["blocks"]]);
                     setNoteName(note["noteName"])
-                    setLastSaved(note["lastSaved"])
+                    setLastSaved(note["lastSaved"]);
                 });
             }
+
+            createZepNote(noteName).then(res => {
+                setZepNoteId(res["body"]);
+                setKernelStatus("Ready");
+                zepNoteRef.current = res["body"];
+            });
+
             setDataFetched(true);
+        } else {
+            navigate("/login");
         }
-    }, [location, navigate, auth]);
+    }, [location, navigate]);
+
+    useEffect(() => {
+        return () => {
+            if (lastSaved === "") {
+                deleteNote(zepNoteRef.current).then(_ => {});
+            }
+        };
+    }, []);
+
 
     async function fetchNoteBlocks(id) {
         const endpoint = "/notes-api/getnote?id="+id
@@ -86,7 +108,8 @@ function Note() {
                              updateNoteName={updateNoteName}
                              addCodeBlock={addNoteElement}
                              saveNote={saveNote}
-                             lastSaved={lastSaved}/>
+                             lastSaved={lastSaved}
+                             kernelStatus={kernelStatus}/>
                 </div>
                 <AddFlashCardFormQuill open={flashCardFormOpen} close={closeFlashCardForm} saveFlashCard={addNoteElement}/>
                 {dataFetched?
@@ -96,6 +119,7 @@ function Note() {
                     newElement={newElement}
                     lastSaved={lastSaved}
                     noteName={noteName}
+                    zepNoteId={zepNoteId}
                     auth={auth}/>:
                     <Grid container>
                         <Progress className="DataFetchPreloader">

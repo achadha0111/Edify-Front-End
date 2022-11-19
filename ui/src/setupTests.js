@@ -1,31 +1,21 @@
-import React, {createContext} from 'react'
+import React from 'react'
 import {render} from '@testing-library/react'
 import {HelmetProvider} from "react-helmet-async";
 import {BrowserRouter} from "react-router-dom";
-import {authContext} from "./auth/AuthContext";
-
-const mockAuthContextValue = {
-    user: {"name": "Mockito"},
-    signIn: jest.fn(),
-    signOut: jest.fn(),
-    checkLogin: jest.fn(),
-    fetchIdToken: jest.fn(),
-}
+import {setupServer} from "msw/node";
+import {rest} from "msw";
 
 const AllTheProviders = ({children}) => {
     return (
-        <authContext.Provider value={mockAuthContextValue}>
-            <BrowserRouter>
-                <HelmetProvider>
-                    {children}
-                </HelmetProvider>
-            </BrowserRouter>
-        </authContext.Provider>
+        <BrowserRouter>
+            <HelmetProvider>
+                {children}
+            </HelmetProvider>
+        </BrowserRouter>
     )
 }
 
 const customRender = (ui, options) => {
-    window.history.pushState({}, 'Home page', "/");
     render(ui, {wrapper: AllTheProviders, ...options});
 }
 
@@ -41,6 +31,30 @@ const customBeforeEach = () => {
     });
 }
 
+const setupMockZeppelinServer = () => {
+    const zepResponse = {"noteID": "someId", "paragraphId": "someotherid"}
+    const server = setupServer(
+        rest.get("http://localhost:8080/api/notebook", (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(zepResponse))
+        }),
+
+        rest.post("http://localhost:8080/api/notebook", (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(zepResponse))
+        }),
+
+        rest.delete("http://localhost:8080/api/notebook/undefined", (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(zepResponse));
+        }),
+
+        rest.options("http://localhost:8080/api/notebook/undefined", (req, res, ctx) => {
+            return rest(ctx.status(200), ctx.json(zepResponse))
+        })
+    );
+
+    beforeAll(() => server.listen());
+    afterAll(() => server.close())
+}
+
 
 // re-export everything
 export * from '@testing-library/react';
@@ -48,4 +62,4 @@ export * from '@testing-library/jest-dom';
 export * from '@testing-library/user-event';
 export * from 'react-router-dom';
 // override render method
-export {customRender as render, customBeforeEach};
+export {customRender as render, customBeforeEach, setupMockZeppelinServer};

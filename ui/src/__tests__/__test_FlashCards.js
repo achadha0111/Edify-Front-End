@@ -1,10 +1,16 @@
-import {customBeforeEach, render, screen} from "../setupTests";
+
+
+import {customBeforeEach, render, screen, setupMockZeppelinServer} from "../setupTests";
 import Note from "../pages/Note";
 import userEvent from "@testing-library/user-event";
 import {waitForElementToBeRemoved} from "@testing-library/react";
 import blockTypes from "../utils/blockTypes";
+import {setupServer} from "msw/node";
+import {rest} from "msw";
+
 
 customBeforeEach();
+setupMockZeppelinServer();
 /* The tests here follow an anti-pattern not recommended by React
 * testing library (accessing directly by node), however, for the lack
 * of better ideas, this was essential. */

@@ -1,6 +1,6 @@
 import {
     screen,
-    render, customBeforeEach,
+    render, customBeforeEach, setupMockZeppelinServer
 } from '../setupTests';
 import userEvent from "@testing-library/user-event";
 import Toolbar from "../components/NotesToolbar";
@@ -9,6 +9,7 @@ import {fDateTime} from "../utils/formatTime";
 
 /* Note: button interactions will be tested in the tests for Note */
 customBeforeEach();
+setupMockZeppelinServer()
 
 function findElement(label, className) {
     return screen.getByLabelText(label).getElementsByClassName(className)[0];

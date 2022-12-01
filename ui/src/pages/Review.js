@@ -33,8 +33,12 @@ export default function Review() {
   }, []);
 
   async function fetchReviewFlashcards() {
-    return await MakeRequest("GET", "/notes-api/getallflashcardinfo",
+    return await MakeRequest("GET", "/notes-api/getreviewflashcards",
         auth);
+  }
+
+  async function saveCardReviewResult(cardStatus) {
+    await MakeRequest("POST", "/notes-api/savereviewresult", auth, cardStatus);
   }
 
   const startReviewSession = (cards) => {
@@ -55,12 +59,13 @@ export default function Review() {
     setNoteId(cardToShow.noteId);
   }
 
-  const recordInteraction = (cardData) => {
+  const recordInteraction = (cardResult) => {
     let cardsRemaining = [...cardsToReview];
     if (cardsRemaining.length === 0) {
       setCardsLeft(false);
     } else {
       let currentCard = cardsRemaining.pop();
+      saveCardReviewResult(cardResult);
       updateDisplayCard(currentCard);
       setCardsToReview(cardsRemaining);
     }

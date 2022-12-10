@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import firebaseApp from "../firebase";
 import {useLocation, Navigate, useNavigate} from "react-router-dom";
-import {Box, Skeleton, Stack} from "@mui/material";
+import {Box, Container, Skeleton, Stack} from "@mui/material";
 import {authContext} from "./AuthContext";
 const provider = new GoogleAuthProvider();
 
@@ -46,11 +46,13 @@ function AuthProvider({children}) {
                          'Content-Type': 'application/json',
                          'Authorization': idToken
                      }
-                });
+                }).then(_ => {
+                     navigate(from, {replace: true});
+                 });
             }).catch(err => {
                 console.log(err);
+                navigate("/login");
             });
-            navigate(from, {replace: true})
         } catch (e) {
             const errorCode = e.code;
             const errorMessage = e.message;
@@ -94,6 +96,16 @@ function UseAuth() {
     return useContext(authContext);
 }
 
+function LoginPreloader() {
+    return <Container>
+        <Box justifyContent="center"
+             alignItems="center">
+            <Skeleton variant="text" height={118}/>
+            <Skeleton variant="text" height={118}/>
+            <Skeleton variant="text" height={118}/>
+        </Box></Container>;
+}
+
 function RequireAuth({children}) {
     let auth = UseAuth();
     let navigate = useNavigate();
@@ -111,12 +123,8 @@ function RequireAuth({children}) {
     return (
         <>
             {(preloaderVisible) ?
-                <Box justifyContent="center"
-                       alignItems="center" sx={{width: 300}}>
-                    <Skeleton variant="text" height={118}/>
-                    <Skeleton variant="text" height={118}/>
-                    <Skeleton variant="text" height={118}/>
-                </Box> : children}
+                <LoginPreloader/> : children}
+
         </>
     )
 }

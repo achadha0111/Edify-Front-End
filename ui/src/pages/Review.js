@@ -33,7 +33,7 @@ export default function Review() {
   }, []);
 
   async function fetchReviewFlashcards() {
-    return await MakeRequest("GET", "/notes-api/getallflashcardinfo",
+    return await MakeRequest("GET", "/notes-api/getreviewflashcards",
         auth);
   }
 

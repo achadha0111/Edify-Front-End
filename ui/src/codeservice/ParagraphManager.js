@@ -1,4 +1,4 @@
-const baseEndpoint = "http://localhost:8080/api/notebook"
+const baseEndpoint = "http://localhost:8888/api/notebook"
 
 const createParagraph = async (noteId, content) => {
     const endpoint = baseEndpoint + `/${noteId}/paragraph`

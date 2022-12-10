@@ -2,7 +2,7 @@
  * - https://zeppelin.apache.org/docs/0.10.1/usage/rest_api/notebook.html
  * @author{Aayush Chadha} */
 
-const baseEndpoint = "http://localhost:8080/api/notebook"
+const baseEndpoint = "http://localhost:8888/api/notebook"
 
 /** Create a new note
  * @return{JSON} {

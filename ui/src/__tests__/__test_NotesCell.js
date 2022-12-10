@@ -94,7 +94,7 @@ test("adding cells between cells", async () => {
     const cells = screen.getAllByRole("cell");
 
     expect(cells[1]).toContainHTML("quill RichTextEditor");
-});
+}, 10000);
 
 test("click delete button on text cell removes text cell", async () => {
     render(<Note/>);
@@ -119,7 +119,7 @@ test("click delete button on text cell removes text cell", async () => {
 
     expect(cells.length).toBe(1);
 
-});
+}, 10000);
 
 test("click delete button on code cell removes code cell", async () => {
     render(<Note/>);
@@ -140,4 +140,4 @@ test("click delete button on code cell removes code cell", async () => {
 
     expect(cells.length).toBe(1);
 
-});
+}, 10000);

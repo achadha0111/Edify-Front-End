@@ -46,19 +46,19 @@ const customBeforeEach = () => {
 const setupMockZeppelinServer = () => {
     const zepResponse = {"noteID": "someId", "paragraphId": "someotherid"}
     const server = setupServer(
-        rest.get("http://localhost:8080/api/notebook", (req, res, ctx) => {
+        rest.get("http://localhost:8888/api/notebook", (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(zepResponse))
         }),
 
-        rest.post("http://localhost:8080/api/notebook", (req, res, ctx) => {
+        rest.post("http://localhost:8888/api/notebook", (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(zepResponse))
         }),
 
-        rest.delete("http://localhost:8080/api/notebook/undefined", (req, res, ctx) => {
+        rest.delete("http://localhost:8888/api/notebook/undefined", (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(zepResponse));
         }),
 
-        rest.options("http://localhost:8080/api/notebook/undefined", (req, res, ctx) => {
+        rest.options("http://localhost:8888/api/notebook/undefined", (req, res, ctx) => {
             return res(ctx.status(200), ctx.json(zepResponse))
         })
     );

@@ -14,7 +14,7 @@ const flashcardInfo = {"flashcardInfoList": [
 };
 
 const server = setupServer(
-    rest.get("/notes-api/getallflashcardinfo", (req, res, ctx) => {
+    rest.get("/notes-api/getreviewflashcards", (req, res, ctx) => {
         return res(ctx.json(flashcardInfo))
     }),
 );
